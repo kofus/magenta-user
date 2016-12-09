@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-md-9">
+        <a href="<?php echo $this->media()->getPdfLink($this->entity) ?>">
+            <img src="<?php echo $this->media()->getImageLink($this->entity, 'full') ?>" class="img-responsive img-thumbnail">
+        </a>
+    </div>
+    <div class="col-md-3">
+        <div class="list-group">
+    	      <a href="<?php echo $this->archive()->uriStack()->first() ?>" class="list-group-item">
+    	          <?php echo $this->escapeHtml($this->translate('Cancel')) ?>
+    	      </a>
+    	      <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'edit', 'id' => $this->entity->getNodeId()), array(), true) ?>" class="list-group-item">
+    	          <span class="glyphicon glyphicon-pencil"></span>
+    	          <?php echo $this->escapeHtml($this->translate('Edit')) ?>
+    	      </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<?php 
+    $form = $this->form;
+?>
+
+<?php echo $this->form()->openTag($form) ?>
+    		
+    		<div role="tabpanel">
+    			<ul class="nav nav-tabs" role="tablist">
+    				<?php $counter = 1 ?>
+    				<?php foreach ($form->getFieldsets() as $id => $fieldset) : ?>
+	    				<li role="presentation" <?php if (1 == $counter) echo 'class="active"' ?>>
+	    					<a href="#<?php echo $this->escapeHtmlAttr($id) ?>" role="tab" data-toggle="tab">
+	    						<?php if ($fieldset->getOption('glyphicon')) : ?>
+	    							<span class="glyphicon glyphicon-<?php echo $this->escapeHtmlAttr($fieldset->getOption('glyphicon')) ?>"></span>&nbsp;
+	    						<?php endif ?>
+	    						<?php echo $this->escapeHtml($fieldset->getLabel()) ?>
+	    					</a>
+	    				</li>
+	    				<?php $counter += 1 ?>
+    				<?php endforeach ?>
+    			</ul>
+    			<br>
+    			<div class="tab-content">
+	    			<?php $counter = 1 ?>
+    				<?php foreach ($form->getFieldsets() as $id => $fieldset) : ?>
+	    				<div role="tabpanel" class="tab-pane <?php if (1 == $counter) echo 'active' ?>" id="<?php echo $this->escapeHtmlAttr($id) ?>">
+	    					<fieldset class="form-horizontal">
+	    						<?php 
+		    						$sFormContent = '';
+		    						$bHasColumnSizes = false;
+		    						$sFormLayout = 'horizontal';
+		    						foreach($fieldset as $oElement){
+		    							$aOptions = $oElement->getOptions();
+		    							if (!$bHasColumnSizes && !empty($aOptions['column-size'])) {
+		    								$bHasColumnSizes = true;
+		    							}
+		    							//Define layout option to form elements if not already defined
+		    							if($sFormLayout && empty($aOptions['twb-layout'])){
+		    								$aOptions['twb-layout'] = $sFormLayout;
+		    								$oElement->setOptions($aOptions);
+		    							}
+		    							$sFormContent .= $oElement instanceof \Zend\Form\FieldsetInterface?$this->formCollection($oElement):$this->formRow($oElement);
+		    						}
+		    						if ($bHasColumnSizes && $sFormLayout !== 'horizontal') {
+		    							$sFormContent = sprintf('<div class="row">%s</div>', $sFormContent);
+		    						}
+	    							echo $sFormContent;
+	    						?>
+	    						</fieldset>
+		    			</div>
+		    			<?php $counter += 1 ?>
+		    		<?php endforeach ?>
+		    		
+		    		<?php if ($info) : ?>
+	    				<div role="tabpanel" class="tab-pane <?php if (1 == $counter) echo 'active' ?>" id="tab-info">
+	    				   <?php echo $info ?>
+		    		    </div>
+		    		<?php endif ?>
+    			</div>
+    		</div>
+    		<?php echo $this->formElement($form->get('submit')) ?>
+    	</form>

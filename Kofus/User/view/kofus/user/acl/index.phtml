@@ -1,0 +1,237 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1><?php echo $this->translate('Privileges') ?></h1>
+        
+        <?php echo $this->form($this->form) ?>
+        
+        <?php if ($this->isAllowed !== null) : ?>
+            <?php if ($this->isAllowed) : ?>
+                <h1 style="color: green"><?php echo $this->translate('Allowed') ?></h1>
+            <?php else : ?>
+                <h1 style="color: red"><?php echo $this->translate('Denied') ?></h1>
+
+            <?php endif ?>
+        <?php endif ?>
+        
+        <hr>
+    
+        <!-- Tab titles -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a data-toggle="tab" role="tab" href="#roles"><?php echo $this->translate('Roles') ?></a>
+            </li>
+            <li role="presentation">
+                <a data-toggle="tab" role="tab" href="#resources"><?php echo $this->translate('Resources') ?></a>
+            </li>
+            <li role="presentation">
+                <a data-toggle="tab" role="tab" href="#allowed"><?php echo $this->translate('Allowed') ?></a>
+            </li>
+            <?php if ($this->aclService->getDenyRules()) : ?>
+                <li role="presentation">
+                    <a data-toggle="tab" role="tab" href="#denied"><?php echo $this->translate('Denied') ?></a>
+                </li>
+            <?php endif ?>
+        </ul>
+        
+        <!-- Tab contents -->
+        <div class="tab-content">
+        
+            <!-- Roles -->
+            <div role="tabpanel" class="tab-pane active" id="roles">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <?php echo $this->translate('Role') ?>
+                            </th>
+                            <th>
+                                <?php echo $this->translate('Inherits from') ?>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($this->aclService->getRoles() as $role => $_parents) : ?>
+                            <tr>
+                                <td>
+                                    <?php echo $this->escapeHtml($this->translate($role)) ?>
+                                </td>
+                                <td>
+                                    <?php if (is_array($_parents)) : ?>
+                                        <?php 
+                                            $parents = array();
+                                            foreach ($_parents as $parent)
+                                                $parents[] = $this->translate((string) $parent);
+                                            echo $this->escapeHtml(implode(', ', $parents));
+                                        ?>
+                                    <?php else : ?>
+                                        <?php echo $this->escapeHtml($this->translate((string) $_parents)) ?>                                    
+                                    <?php endif ?>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Resources -->
+            <div role="tabpanel" class="tab-pane" id="resources">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <?php echo $this->translate('Resource') ?>
+                            </th>
+                            <th>
+                                <?php echo $this->translate('Inherits from') ?>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($this->aclService->getResources() as $resource => $parents) : ?>
+                            <tr>
+                                <td>
+                                    <?php echo $this->escapeHtml($resource) ?>
+                                </td>
+                                <td>
+                                    <?php if (is_array($parents)) : ?>
+                                        <?php echo $this->escapeHtml(implode(', ', $parents)) ?>
+                                    <?php else : ?>
+                                        <?php echo $this->escapeHtml($parents) ?>
+                                    <?php endif ?>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Allowed -->
+            <div role="tabpanel" class="tab-pane" id="allowed">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <?php echo $this->translate('Role') ?>
+                            </th>
+                            <th>
+                                <?php echo $this->translate('Resource') ?>
+                            </th>
+                            <th>
+                                <?php echo $this->translate('Privilege') ?>
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($this->aclService->getAllowRules() as $rule) : ?>
+                            <tr>
+                                <td>
+                                    <?php if (is_array($rule[0])) : ?>
+                                        <?php 
+                                            $roles = array();
+                                            foreach ($rule[0] as $role)
+                                                $roles[] = $this->translate((string) $role);
+                                            echo $this->escapeHtml(implode(', ', $roles));
+                                        ?>
+                                    <?php elseif ($rule[0] === null) : ?>
+                                        *
+                                    <?php else : ?>
+                                        <?php echo $this->escapeHtml($this->translate((string) $rule[0])) ?> 
+                                    <?php endif ?>
+                                </td>
+                                <td>
+                                    <?php if (is_array($rule[1])) : ?>
+                                        <?php 
+                                            $resources = array();
+                                            foreach ($rule[1] as $resource)
+                                                $resources[] = $this->translate((string) $resource);
+                                            echo $this->escapeHtml(implode(', ', $resources));
+                                        ?>
+                                    <?php elseif ($rule[1] === null) : ?>
+                                        *
+                                    <?php else : ?>
+                                        <?php echo $this->escapeHtml($this->translate((string) $rule[1])) ?> 
+                                    <?php endif ?>
+                                </td>
+                                <td>
+                                    <?php if (is_array($rule[2])) : ?>
+                                        <?php 
+                                            echo $this->escapeHtml(implode(', ', $rule[2]));
+                                        ?>
+                                    <?php elseif ($rule[2] === null) : ?>
+                                        *
+                                    <?php else : ?>
+                                        <?php echo $this->escapeHtml($rule[2]) ?> 
+                                    <?php endif ?>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Denied -->
+            <?php if (isset($aclConfig['rules']['deny'])) : ?>
+                <div role="tabpanel" class="tab-pane" id="denied">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <?php echo $this->translate('Role') ?>
+                                </th>
+                                <th>
+                                    <?php echo $this->translate('Resource') ?>
+                                </th>
+                                <th>
+                                    <?php echo $this->translate('Privilege') ?>
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($aclService->getRulesDeny() as $rule) : ?>
+                                <tr>
+                                    <td>
+                                        <?php if (is_array($rule[0])) : ?>
+                                            <?php 
+                                                $roles = array();
+                                                foreach ($rule[0] as $role)
+                                                    $roles[] = $this->translate($role);
+                                                echo $this->escapeHtml(implode(', ', $roles));
+                                            ?>
+                                        <?php else : ?>
+                                            <?php echo $this->escapeHtml($this->translate($rule[0])) ?> 
+                                        <?php endif ?>
+                                    </td>
+                                    <td>
+                                        <?php if (is_array($rule[1])) : ?>
+                                            <?php 
+                                                $resources = array();
+                                                foreach ($rule[1] as $resource)
+                                                    $resources[] = $this->translate($resource);
+                                                echo $this->escapeHtml(implode(', ', $resources));
+                                            ?>
+                                        <?php else : ?>
+                                            <?php echo $this->escapeHtml($this->translate($rule[1])) ?> 
+                                        <?php endif ?>
+                                    </td>
+                                    <td>
+                                        <?php if (is_array($rule[2])) : ?>
+                                            <?php 
+                                                echo $this->escapeHtml(implode(', ', $rule[2]));
+                                            ?>
+                                        <?php else : ?>
+                                            <?php echo $this->escapeHtml($rule[2]) ?> 
+                                        <?php endif ?>
+                                    
+                                    </td>
+                                </tr>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif ?>            
+        </div>
+    </div>
+</div>
+    

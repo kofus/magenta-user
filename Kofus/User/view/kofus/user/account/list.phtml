@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1><?php echo $this->escapeHtml($this->translate('User Accounts')) ?></h1>
+        
+        <?php //echo $this->partial('kofus/layout/admin/navbar-node.phtml') ?>
+        
+        <?php if ($this->paginator->count()) : ?>
+            <?php // echo $this->paginationControl($this->paginator) ?>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th><?php echo $this->translate('Role') ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($this->paginator as $entity) : ?>
+                        <?php if ($entity->getStatus() == 0) $css = 'warning' ?>
+                        <?php if ($entity->getStatus() < 0) $css = 'danger' ?>
+                        <?php if ($entity->getStatus() > 0) $css = 'success' ?>
+                        <tr class="<?php if ($css) echo $css ?>">
+                            <td>
+                                <?php echo $entity->getNodeId() ?>
+                            </td>
+                            <td>
+                                <?php echo $this->escapeHtml($entity->getName()) ?>
+                            </td>
+                            <td>
+                                <?php echo $this->escapeHtml($entity->getRole()) ?>
+                            </td>
+                            <td>
+                                <a class="btn btn-default" href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'edit', 'id' => $entity->getNodeId()), array(), true) ?>"><span title="<?php echo $this->translate('Edit') ?>" class="glyphicon glyphicon-pencil"></span></a>
+                                <a class="btn btn-default" href="<?php echo $this->url('kofus_user', array('controller' => 'auth', 'action' => 'list', 'id' => $entity->getNodeId()), array(), true) ?>"><span title="<?php echo $this->translate('Edit Access Data') ?>" class="fa fa-key"></span></a>
+                                <a class="btn btn-default" href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'delete', 'id' => $entity->getNodeId()), array(), true) ?>"><span title="<?php echo $this->translate('Delete') ?>" class="glyphicon glyphicon-remove"></span></a>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+                <?php ?>
+            </table>
+            <?php echo $this->paginationControl($this->paginator) ?>
+        <?php else : ?>
+            <p><?php echo $this->escapeHtml($this->translate('No entries.')) ?></p>
+        <?php endif ?>
+    </div>
+</div>

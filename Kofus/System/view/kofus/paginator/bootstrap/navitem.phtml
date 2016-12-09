@@ -1,0 +1,30 @@
+<?php 
+    $params = $this->routeMatch->getParams();
+    if (isset($params['__CONTROLLER__']))
+        $params['controller'] = $params['__CONTROLLER__'];
+?>
+
+
+    <?php if (isset($this->page)) : ?>
+        <li <?php if ($this->page == $this->current && $this->label) echo 'class="active"'?>>
+            <a href="<?php echo $this->url($this->routeMatch->getMatchedRouteName(), $params, array('query' => array('pagination' => array('page' => $this->page, 'hash' => $this->hash))), true) ?>">
+                <?php if (isset($this->glyphicon)) : ?>
+                    <span class="glyphicon glyphicon-<?php echo $this->glyphicon ?>"></span>
+                <?php endif ?>
+                <?php if (isset($this->label)) : ?>
+                    <?php echo $this->label ?>
+                <?php endif ?>
+            </a>
+        </li>
+    <?php else : ?>
+        <li class="disabled">
+            <a href="#">
+                <?php if (isset($this->glyphicon)) : ?>
+                    <span class="glyphicon glyphicon-<?php echo $this->glyphicon ?>"></span>
+                <?php endif ?>
+                <?php if (isset($this->label)) : ?>
+                    <?php echo $this->label ?>
+                <?php endif ?>
+            </a>
+        </li>
+    <?php endif ?>

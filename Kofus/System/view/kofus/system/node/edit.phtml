@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1><?php echo sprintf($this->translate('Edit %s') , $this->translate($this->nodeTypeConfig['label'])) ?> </h1>
+    </div>
+    <div class="col-md-9">
+	   <ul class="nav nav-tabs" role="tablist">
+	       <?php $isFirst = true ?>
+	       <?php foreach ($this->locales as $locale) : ?>
+	           <li role="presentation" <?php if ($isFirst) echo 'class="active"' ?>>
+	               <a href="<?php echo $this->escapeHtmlAttr('#'.$locale) ?>" role="tab" data-toggle="tab">
+	                   <?php echo $this->escapeHtml($this->locale()->getDisplayLanguage($locale)) ?>
+	                   <!--  (<?php echo $this->escapeHtml($this->locale()->getRegion($locale)) ?>)  -->
+	               </a>
+	           </li>
+	           <?php $isFirst = false ?>
+	       <?php endforeach ?>
+	   </ul>
+	       <?php echo $this->form()->openTag($this->form) ?>
+	   
+	   <div class="tab-content">
+	       <br>
+	       <?php $isFirst = true ?>
+	       <?php foreach ($this->locales as $locale) : ?>
+	           <div role="tabpanel" class="tab-pane <?php if ($isFirst) echo 'active' ?>" id="<?php echo $this->escapeHtmlAttr($locale) ?>">
+               	   <?php echo $this->partial($this->formTemplate, array('form' => $this->form, 'locale_filter' => $locale)) ?>
+	               <?php $isFirst = false ?>
+	           </div>
+	       <?php endforeach ?>
+	   </div>
+	       <?php echo $this->form()->closeTag() ?>
+	   
+	</div>
+    <div class="col-md-3">
+		  <div class="list-group">
+		      <a href="<?php echo $this->urlBack() ?>" class="list-group-item">
+		          <i class="fa"></i>
+		          <?php echo $this->translate('Close') ?>
+		      </a>
+		      <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'delete', 'id' => $this->entity->getNodeId()), array(), true) ?>" class="list-group-item">
+		          <i class="fa fa-trash"></i>
+		          <?php echo $this->translate('Delete') ?>
+		      </a>
+		      
+		  </div>
+    </div>
+    
+    
+</div>

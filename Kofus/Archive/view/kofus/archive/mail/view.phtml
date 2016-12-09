@@ -1,0 +1,31 @@
+<?php 
+    $columns = array('From', 'To', 'Cc', 'Bcc');
+?>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2><?php echo $this->escapeHtml($this->mail->getObject()->getSubject()) ?></h2>
+    </div>
+    <div class="col-md-9">
+        <iframe style="width: 100%; min-height: 400px" src="<?php echo $this->url('kofus_archive', array('controller' => 'mail', 'action' => 'bodytext', 'id' => $this->mail->getId()), true) ?>">
+        </iframe>
+        <table class="table">
+            <?php foreach ($this->mail->getObject()->getHeaders()->toArray() as $key => $value) : ?>
+                <tr>
+                    <th><?php echo $this->escapeHtml($key) ?>:</th>
+                    <td>
+                        <?php echo $this->escapeHtml($value) ?>
+                    </td>
+                </tr>
+            <?php endforeach ?>
+        </table>
+        
+    </div>
+    <div class="col-md-3">
+        <div class="list-group">
+	      <a href="<?php echo $this->urlBack() ?>" class="list-group-item">
+	          <?php echo $this->escapeHtml($this->translate('Close')) ?>
+	      </a>
+        </div>
+    </div>
+</div>

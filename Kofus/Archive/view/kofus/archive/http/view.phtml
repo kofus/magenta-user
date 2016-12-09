@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1>HTTP <?php echo $this->http->getStatusCode() ?></h1>
+    </div>
+    <div class="col-md-9">
+        <p>
+            <?php echo $this->escapeHtml($this->http->getMethod()) ?>
+            <?php echo $this->escapeHtml($this->http->getUri()) ?>
+        </p>
+    
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active">
+                <a href="#response" role="tab" data-toggle="tab">Response</a>
+            </li>
+            <li>
+                <a href="#request" role="tab" data-toggle="tab">Request</a>
+            </li>
+        </ul>
+        
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="response">
+                <?php 
+                    $body = $this->http->getResponse()->getBody();
+                    if ($http->getResponse()->getHeaders()->get('Content-Type')->getFieldValue() == 'application/json')
+                        $body = \Zend\Json\Json::prettyPrint($body);
+                ?>
+                <pre><?php echo $body ?></pre>
+                <table class="table">
+                    <?php foreach ($this->http->getResponse()->getHeaders() as $header) : ?>
+                        <tr>
+                            <th>
+                                <?php echo $this->escapeHtml($header->getFieldName()) ?>
+                            </th>
+                            <td>
+                                <?php echo $this->escapeHtml($header->getFieldValue()) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="request">
+                <?php
+                    $body = $this->http->getRequest()->getContent();
+                    if ($http->getResponse()->getHeaders()->get('Content-Type')->getFieldValue() == 'application/json')
+                    	$body = \Zend\Json\Json::prettyPrint($body);
+                ?>
+                <pre><?php echo $body ?></pre>
+                <table class="table">
+                    <?php foreach ($this->http->getRequest()->getHeaders() as $header) : ?>
+                        <tr>
+                            <th>
+                                <?php echo $this->escapeHtml($header->getFieldName()) ?>
+                            </th>
+                            <td>
+                                <?php echo $this->escapeHtml($header->getFieldValue()) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </table>
+                
+            </div>
+        </div>
+        
+        
+    </div>
+    <div class="col-md-3">
+        <div class="list-group">
+	      <a href="<?php echo $this->urlBack() ?>" class="list-group-item">
+	          <?php echo $this->escapeHtml($this->translate('Close')) ?>
+	      </a>
+        </div>
+    </div>
+</div>

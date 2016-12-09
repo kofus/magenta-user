@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1><?php echo $this->escapeHtml(sprintf($this->translate('Access to Account %s'), $this->account)) ?></h1>
+    </div>
+    <div class="col-md-9">
+        <?php if ($this->entities) : ?>
+            <table class="table __table-hover">
+                <thead>
+                    <tr>
+                        <th><?php echo $this->translate('Authentication') ?></th>
+                        <th><?php echo $this->translate('Identity') ?></th>
+                    </tr>
+                </thead>
+                <tbody data-link="row" class="__rowlink">
+                    <?php foreach ($this->entities as $entity) : ?>
+                        <?php $css = 'success' ?>
+                        <?php if (! $entity->isEnabled()) $css = 'danger' ?>
+                        <tr class="<?php echo $css ?>">
+                            <td>
+                                <?php echo $this->translate($entity->getType(true)) ?>
+                            </td>
+                            <td>
+                                <?php echo $this->escapeHtml($entity->getIdentity()) ?>
+                            </td>
+                            <td>
+                                <a href="<?php echo $this->url('kofus_user', array('controller' => 'auth', 'action' => 'execute', 'id' => $entity->getNodeId()), true) ?>">
+                                    login as
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+                <?php ?>
+            </table>
+        <?php else : ?>
+            <p><?php echo $this->escapeHtml($this->translate('No entries.')) ?></p>
+        <?php endif ?>
+    </div>
+    <div class="col-md-3">
+        <div class="list-group">
+            <?php if ($this->user()->isAllowed('U', 'add')) : ?>    
+    	      <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'add', 'id' => 'U'), array(), true) ?>" class="list-group-item">
+    	          <span class="glyphicon glyphicon-plus"></span>
+    	          <?php echo $this->escapeHtml($this->translate('Add')) ?>
+    	      </a>
+            <?php endif ?>
+        </div>
+    </div>
+</div>

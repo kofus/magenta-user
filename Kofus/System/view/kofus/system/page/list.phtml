@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1><?php echo $this->translate('Pages') ?></h1>
+    </div>
+    <div class="col-md-9">
+        <ul class="nav nav-tabs" role="tablist">
+            <?php $isFirst = true ?>
+            <?php foreach ($this->navbars as $id => $navConfig) : ?>
+                <?php if (isset($navConfig['system'])) continue ?>
+                <li role="presentation" <?php if ($isFirst) echo 'class="active"' ?>>
+                    <a href="<?php echo $this->escapeHtmlAttr('#' . $id) ?>" role="tab" data-toggle="tab">
+                        <?php echo $this->escapeHtml($this->translate($navConfig['title'])) ?>
+                    </a>
+                </li>
+                <?php $isFirst = false ?>    
+            <?php endforeach ?>
+        </ul>    
+            
+        <div class="tab-content">
+            <?php $isFirst = true ?>
+            <?php foreach ($this->navbars as $id => $navConfig) : ?>
+                <?php if (isset($navConfig['system'])) continue ?>
+                <div role="tabpanel" class="tab-pane <?php if ($isFirst) echo 'active' ?>" id="<?php echo $this->escapeHtmlAttr($id) ?>">
+                    <?php 
+                        $container = $this->kofusNavigation($id)
+                            ->excludeDisabledPages(false)
+                            ->excludeInvisiblePages(false)
+                            ->getContainer();
+                        
+                        $it = new \RecursiveIteratorIterator(
+                        		$container, \RecursiveIteratorIterator::SELF_FIRST);
+                        
+                       	foreach ($it as $page) {
+							$page->set('uri', null);
+							$page->set('route', null);
+							if ($page->get('node-id')) {
+								$page->set('route', 'kofus_system');
+								$page->set('controller', 'page');
+								$page->set('action', 'view');
+							}
+						}
+                    ?>
+                    <?php echo $this->navTree($container) ?>
+                </div>
+                <?php $isFirst = false ?>
+            <?php endforeach ?>
+        </div>    
+    </div>
+    <div class="col-md-3">
+		  <div class="list-group">
+		      <?php if ($this->user()->isAllowed('PG', 'add')) : ?>
+    		      <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'add', 'id' => 'PG')) ?>" class="list-group-item">
+    		          <span class="glyphicon glyphicon-plus"></span>
+    		          <?php echo $this->translate('Add') ?>
+    		      </a>
+    		  <?php endif ?>
+		  </div>
+    </div>
+</div>
+
+    

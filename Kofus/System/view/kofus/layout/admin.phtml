@@ -1,0 +1,50 @@
+<?php echo $this->doctype() ?>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle()->append('Administration') ?>
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+        <?php echo $this->headLink() ?>
+    </head>
+    
+    <body>
+    	<nav class="navbar navbar-inverse navbar-top" role="navigation">
+        	<div class="container">
+            	<?php
+            	   echo $this->navigation()
+            	        ->setContainer($this->kofusNavigation('admin')->getContainer())
+                        ->dropdownMenu()
+                        ->setMaxDepth(1)
+                        ->setUlClass('nav navbar-nav')
+                        ->render();
+            	?>
+            <?php if ($this->user()->getAccount()) : ?>
+            	<ul class="nav navbar-nav navbar-right">
+            		<li><a href="#">
+            		     <?php echo $this->escapeHtml($this->user()->getAccount()->getName('display')) ?>
+            		     </a>
+            		</li>
+            		<li>
+            		  <a href="<?php echo $this->url('logout') ?>"><span class="glyphicon glyphicon-off"></span></a>
+            		</li>    					    	
+        		</ul>
+            <?php endif ?>
+            
+    		</div>
+    	</nav>
+    
+        <div class="container">
+	    	<?php echo $this->flashMessages() ?>
+        	<?php echo $this->content ?>
+            <hr>
+            <footer>
+                <p>&copy; <?php echo date('Y') ?> <?php echo KOFUS_BRANDING ?>. <?php echo $this->translate('All rights reserved.') ?></p>
+            </footer>
+        </div>
+        <?php echo $this->headScript() ?>
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>

@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1><?php echo $this->escapeHtml($this->translate('Events')) ?></h1>
+    </div>
+    <div class="col-md-9">
+        <?php if ($this->paginator->count()) : ?>
+            <?php echo $this->paginationcontrol($this->paginator) ?>
+            <table class="table __table-hover">
+                <thead>
+                    <tr>
+                        <th><?php echo $this->translate('Timestamp') ?>
+                        <th><?php echo $this->translate('Identifier') ?></th>
+                        <th><?php echo $this->translate('Event') ?>
+                        <th><?php echo $this->translate('Nodes') ?>
+                    </tr>
+                </thead>
+                <tbody data-link="row" class="__rowlink">
+                    <?php foreach ($this->paginator as $result) : ?>
+                        <tr>
+                            <td>
+                                <?php echo $this->dateFormat($result->getTimestamp(), \IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT) ?>
+                            </td>
+                            <td>
+                                <?php echo $this->escapeHtml($result->getIdentifier()) ?>
+                            </td>
+                            <td>
+                                <?php echo $this->escapeHtml($result->getEvent()) ?>
+                            </td>
+                            <td>
+                                <?php echo $this->escapeHtml($result->getNodesText()) ?>
+                            </td>
+                            
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+            <?php echo $this->paginationcontrol($this->paginator) ?>
+        <?php else : ?>
+            <p><?php echo $this->escapeHtml($this->translate('No entries.')) ?></p>
+        <?php endif ?>
+    </div>
+    <div class="col-md-3">
+        <div class="list-group">
+	      <a href="<?php echo $this->urlBack() ?>" class="list-group-item">
+	          <?php echo $this->escapeHtml($this->translate('Close')) ?>
+	      </a>
+        </div>
+    </div>
+    
+</div>
