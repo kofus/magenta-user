@@ -1,0 +1,25 @@
+{
+    "name": "kofus/magenta",
+    "type": "library",
+    
+    "autoload": {
+        "psr-0": {
+            "Kofus\\Archive\\": "src/Kofus/Archive/",
+            "Kofus\\System\\": "src/Kofus/System/",
+            "Kofus\\Mailer\\": "src/Kofus/Mailer/",
+            "Kofus\\Media\\": "src/Kofus/Media/",
+            "Kofus\\User\\": "src/Kofus/User/",
+            "Kofus\\WebService\\": "src/Kofus/WebService/"
+        },
+        "classmap" : ["Kofus/Archive/Module.php","Kofus/System/Module.php","Kofus/Mailer/Module.php","Kofus/Media/Module.php","Kofus/User/Module.php","Kofus/WebService/Module.php"]
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.4.*",
+        "doctrine/doctrine-orm-module": "0.*",
+	 	"neilime/zf2-twb-bundle": "2.*@stable",
+	 	"leafo/scssphp": "0.0.12"
+	    
+    }
+}
+
