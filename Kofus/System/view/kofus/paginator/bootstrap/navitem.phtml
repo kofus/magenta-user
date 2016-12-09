@@ -7,7 +7,7 @@
 
     <?php if (isset($this->page)) : ?>
         <li <?php if ($this->page == $this->current && $this->label) echo 'class="active"'?>>
-            <a href="<?php echo $this->url($this->routeMatch->getMatchedRouteName(), $params, array('query' => array('pagination' => array('page' => $this->page, 'hash' => $this->hash))), true) ?>">
+            <a href="<?php echo $this->url($this->routeMatch->getMatchedRouteName(), $params, array('query' => array('pagination' => array('page' => $this->page, 'paginator_id' => $this->paginator_id))), true) ?>">
                 <?php if (isset($this->glyphicon)) : ?>
                     <span class="glyphicon glyphicon-<?php echo $this->glyphicon ?>"></span>
                 <?php endif ?>

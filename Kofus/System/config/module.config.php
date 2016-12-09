@@ -225,7 +225,7 @@ return array(
             'nodes' => 'Kofus\System\View\Helper\NodesHelper',
             'formFieldset' => 'Kofus\System\View\Helper\Form\FieldsetHelper',
             'spamSpan' => 'Kofus\System\View\Helper\SpamSpanHelper',
-            'pagination' => 'Kofus\System\View\Helper\PaginationHelper',
+            'paginationColumnSort' => 'Kofus\System\View\Helper\PaginationColumnSortHelper',
             'session' => 'Kofus\System\View\Helper\SessionHelper',
 
         )

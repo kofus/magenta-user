@@ -7,12 +7,12 @@
 		//$routeParams = $routeMatch->
 
         
-        echo $this->partial('kofus/paginator/bootstrap/navitem.phtml', array('page' => $this->first, 'glyphicon' => 'fast-backward', 'routeMatch' => $routeMatch, 'current' => $this->current, 'hash' => $this->hash));
-        echo $this->partial('kofus/paginator/bootstrap/navitem.phtml', array('page' => $this->previous, 'glyphicon' => 'step-backward', 'routeMatch' => $routeMatch, 'current' => $this->current, 'hash' => $this->hash));
+        echo $this->partial('kofus/paginator/bootstrap/navitem.phtml', array('page' => $this->first, 'glyphicon' => 'fast-backward', 'routeMatch' => $routeMatch, 'current' => $this->current, 'paginator_id' => $this->paginatorId));
+        echo $this->partial('kofus/paginator/bootstrap/navitem.phtml', array('page' => $this->previous, 'glyphicon' => 'step-backward', 'routeMatch' => $routeMatch, 'current' => $this->current, 'paginator_id' => $this->paginatorId));
         foreach ($this->pagesInRange as $page)
-            echo $this->partial('kofus/paginator/bootstrap/navitem.phtml', array('page' => $page, 'label' => $page, 'routeMatch' => $routeMatch, 'current' => $this->current, 'hash' => $this->hash));
-        echo $this->partial('kofus/paginator/bootstrap/navitem.phtml', array('page' => $this->next, 'glyphicon' => 'step-forward', 'routeMatch' => $routeMatch, 'current' => $this->current, 'hash' => $this->hash));
-        echo $this->partial('kofus/paginator/bootstrap/navitem.phtml', array('page' => $this->last, 'glyphicon' => 'fast-forward', 'routeMatch' => $routeMatch, 'current' => $this->current, 'hash' => $this->hash));
+            echo $this->partial('kofus/paginator/bootstrap/navitem.phtml', array('page' => $page, 'label' => $page, 'routeMatch' => $routeMatch, 'current' => $this->current, 'paginator_id' => $this->paginatorId));
+        echo $this->partial('kofus/paginator/bootstrap/navitem.phtml', array('page' => $this->next, 'glyphicon' => 'step-forward', 'routeMatch' => $routeMatch, 'current' => $this->current, 'paginator_id' => $this->paginatorId));
+        echo $this->partial('kofus/paginator/bootstrap/navitem.phtml', array('page' => $this->last, 'glyphicon' => 'fast-forward', 'routeMatch' => $routeMatch, 'current' => $this->current, 'paginator_id' => $this->paginatorId));
         
     ?>
     </ul>
