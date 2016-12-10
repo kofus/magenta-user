@@ -18,6 +18,8 @@
             	        ->setContainer($this->kofusNavigation('admin')->getContainer())
                         ->dropdownMenu()
                         ->setMaxDepth(1)
+                        ->setRole($this->user()->getRole())
+                        ->setAcl($this->user()->acl())
                         ->setUlClass('nav navbar-nav')
                         ->render();
             	?>

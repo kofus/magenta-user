@@ -133,6 +133,21 @@ class AccountEntity implements NodeInterface
         return $this->timestampCreated;
     }
     
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $timestampLogin;
+    
+    public function setTimestampLogin(\DateTime $datetime)
+    {
+    	$this->timestampLogin = $datetime; return $this;
+    }
+    
+    public function getTimestampLogin()
+    {
+    	return $this->timestampLogin;
+    }    
+    
     
     
     

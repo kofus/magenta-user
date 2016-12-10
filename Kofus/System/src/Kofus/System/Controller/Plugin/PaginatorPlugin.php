@@ -59,6 +59,8 @@ class PaginatorPlugin extends AbstractPlugin
       	    			$sessionData['page'] = null;
       	    	} elseif (isset($sessionData['sortDirections'])) {
       	    		$sortDirections = $sessionData['sortDirections'];
+      	    	} elseif (isset($options['default_sort_directions'])) {
+      	    		$sortDirections = $options['default_sort_directions'];
       	    	}
       	    	
       	    	foreach ($sortDirections as $name => $direction)
@@ -97,7 +99,7 @@ class PaginatorPlugin extends AbstractPlugin
         
 		$session->$paginatorId = $sessionData;
         //$session->setExpirationSeconds(60);
-        
+        //print_r($sessionData);
 
         return $paginator;
 	}

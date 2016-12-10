@@ -10,8 +10,19 @@ class AccountController extends AbstractActionController
     {
         $this->archive()->uriStack()->push();
         
-        $entities = $this->nodes()->getRepository('U')->findby(array(), array('timestampCreated' => 'DESC'));
-        $paginator = $this->paginator($entities);
+        $entities = $this->nodes()->createQueryBuilder('U');
+        $paginator = $this->paginator($entities, array(
+        	'sort_columns' => array(
+        		'id' => 'n.id',
+        		'role' => 'n.role',
+        		'name' => 'n.name',
+        		'date_created' => 'n.timestampCreated',
+        		'date_login' => 'n.timestampLogin'
+        	),
+        	'default_sort_directions' => array(
+        		'date_login' => 'DESC'
+        )
+        ));
         return new ViewModel(array(
         	'paginator' => $paginator
         ));

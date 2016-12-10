@@ -161,7 +161,8 @@ class NodeService extends AbstractService
             $orClause[] = 'r.node1Id LIKE :node_type'.$index.' OR r.node2Id LIKE :node_type' . $index;
             $qb->setParameter('node_type'.$index, $nodeType . '%');            
         }
-        $qb->andWhere(implode(' OR ', $orClause));
+        if ($orClause)
+        	$qb->andWhere(implode(' OR ', $orClause));
         
         $_relations = $qb->orderBy('r.weight')
             ->getQuery()->getResult();

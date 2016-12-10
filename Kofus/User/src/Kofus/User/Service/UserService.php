@@ -56,6 +56,11 @@ class UserService extends AbstractService implements EventManagerAwareInterface
             $storage->write($auth->getNodeId());
             $this->getEventManager()->trigger('login', $this, array('account' => $this->getAccount()));
         }
+        
+        $account->setTimestampLogin(new \DateTime());
+        $this->em()->persist($account);
+        $this->em()->flush();
+        
         return $result;
 	}
 	

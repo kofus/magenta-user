@@ -10,11 +10,14 @@ return array(
     'Guest' => 'Gast',
     'Member' => 'Mitglied',
     'Staff' => 'Mitarbeiter',
+	'Editor' => 'Redakteur',
     'Inherits from' => 'Erbt von',
     'Allowed' => 'Erlaubt',
     'Denied' => 'Verboten',
     'Test Privilege' => 'Berechtigung prüfen',
     'User' => 'Benutzer',
     'public?' => 'öffentlich?',
-    'Author' => 'Verfasser'
+    'Author' => 'Verfasser',
+	'Last login' => 'Zuletzt online',
+	'Member since' => 'Mitglied seit'
 );

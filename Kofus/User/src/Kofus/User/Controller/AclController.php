@@ -9,7 +9,7 @@ class AclController extends AbstractActionController
     public function indexAction()
     {
         $this->archive()->uriStack()->push();
-        $aclService = $this->getServiceLocator()->get('KofusAcl');
+        $aclService = $this->getServiceLocator()->get('KofusAclService');
         
         $isAllowed = null;
         
