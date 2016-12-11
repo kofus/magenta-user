@@ -7,7 +7,7 @@ use Kofus\System\Node\TranslatableNodeInterface;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="kofus_system_relations")
+ * @ORM\Table(name="kofus_system_node_relations")
  *
  */
 class RelationEntity

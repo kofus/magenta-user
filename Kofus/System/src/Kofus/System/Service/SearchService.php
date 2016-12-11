@@ -39,12 +39,17 @@ class SearchService extends AbstractService
     
     public function updateNode(NodeInterface $node)
     {
-        $this->deleteNode($node);
-        
-        // Get indexes
-        $indexes = array();
-        foreach ($this->config()->get('locales.enabled') as $locale) 
-        	$indexes[$locale] = $this->getIndex($locale);
+    	// Get indexes
+    	$indexes = array();
+    	foreach ($this->config()->get('locales.enabled') as $locale)
+    		$indexes[$locale] = $this->getIndex($locale);
+		
+    	// Delete existing node
+    	foreach ($indexes as $locale => $index) {
+    		$hits = $index->find("node_id: '" . $node->getNodeId() . "'");
+    		foreach ($hits as $hit)
+    			$index->delete($hit);
+    	}
         
         $classnames = $this->config()->get('nodes.available.'.$node->getNodeType().'.search_documents', array());
         foreach ($classnames as $classname) {
@@ -57,7 +62,7 @@ class SearchService extends AbstractService
         	}
         }
         
-        foreach ($indexes as $index) {
+        foreach ($indexes as $locale => $index) {
         	$index->commit();
         	$index->optimize();
         }
