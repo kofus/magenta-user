@@ -23,6 +23,21 @@ class PdfEntity extends ImageEntity
 	/**
 	 * @ORM\Column(nullable=true)
 	 */
+	protected $title;
+	
+	public function setTitle($value)
+	{
+		$this->title = $value; return $this;
+	}
+	
+	public function getTitle()
+	{
+		return $this->title;
+	}	
+	
+	/**
+	 * @ORM\Column(nullable=true)
+	 */
 	protected $uriSegment;
 	
 	public function setUriSegment($value)
