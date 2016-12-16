@@ -280,6 +280,7 @@ return array(
         	'KofusBatchService' => 'Kofus\System\Service\BatchService',
             'KofusDbBackupCron' => 'Kofus\System\Cron\DbBackupCron',
             'KofusTestMailCron' => 'Kofus\System\Cron\TestMailCron',
+            'KofusLuceneCron' => 'Kofus\System\Cron\LuceneCron'
             
         )
     ),
