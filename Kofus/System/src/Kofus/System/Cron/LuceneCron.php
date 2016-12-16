@@ -10,7 +10,7 @@ class LuceneCron extends AbstractCron
     {
         $spec = $this->getSpecification();
         $search = $this->getServiceLocator()->get('KofusSearchService');
-        $search->reindex($spec['node_type']);
+        $search->reindex($spec['node_type'], array('de_DE'));
         return 'completed';
     }
     

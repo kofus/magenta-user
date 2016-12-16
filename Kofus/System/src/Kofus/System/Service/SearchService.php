@@ -94,7 +94,7 @@ class SearchService extends AbstractService
     	}
     }
     
-    public function reindex($nodeTypes=null)
+    public function reindex($nodeTypes=null, $locales=null)
     {
         ini_set('max_execution_time', 0);
         
@@ -103,8 +103,11 @@ class SearchService extends AbstractService
         
         if (null === $nodeTypes)
             $nodeTypes = $this->config()->get('nodes.enabled');
+        
+        if (null === $locales)
+            $locales = $this->config()->get('locales.enabled');
             
-        foreach ($this->config()->get('locales.enabled') as $locale) {
+        foreach ($locales as $locale) {
         	$index = $this->getIndex($locale);
         
 	        foreach ($nodeTypes as $nodeType) {
