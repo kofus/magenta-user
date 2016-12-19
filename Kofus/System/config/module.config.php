@@ -267,6 +267,7 @@ return array(
             'KofusDatabase' => 'Kofus\System\Service\DatabaseService',
             'KofusConfig' => 'Kofus\System\Service\ConfigService',
             'KofusLocale' => 'Kofus\System\Service\LocaleService',
+        	'KofusLocaleService' => 'Kofus\System\Service\LocaleService',
             'KofusNodeService' => 'Kofus\System\Service\NodeService',
             'KofusFormService' => 'Kofus\System\Service\FormService',
             'KofusNavigationService' => 'Kofus\System\Service\NavigationService',
