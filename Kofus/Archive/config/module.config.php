@@ -40,6 +40,7 @@ return array (
 		'service_manager' => array (
 				'invokables' => array (
 						'KofusArchive' => 'Kofus\Archive\Service\ArchiveService',
+				        'KofusArchiveService' => 'Kofus\Archive\Service\ArchiveService',
 						'EventsForArchive' => 'Kofus\Archive\Listener\EventListener' 
 				)
 				,
