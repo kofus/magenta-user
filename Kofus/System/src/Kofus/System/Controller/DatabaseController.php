@@ -10,22 +10,11 @@ class DatabaseController extends AbstractActionController
 {
     public function upgradeAction()
     {
+        $backup = $this->getServiceLocator()->get('KofusDatabase');
+        $backup->save();
+        
     	$classNames = $this->em()->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
 
-    	/*
-    	$classNames = array(
-    			'Kofus\System\Entity\LinkEntity', 
-		    	'Kofus\System\Entity\NodeTranslationEntity',
-    			'Kofus\System\Entity\RelationEntity'
-    	);
-    	
-    	foreach ($this->config()->get('nodes.enabled') as $nodeType) {
-    		$classname = $this->config()->get('nodes.available.' . $nodeType . '.entity');
-    		if ($classname)
-    			$classNames[] = $classname;
-    	} */
-    	
-    	//print_r($classNames); die();
     	$tool = new \Doctrine\ORM\Tools\SchemaTool($this->em());
     	$metadata = array();
     	foreach ($classNames as $className)

@@ -1,13 +1,13 @@
 <?php
 namespace Kofus\System\Cron;
-use Kofus\System\Cron\AbstractJob;
+use Kofus\System\Cron\AbstractCron;
 
-class DbBackupCron extends AbstractJob
+class DbBackupCron extends AbstractCron
 {
     public function run()
     {
         $db = $this->getServiceLocator()->get('KofusDatabase');
-        $db->dump();
+        $db->save();
     	return 'completed';
     }
     
