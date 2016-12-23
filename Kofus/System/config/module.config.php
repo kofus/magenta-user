@@ -227,7 +227,7 @@ return array(
             'spamSpan' => 'Kofus\System\View\Helper\SpamSpanHelper',
             'paginationColumnSort' => 'Kofus\System\View\Helper\PaginationColumnSortHelper',
             'session' => 'Kofus\System\View\Helper\SessionHelper',
-
+			'nodeNavigation' => 'Kofus\System\View\Helper\NodeNavigationHelper'
         )
     ),
     
