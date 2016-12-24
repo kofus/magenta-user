@@ -48,7 +48,7 @@ return array(
             'translator' => 'Kofus\System\Controller\Plugin\TranslatorPlugin',
             'locale' => 'Kofus\System\Controller\Plugin\LocalePlugin',
             'paginator' => 'Kofus\System\Controller\Plugin\PaginatorPlugin',
-            'search' => 'Kofus\System\Controller\Plugin\SearchPlugin',
+            'lucene' => 'Kofus\System\Controller\Plugin\LucenePlugin',
             'viewHelper' => 'Kofus\System\Controller\Plugin\ViewHelperPlugin'
         )
     ),
@@ -273,15 +273,15 @@ return array(
             'KofusNavigationService' => 'Kofus\System\Service\NavigationService',
             'KofusTranslationService' => 'Kofus\System\Service\TranslationService',
             'KofusLinkService' => 'Kofus\System\Service\LinkService',
-            'KofusSearchService' => 'Kofus\System\Service\SearchService',
+            'KofusLuceneService' => 'Kofus\System\Service\LuceneService',
             'CmsListener' => 'Kofus\System\Listener\CmsListener',
             'ErrorListener' => 'Kofus\System\Listener\ErrorListener',
-            'KofusLuceneListener' => 'Kofus\System\Listener\LuceneListener',
+            'KofusNodeListener' => 'Kofus\System\Listener\NodeListener',
             'KofusDeveloperToolbarListener' => 'Kofus\System\Listener\DeveloperToolbarListener',
         	'KofusBatchService' => 'Kofus\System\Service\BatchService',
             'KofusDbBackupCron' => 'Kofus\System\Cron\DbBackupCron',
             'KofusTestMailCron' => 'Kofus\System\Cron\TestMailCron',
-            'KofusLuceneCron' => 'Kofus\System\Cron\LuceneCron'
+            'KofusLuceneUpdateCron' => 'Kofus\System\Cron\LuceneUpdateCron'
             
         )
     ),

@@ -2,8 +2,8 @@
 namespace Kofus\System\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Kofus\System\Node\NodeInterface;
-use Kofus\System\Node\TranslatableNodeInterface;
+use Kofus\System\Node;
+
 
 /**
  * @ORM\Entity
@@ -11,7 +11,7 @@ use Kofus\System\Node\TranslatableNodeInterface;
  * @ORM\Table(name="kofus_system_contents")
  *
  */
-class ContentEntity implements NodeInterface, TranslatableNodeInterface
+class ContentEntity implements Node\NodeInterface, Node\TranslatableNodeInterface, Node\NodeModifiedInterface
 {
     
     public function getTranslatableMethods()
@@ -186,6 +186,21 @@ class ContentEntity implements NodeInterface, TranslatableNodeInterface
 	public function __toString()
 	{
 		return $this->getTitle() . ' (' . $this->getNodeId() . ')';
+	}
+	
+	/**
+	 * @ORM\Column(type="datetime", nullable=true)
+	 */
+	protected $timestampModified;
+	
+	public function setTimestampModified(\DateTime $datetime)
+	{
+		$this->timestampModified = $datetime; return $this;
+	}
+	
+	public function getTimestampModified()
+	{
+		return $this->timestampModified;
 	}
 	
 	

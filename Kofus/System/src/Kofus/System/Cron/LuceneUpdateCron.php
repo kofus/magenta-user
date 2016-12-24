@@ -4,13 +4,14 @@ namespace Kofus\System\Cron;
 use Kofus\System\Cron\AbstractCron;
 
 
-class LuceneCron extends AbstractCron
+class LuceneUpdateCron extends AbstractCron
 {
     public function run()
     {
         $spec = $this->getSpecification();
-        $search = $this->getServiceLocator()->get('KofusSearchService');
-        $search->reindex($spec['node_type'], array('de_DE'));
+        $lucene = $this->getServiceLocator()->get('KofusLuceneService');
+        foreach ($spec['node_types'] as $nodeType)
+        	$lucene->updateModifiedNodes($nodeType, 'de_DE');
         return 'completed';
     }
     

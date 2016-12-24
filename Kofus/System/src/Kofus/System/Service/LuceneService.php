@@ -1,13 +1,12 @@
 <?php
 namespace Kofus\System\Service;
 
-//require 'vendor/zendframework/zendsearch/library/ZendSearch/Lucene/Lucene.php';
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Kofus\System\Node\NodeInterface;
 use Kofus\System\Service\AbstractService;
 
 
-class SearchService extends AbstractService
+class LuceneService extends AbstractService
 {
     protected $indexPath = 'data/lucene';
     protected $indexes = array();
@@ -35,6 +34,46 @@ class SearchService extends AbstractService
         	}
         }
         return $this->indexes[$locale];
+    }
+    
+    public function updateModifiedNodes($nodeType, $locale)
+    {
+   		$index = $this->getIndex($locale);
+    	$cache = $this->getServiceLocator()->get('Cache');
+    	$cacheKey = 'lucene.timestamp.modified.' . $nodeType;
+    	if ($cache->hasItem($cacheKey)) {
+	  		$timestampModified = \DateTime::createFromFormat('Y-m-d H:i:s', $cache->getItem($cacheKey));
+    	} else {
+    		$timestampModified = \DateTime::createFromFormat('Y-m-d', '1970-01-01');
+    	}
+    	
+		$classnames = $this->config()->get('nodes.available.'.$nodeType.'.search_documents', array());
+		foreach ($classnames as $classname) {
+			$nodes = $this->nodes()->createQueryBuilder($nodeType)
+				->where('n.timestampModified > :timestampModified')
+				->setParameter('timestampModified', $timestampModified)
+				->getQuery()->getResult();
+
+			foreach ($nodes as $node) {
+				print $node;
+				
+				// Delete existing entries
+				$hits = $index->find("node_id: '" . $node->getNodeId() . "'");
+				foreach ($hits as $hit)
+					$index->delete($hit);
+				
+				$document = new $classname();
+				if ($document instanceof ServiceLocatorAwareInterface) {
+					$document->setServiceLocator($this->getServiceLocator());
+					$document->populateNode($node);
+					$index->addDocument($document);
+				}
+			}
+ 			$index->commit();
+    		$index->optimize();
+		}
+		$now = new \DateTime();
+		$cache->setItem($cacheKey, $now->format('Y-m-d H:i:s'));
     }
     
     public function updateNode(NodeInterface $node)

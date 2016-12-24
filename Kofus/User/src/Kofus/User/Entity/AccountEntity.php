@@ -4,14 +4,14 @@ namespace Kofus\User\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
-use Kofus\System\Node\NodeInterface;
+use Kofus\System\Node;
 
 /**
  * @ORM\Entity
  * @ORM\InheritanceType("SINGLE_TABLE") 
  * @ORM\Table(name="kofus_user_accounts")
  */
-class AccountEntity implements NodeInterface
+class AccountEntity implements Node\NodeInterface, Node\NodeCreatedInterface
 {
     
     /**

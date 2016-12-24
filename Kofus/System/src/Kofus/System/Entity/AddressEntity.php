@@ -2,7 +2,7 @@
 namespace Kofus\System\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Kofus\System\Node\NodeInterface;
+use Kofus\System\Node;
 
 /**
  * @ORM\Entity
@@ -10,7 +10,7 @@ use Kofus\System\Node\NodeInterface;
  * @ORM\Table(name="kofus_system_addresses")
  *
  */
-class AddressEntity implements NodeInterface
+class AddressEntity implements Node\NodeInterface, Node\NodeModifiedInterface
 {
     /**
      * @ORM\Id
@@ -208,6 +208,21 @@ class AddressEntity implements NodeInterface
 	public function __toString()
 	{
 		return $this->render(', ');
+	}
+	
+	/**
+	 * @ORM\Column(type="datetime", nullable=true)
+	 */
+	protected $timestampModified;
+	
+	public function setTimestampModified(\DateTime $datetime)
+	{
+		$this->timestampModified = $datetime; return $this;
+	}
+	
+	public function getTimestampModified()
+	{
+		return $this->timestampModified;
 	}
 	
 	
