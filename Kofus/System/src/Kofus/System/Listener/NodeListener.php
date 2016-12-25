@@ -18,8 +18,8 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
     public function attach(EventManagerInterface $events)
     {
         $sharedEvents = $events->getSharedManager();
-    	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'preUpdate', array($this, 'setTimestamps'));
-    	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'postPersist', array($this, 'setTimestamps'));
+    	//$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'preUpdate', array($this, 'setTimestamps'));
+    	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'prePersist', array($this, 'setTimestamps'));
     	//$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'preRemove', array($this, 'deleteNodeDocument'));
     }
     
