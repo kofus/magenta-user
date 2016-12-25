@@ -17,7 +17,8 @@ class UploadHydrator implements HydratorInterface, ServiceLocatorAwareInterface
 
 	public function hydrate(array $data, $object)
 	{
-	    $object->isEnabled($data['enabled']);
+		if (array_key_exists('enabled', $data))
+	    	$object->isEnabled($data['enabled']);
 	    
 	    // Create filename
 	    if (! $object->getFilename())
