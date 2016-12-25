@@ -20,7 +20,7 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="response">
                 <?php 
-                    $body = $this->http->getResponse()->getBody();
+                    $body = $this->http->getResponse()->getContent();
                     if ($http->getResponse()->getHeaders()->get('Content-Type')->getFieldValue() == 'application/json')
                         $body = \Zend\Json\Json::prettyPrint($body);
                 ?>
