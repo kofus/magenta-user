@@ -10,10 +10,11 @@ class NodeNavigationHelper extends AbstractHelper
 {
     protected $nodeType;
     
-    public function __invoke($nodeType, $action='list')
+    public function __invoke($nodeType, $action='list', $label=null)
     {
     	$this->nodeType = $nodeType;
     	$this->action = $action;
+    	$this->label = $label;
     	return $this;
     }
     
@@ -29,9 +30,13 @@ class NodeNavigationHelper extends AbstractHelper
     	$nav = new \Zend\Navigation\Navigation($pages);
     	
     	$s = '<nav class="navbar navbar-default">';
-    	if (isset($config['label_pl'])) {
+    	
+    	if ($this->label === null && isset($config['label_pl']))
+    	    $this->label = $config['label_pl'];
+    	
+    	if ($this->label) {
     		$s .= '<div class="navbar-brand">';
-    		$s .= $this->getView()->escapeHtml($this->getView()->translate($config['label_pl']));
+    		$s .= $this->getView()->escapeHtml($this->getView()->translate($this->label));
     		$s .= '</div>';
     	}
     	$s .= '<div class="container-fluid">';
