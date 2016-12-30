@@ -1,8 +1,10 @@
 <?php
 namespace Kofus\System\View\Helper\Optimizer;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 
-abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper 
+abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper implements ServiceLocatorAwareInterface
 {
     protected $urls = array();
     protected $filenames = array();
@@ -20,7 +22,8 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     protected function getFilenames()
     {
     	if (! $this->filenames) {
-    	    $service = new \Kofus\System\Service\LibService();
+    	    $service = $this->getServiceLocator()->get('KofusPublicFilesService');
+
     		foreach ($this->getUrls() as $index => $url) {
     		    $filename = $service->getFilenameByUri($url);
     			if (! $filename)
@@ -54,6 +57,18 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     {
         return '/* KOFUS Optimizer ' . date('Y-m-d H:i:s') . ' */ ';        
     }
+    
+    protected $sm;
+    
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+    	$this->sm = $serviceLocator;
+    }
+    
+    public function getServiceLocator()
+    {
+    	return $this->sm;
+    }    
     
     
     

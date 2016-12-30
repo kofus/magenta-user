@@ -82,6 +82,7 @@ return array(
         )
     ),
     
+    /*
     'navigation' => array(
         'admin' => array(
             'paypal' => array(
@@ -113,5 +114,5 @@ return array(
     						)
             )
         )
-    )
+    ) */
 );

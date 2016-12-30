@@ -81,13 +81,13 @@ class Css extends AbstractHelper
     
     protected function toFilename($url)
     {
-        $service = new \Kofus\System\Service\LibService();
+        $service = $this->getServiceLocator()->get('KofusPublicFilesService');
         return $service->getFilenameByUri($url);
     }
     
     protected function toUrl($filename)
     {
-        $service = new \Kofus\System\Service\LibService();
+        $service = $this->getServiceLocator()->get('KofusPublicFilesService');
         return $service->getUriByFilename($filename);
     }
     

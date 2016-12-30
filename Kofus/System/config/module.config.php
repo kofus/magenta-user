@@ -7,7 +7,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Kofus\System\Controller\Database' => 'Kofus\System\Controller\DatabaseController',
-            'Kofus\System\Controller\Generic' => 'Kofus\System\Controller\GenericController',
+            'Kofus\System\Controller\PublicFiles' => 'Kofus\System\Controller\PublicFilesController',
             'Kofus\System\Controller\Node' => 'Kofus\System\Controller\NodeController',
             'Kofus\System\Controller\Relation' => 'Kofus\System\Controller\RelationController',
             'Kofus\System\Controller\Content' => 'Kofus\System\Controller\ContentController',
@@ -28,7 +28,7 @@ return array(
     		),
     		'controller_mappings' => array(
     				'Kofus\System\Controller\Database' => 'System',
-    				'Kofus\System\Controller\Generic' => 'Frontend',
+    				'Kofus\System\Controller\PublicFiles' => 'Frontend',
     				'Kofus\System\Controller\Search' => 'System',
     				'Kofus\System\Controller\Batch' => 'System',
     				'Kofus\System\Controller\Cron' => 'Frontend',
@@ -122,8 +122,8 @@ return array(
     
     'router' => array(
         'routes' => array(
-            'lib' => array(
-                'type' => 'Kofus\System\Mvc\LibRoute',
+            'kofus_public_files' => array(
+                'type' => 'Kofus\System\Mvc\PublicFilesRoute',
                 'may_terminate' => true
             ),
             'error' => array(
@@ -255,10 +255,11 @@ return array(
                     'key_pattern' => '/^[a-z0-9\.]*$/Di'
                 ));
             },
+            /*
             'KofusLibService' => function ($sm)
             {
                 return new \Kofus\System\Service\LibService($sm);
-            }
+            } */
         ),
         'aliases' => array(
             'translator' => 'MvcTranslator'
@@ -266,6 +267,7 @@ return array(
         'invokables' => array(
             'KofusDatabase' => 'Kofus\System\Service\DatabaseService',
             'KofusConfig' => 'Kofus\System\Service\ConfigService',
+            'KofusConfigService' => 'Kofus\System\Service\ConfigService',
             'KofusLocale' => 'Kofus\System\Service\LocaleService',
         	'KofusLocaleService' => 'Kofus\System\Service\LocaleService',
             'KofusNodeService' => 'Kofus\System\Service\NodeService',
@@ -281,7 +283,9 @@ return array(
         	'KofusBatchService' => 'Kofus\System\Service\BatchService',
             'KofusDbBackupCron' => 'Kofus\System\Cron\DbBackupCron',
             'KofusTestMailCron' => 'Kofus\System\Cron\TestMailCron',
-            'KofusLuceneUpdateCron' => 'Kofus\System\Cron\LuceneUpdateCron'
+            'KofusLuceneUpdateCron' => 'Kofus\System\Cron\LuceneUpdateCron',
+            'KofusPublicFilesService' => 'Kofus\System\Service\PublicFilesService',
+            
             
         )
     ),

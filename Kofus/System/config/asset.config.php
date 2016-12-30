@@ -19,7 +19,7 @@ return array(
     
 		'available' => array(
 				'jquery' => array(
-						'base_uri' => '/cache/lib/assets/jquery',
+						'base_uri' => '/cache/public/assets/jquery',
 						'files' => array(
 								'js' => array(
 										'jquery.min.js'
@@ -27,7 +27,7 @@ return array(
 						)
 				),
 				'jquery.marquee' => array(
-						'base_uri' => '/cache/lib/assets/jquery',
+						'base_uri' => '/cache/public/assets/jquery',
 						'dependencies' => array('jquery'),
 						'files' => array(
 								'js' => array(
@@ -36,7 +36,7 @@ return array(
 						)
 				),
 				'bootstrap' => array(
-						'base_uri' => '/cache/lib/assets/bootstrap',
+						'base_uri' => '/cache/public/assets/bootstrap',
 						'dependencies' => array(
 								'jquery'
 						),
@@ -51,7 +51,7 @@ return array(
 						)
 				),
 				'abn_tree' => array(
-						'base_uri' => '/cache/lib/assets/abn_tree',
+						'base_uri' => '/cache/public/assets/abn_tree',
 						'dependencies' => array(
 								'angular-animate'
 						),
@@ -65,7 +65,7 @@ return array(
 						)
 				),
 				'angular' => array(
-						'base_uri' => '/cache/lib/assets/angular',
+						'base_uri' => '/cache/public/assets/angular',
 						'files' => array(
 								'js' => array(
 										'angular.min.js'
@@ -73,7 +73,7 @@ return array(
 						)
 				),
 				'angular-animate' => array(
-						'base_uri' => '/cache/lib/assets/angular',
+						'base_uri' => '/cache/public/assets/angular',
 						'dependencies' => array(
 								'angular'
 						),
@@ -84,7 +84,7 @@ return array(
 						)
 				),
 				'bootstrap-datepicker' => array(
-						'base_uri' => '/cache/lib/assets/bootstrap-datepicker',
+						'base_uri' => '/cache/public/assets/bootstrap-datepicker',
 						'dependencies' => array(
 								'bootstrap'
 						),
@@ -98,7 +98,7 @@ return array(
 						)
 				),
 				'bootstrap-hover-dropdown' => array(
-						'base_uri' => '/cache/lib/assets/bootstrap-hover-dropdown',
+						'base_uri' => '/cache/public/assets/bootstrap-hover-dropdown',
 						'dependencies' => array(
 								'bootstrap'
 						),
@@ -109,7 +109,7 @@ return array(
 						)
 				),
 				'bootstrap-switch' => array(
-						'base_uri' => '/cache/lib/assets/bootstrap-switch',
+						'base_uri' => '/cache/public/assets/bootstrap-switch',
 						'dependencies' => array(
 								'bootstrap'
 						),
@@ -123,7 +123,7 @@ return array(
 						)
 				),
 				'bootstrap-treeview' => array(
-						'base_uri' => '/cache/lib/assets/bootstrap-treeview',
+						'base_uri' => '/cache/public/assets/bootstrap-treeview',
 						'dependencies' => array(
 								'bootstrap'
 						),
@@ -137,14 +137,14 @@ return array(
 						)
 				),
 				'bootstrap-editable' => array(
-						'base_uri' => '/cache/lib/assets/bootstrap-editable',
+						'base_uri' => '/cache/public/assets/bootstrap-editable',
 						'files' => array(
 								'js' => array('js/bootstrap-editable.min.js'),
 								'css' => array('css/bootstrap-editable.css')
 						)
 				),
 				'ckeditor' => array(
-						'base_uri' => '/cache/lib/assets/ckeditor',
+						'base_uri' => '/cache/public/assets/ckeditor',
 						'files' => array(
 								'js' => array(
 										'ckeditor.js'
@@ -174,7 +174,7 @@ return array(
 						)
 				),
 				'html5' => array(
-						'base_uri' => '/cache/lib/assets/html5',
+						'base_uri' => '/cache/public/assets/html5',
 						'files' => array(
 								'js' => array(
 										'html5shiv.js',
@@ -183,7 +183,7 @@ return array(
 						)
 				),
 				'jasny-bootstrap' => array(
-						'base_uri' => '/cache/lib/assets/jasny-bootstrap',
+						'base_uri' => '/cache/public/assets/jasny-bootstrap',
 						'dependencies' => array(
 								'bootstrap'
 						),
@@ -197,7 +197,7 @@ return array(
 						)
 				),
 				'select2' => array(
-						'base_uri' => '/cache/lib/assets/select2',
+						'base_uri' => '/cache/public/assets/select2',
 						'files' => array(
 								'js' => array(
 										'js/select2.full.min.js',
@@ -211,7 +211,7 @@ return array(
 
 				),
 				'spamspan' => array(
-						'base_uri' => '/cache/lib/assets/spamspan',
+						'base_uri' => '/cache/public/assets/spamspan',
 						'files' => array(
 								'js' => array(
 										'spamspan.js'
@@ -219,7 +219,7 @@ return array(
 						)
 				),
 				'lightbox' => array(
-						'base_uri' => '/cache/lib/assets/lightbox',
+						'base_uri' => '/cache/public/assets/lightbox',
 						'files' => array(
 								'js' => array(
 										'js/lightbox.min.js'
@@ -230,7 +230,7 @@ return array(
 						)
 				),
 				'flags' => array(
-						'base_uri' => '/cache/lib/assets/flags',
+						'base_uri' => '/cache/public/assets/flags',
 						'files' => array(
 								'css' => array(
 										'css/flag-icon.min.css'
@@ -239,7 +239,7 @@ return array(
 				),
 
 				'font-awesome' => array(
-						'base_uri' => '/cache/lib/assets/font-awesome',
+						'base_uri' => '/cache/public/assets/font-awesome',
 						'files' => array(
 								'css' => array(
 										'css/font-awesome.min.css'
@@ -249,7 +249,7 @@ return array(
 				),
 
 				'kofus/layout/admin' => array(
-						'base_uri' => '/cache/lib/layout/admin',
+						'base_uri' => '/cache/public/layout/admin',
 						'files' => array(
 								'css' => array('styles/styles.scss'),
 								'js' => array('scripts/main.js')

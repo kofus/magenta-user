@@ -3,8 +3,10 @@
 namespace Kofus\System\View\Helper;
 use Zend\View\Helper\AbstractHelper;
 use Kofus\System\View\Helper\Optimizer;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class OptimizerHelper extends AbstractHelper
+class OptimizerHelper extends AbstractHelper implements ServiceLocatorAwareInterface
 {
     protected $debug = false;
     
@@ -25,6 +27,7 @@ class OptimizerHelper extends AbstractHelper
         $helper = new Optimizer\Css();
         $helper->setView($this->getView());
         $helper->isDebug($this->isDebug());
+        $helper->setServiceLocator($this->getServiceLocator());
         return $helper;
     }
     
@@ -33,6 +36,7 @@ class OptimizerHelper extends AbstractHelper
         $helper = new Optimizer\Scripts();
         $helper->setView($this->getView());
         $helper->isDebug($this->isDebug());
+        $helper->setServiceLocator($this->getServiceLocator());
         return $helper;
     }
     
@@ -41,6 +45,7 @@ class OptimizerHelper extends AbstractHelper
         $helper = new Optimizer\Sass();
         $helper->setView($this->getView());
         $helper->isDebug($this->isDebug());
+        $helper->setServiceLocator($this->getServiceLocator());
         return $helper;
     }
     
@@ -62,4 +67,17 @@ class OptimizerHelper extends AbstractHelper
             if (is_dir($path)) rmdir($path);
         }
     }
+    
+    protected $sm;
+    
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+    	$this->sm = $serviceLocator;
+    }
+    
+    public function getServiceLocator()
+    {
+    	return $this->sm;
+    }
+    
 }

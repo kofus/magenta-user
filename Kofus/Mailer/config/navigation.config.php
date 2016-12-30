@@ -2,7 +2,7 @@
 namespace Kofus\Mailer;
 
 return array(
-    
+    /*
     'navigation' => array(
         'admin' => array(
             'mailer' => array(
@@ -39,5 +39,6 @@ return array(
             )
         )
     )
+    */
 )
 ;

@@ -108,7 +108,7 @@ return array (
 		),
 		
 
-		
+		/*
 		'navigation' => array (
 				'admin' => array (
 						'archive' => array (
@@ -154,5 +154,5 @@ return array (
 								 
 						) 
 				) 
-		) 
+		)  */
 );

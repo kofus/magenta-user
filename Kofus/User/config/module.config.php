@@ -151,6 +151,7 @@ return array(
         )
     ),
     
+    /*
     'navigation' => array(
         'admin' => array(
             'user' => array(
@@ -179,6 +180,6 @@ return array(
             )
             
         )
-    ),
+    ), */
     
 );
