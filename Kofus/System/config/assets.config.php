@@ -251,7 +251,7 @@ return array(
 				'kofus/layout/admin' => array(
 						'base_uri' => '/cache/public/layout/admin',
 						'files' => array(
-								'css' => array('styles/styles.scss'),
+								'sass' => array('styles/styles.scss'),
 								'js' => array('scripts/main.js')
 						)
 						 

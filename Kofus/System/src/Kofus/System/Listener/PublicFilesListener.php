@@ -36,7 +36,8 @@ class PublicFilesListener extends AbstractListenerAggregate implements ListenerA
                 
                 $targetFilename = 'public' . $requestPath;
 
-                mkdir(dirname($targetFilename), 0777, true);
+                if (! file_exists(dirname($targetFilename)))
+                    mkdir(dirname($targetFilename), 0777, true);
                 copy($sourceFilename, $targetFilename);
                 
                 $response = $e->getResponse();

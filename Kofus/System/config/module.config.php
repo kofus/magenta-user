@@ -51,11 +51,7 @@ return array(
         )
     ),
     
-    'listeners' => array(
-        'KofusErrorListener',
-        'KofusCmsListener',
-        'KofusPublicFilesListener'
-    ),
+
     
     'public_paths' => array(
     	__DIR__ . '/../public'
@@ -278,13 +274,7 @@ return array(
             'KofusLinkService' => 'Kofus\System\Service\LinkService',
             'KofusLuceneService' => 'Kofus\System\Service\LuceneService',
             
-            // Listeners
-            'KofusCmsListener' => 'Kofus\System\Listener\CmsListener',
-            'KofusErrorListener' => 'Kofus\System\Listener\ErrorListener',
-            'KofusNodeListener' => 'Kofus\System\Listener\NodeListener',
-            'KofusDeveloperToolbarListener' => 'Kofus\System\Listener\DeveloperToolbarListener',
-            'KofusPublicFilesListener' => 'Kofus\System\Listener\PublicFilesListener',
-            
+          
             // Crons
         	'KofusBatchService' => 'Kofus\System\Service\BatchService',
             'KofusDbBackupCron' => 'Kofus\System\Cron\DbBackupCron',

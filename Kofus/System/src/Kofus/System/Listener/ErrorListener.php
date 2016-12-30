@@ -10,13 +10,11 @@ use Zend\EventManager\AbstractListenerAggregate;
 
 class ErrorListener extends AbstractListenerAggregate implements ListenerAggregateInterface
 {
-    
     public function attach(EventManagerInterface $events)
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'handleDispatchError'));
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'handleDispatchError'));
     }
-    
     
     /**
      * Send exception mail
