@@ -7,7 +7,6 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Kofus\System\Controller\Database' => 'Kofus\System\Controller\DatabaseController',
-            'Kofus\System\Controller\PublicFiles' => 'Kofus\System\Controller\PublicFilesController',
             'Kofus\System\Controller\Node' => 'Kofus\System\Controller\NodeController',
             'Kofus\System\Controller\Relation' => 'Kofus\System\Controller\RelationController',
             'Kofus\System\Controller\Content' => 'Kofus\System\Controller\ContentController',
@@ -28,7 +27,6 @@ return array(
     		),
     		'controller_mappings' => array(
     				'Kofus\System\Controller\Database' => 'System',
-    				'Kofus\System\Controller\PublicFiles' => 'Frontend',
     				'Kofus\System\Controller\Search' => 'System',
     				'Kofus\System\Controller\Batch' => 'System',
     				'Kofus\System\Controller\Cron' => 'Frontend',
@@ -54,8 +52,13 @@ return array(
     ),
     
     'listeners' => array(
-        'ErrorListener',
-        'CmsListener',
+        'KofusErrorListener',
+        'KofusCmsListener',
+        'KofusPublicFilesListener'
+    ),
+    
+    'public_paths' => array(
+    	__DIR__ . '/../public'
     ),
     
     'session' => array(
@@ -122,10 +125,7 @@ return array(
     
     'router' => array(
         'routes' => array(
-            'kofus_public_files' => array(
-                'type' => 'Kofus\System\Mvc\PublicFilesRoute',
-                'may_terminate' => true
-            ),
+
             'error' => array(
                 'type' => 'Kofus\System\Mvc\ErrorRoute',
                 'may_terminate' => true,
@@ -195,7 +195,7 @@ return array(
         )
     ),
     
-    'optimizer' => array(
+    '___optimizer' => array(
         'kofus/layout/admin' => array(
             'styles' => array(
                 'compress' => true,
@@ -265,6 +265,7 @@ return array(
             'translator' => 'MvcTranslator'
         ),
         'invokables' => array(
+            // Services
             'KofusDatabase' => 'Kofus\System\Service\DatabaseService',
             'KofusConfig' => 'Kofus\System\Service\ConfigService',
             'KofusConfigService' => 'Kofus\System\Service\ConfigService',
@@ -276,15 +277,20 @@ return array(
             'KofusTranslationService' => 'Kofus\System\Service\TranslationService',
             'KofusLinkService' => 'Kofus\System\Service\LinkService',
             'KofusLuceneService' => 'Kofus\System\Service\LuceneService',
-            'CmsListener' => 'Kofus\System\Listener\CmsListener',
-            'ErrorListener' => 'Kofus\System\Listener\ErrorListener',
+            
+            // Listeners
+            'KofusCmsListener' => 'Kofus\System\Listener\CmsListener',
+            'KofusErrorListener' => 'Kofus\System\Listener\ErrorListener',
             'KofusNodeListener' => 'Kofus\System\Listener\NodeListener',
             'KofusDeveloperToolbarListener' => 'Kofus\System\Listener\DeveloperToolbarListener',
+            'KofusPublicFilesListener' => 'Kofus\System\Listener\PublicFilesListener',
+            
+            // Crons
         	'KofusBatchService' => 'Kofus\System\Service\BatchService',
             'KofusDbBackupCron' => 'Kofus\System\Cron\DbBackupCron',
             'KofusTestMailCron' => 'Kofus\System\Cron\TestMailCron',
             'KofusLuceneUpdateCron' => 'Kofus\System\Cron\LuceneUpdateCron',
-            'KofusPublicFilesService' => 'Kofus\System\Service\PublicFilesService',
+
             
             
         )

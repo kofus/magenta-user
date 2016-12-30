@@ -31,6 +31,9 @@ class CmsListener extends AbstractListenerAggregate implements ListenerAggregate
         }
     }
     
+   
+
+    
     public function initLocale(MvcEvent $e)
     {
     	$config = $e->getApplication()->getServiceManager()->get('KofusConfig');
