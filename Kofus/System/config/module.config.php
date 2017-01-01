@@ -208,21 +208,7 @@ return array(
         )
     ),
     
-    '___optimizer' => array(
-        'kofus/layout/admin' => array(
-            'styles' => array(
-                'compress' => true,
-                'sass' => true
-            ),
-            'scripts' => array(
-                'compress' => true
-            ),
-            'html' => array(
-                'compress' => true
-            )
-        )
-    ),
-    
+   
     'view_helpers' => array(
         'invokables' => array(
             'flashMessages' => 'Kofus\System\View\Helper\FlashMessagesHelper',
@@ -291,13 +277,18 @@ return array(
             'KofusLinkService' => 'Kofus\System\Service\LinkService',
             'KofusLuceneService' => 'Kofus\System\Service\LuceneService',
             
-          
             // Crons
         	'KofusBatchService' => 'Kofus\System\Service\BatchService',
             'KofusDbBackupCron' => 'Kofus\System\Cron\DbBackupCron',
             'KofusTestMailCron' => 'Kofus\System\Cron\TestMailCron',
             'KofusLuceneUpdateCron' => 'Kofus\System\Cron\LuceneUpdateCron',
 
+            // Listeners
+            'KofusErrorListener' => 'Kofus\System\Listener\ErrorListener',
+            'KofusPublicFilesListener' => 'Kofus\System\Listener\PublicFilesListener',
+            'KofusNodeListener' => 'Kofus\System\Listener\NodeListener',
+            'KofusI18nListener' => 'Kofus\System\Listener\I18nListener',
+            'KofusLayoutListener' => 'Kofus\System\Listener\LayoutListener',
             
             
         )

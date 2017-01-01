@@ -16,11 +16,7 @@ class PublicFilesListener extends AbstractListenerAggregate implements ListenerA
     
     public function provideModulePublicFiles(MvcEvent $e)
     {
-        $request = $e->getRequest();
-        if (! $request instanceof HttpRequest)
-            return;
-        
-        $uri = $request->getUri();
+        $uri = $e->getRequest()->getUri();
         $requestPath = urldecode($uri->getPath()); 
         
         if (strpos($requestPath, '/cache/public/') === 0) {

@@ -3,10 +3,9 @@
 namespace Kofus\System;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
-use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Kofus\System\Form\Element\NodeSelect;
-use Zend\Http\Request as HttpRequest;
+use Zend\ModuleManager\ModuleManager;
 
 
 use Zend\View\Helper\PaginationControl;
@@ -15,52 +14,14 @@ define('KOFUS_MODULE_SYSTEM_PATH', __DIR__);
 
 class Module implements AutoloaderProviderInterface
 {
-    protected $listeners = array(
-    	'console' => array(
-    	    'Kofus\System\Listener\ErrorListener',
-
-    ),
-        'http' => array(
-            'Kofus\System\Listener\LayoutListener',
-            'Kofus\System\Listener\ErrorListener',
-            'Kofus\System\Listener\NodeListener',
-            'Kofus\System\Listener\PublicFilesListener',
-            'Kofus\System\Listener\I18nListener'
-    )
-    );
-    
-    
-    protected function initListeners(MvcEvent $e)
-    {
-        if ($e->getRequest() instanceof HttpRequest) {
-            $listeners = $this->listeners['http'];
-        } else {
-            $listeners = $this->listeners['console'];
-        }
-        
-        $eventManager = $e->getApplication()->getEventManager();
-        
-        foreach ($listeners as $classname) {
-            $listener = new $classname();
-            $listener->attach($eventManager);
-        }
-        
-
-        
-    }
-    
     public function onBootstrap(MvcEvent $e)
     {
     	$eventManager = $e->getApplication()->getEventManager();
         $sm = $e->getApplication()->getServiceManager();
         
-        $this->initListeners($e);
-        
         $this->bootstrapDoctrineEvents($e);
         
-        
-
-        // View helpers overwrite
+         // View helpers overwrite
         $pm = $sm->get('ViewHelperManager')->get('Navigation')->getPluginManager();
         $pm->setInvokableClass('dropdownMenu', '\Kofus\System\View\Helper\Navigation\DropdownMenu');
         PaginationControl::setDefaultScrollingStyle('sliding');
@@ -74,6 +35,7 @@ class Module implements AutoloaderProviderInterface
 
         define('REQUEST_TIME', time());
     }
+    
     public function getAutoloaderConfig()
     {
     	return array(
@@ -94,6 +56,17 @@ class Module implements AutoloaderProviderInterface
     	$config = array();
     	foreach (glob(__DIR__ . '/config/*.config.php') as $filename)
     		$config = array_merge_recursive($config, include $filename);
+
+    	
+    	$config['listeners'] = array(
+    		'KofusErrorListener'
+    	);
+    	if (isset($_SERVER['HTTP_HOST'])) {
+    	    $config['listeners'][] = 'KofusPublicFilesListener';
+    	    $config['listeners'][] = 'KofusNodeListener';
+    	    $config['listeners'][] = 'KofusLayoutListener';
+    	    $config['listeners'][] = 'KofusI18nListener';
+    	}
     	return $config;
     }
     
