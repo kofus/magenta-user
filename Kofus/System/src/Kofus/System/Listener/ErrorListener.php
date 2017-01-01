@@ -35,7 +35,10 @@ class ErrorListener extends AbstractListenerAggregate implements ListenerAggrega
     		$mimeBody->setParts(array($html));
     		
     		$mail = new Mail\Message();
-    		$mail->setSubject('[' . $_SERVER['HTTP_HOST'] . '] EXCEPTION');
+    		$subject = 'EXCEPTION';
+    		if (isset($_SERVER['HTTP_HOST']))
+    		    $subject = '[' . $_SERVER['HTTP_HOST'] . '] ' . $subject;
+    		$mail->setSubject($subject);
     		$mail->addTo('log@kofus.de');
     		$mail->setBody($mimeBody);
     		$mail->setFrom('log@kofus.de', 'Fehler-Manager');
@@ -63,7 +66,10 @@ class ErrorListener extends AbstractListenerAggregate implements ListenerAggrega
     		$mimeBody->setParts(array($html));
     		
     		$mail = new Mail\Message();
-    		$mail->setSubject('[' . $_SERVER['HTTP_HOST'] . '] ERROR: ' . $error['message']);
+    		$subject = 'ERROR: ' . $error['message'];
+    		if (isset($_SERVER['HTTP_HOST']))
+    		    $subject = '[' . $_SERVER['HTTP_HOST'] . '] ' . $subject;
+    		$mail->setSubject($subject);
     		$mail->addTo('log@kofus.de');
     		$mail->setBody($mimeBody);
     		$mail->setFrom('log@kofus.de', 'Fehler-Manager');

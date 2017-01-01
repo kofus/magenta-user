@@ -33,9 +33,7 @@ return array (
 				)
 		),		
 		
-		'listeners' => array (
-				'EventsForArchive' 
-		),
+
 		
 		'service_manager' => array (
 				'invokables' => array (

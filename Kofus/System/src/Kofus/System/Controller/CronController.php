@@ -27,6 +27,8 @@ class CronController extends AbstractActionController
 		    if ($this->isTaskInSlot($task, $now))
     			$this->run($scheduler, $taskId);
 		}
+		
+
     	exit();
     }
 
@@ -78,5 +80,7 @@ class CronController extends AbstractActionController
         $scheduler->setStoreParams($taskId, $instance->getStoreParams());
         print $status . '<br>';        
     }
+    
+
     
 }

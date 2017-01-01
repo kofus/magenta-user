@@ -6,6 +6,7 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Kofus\System\Form\Element\NodeSelect;
+use Zend\Http\Request as HttpRequest;
 
 
 use Zend\View\Helper\PaginationControl;
@@ -14,16 +15,50 @@ define('KOFUS_MODULE_SYSTEM_PATH', __DIR__);
 
 class Module implements AutoloaderProviderInterface
 {
+    protected $listeners = array(
+    	'console' => array(
+    	    'Kofus\System\Listener\ErrorListener',
+
+    ),
+        'http' => array(
+            'Kofus\System\Listener\LayoutListener',
+            'Kofus\System\Listener\ErrorListener',
+            'Kofus\System\Listener\NodeListener',
+            'Kofus\System\Listener\PublicFilesListener',
+            'Kofus\System\Listener\I18nListener'
+    )
+    );
+    
+    
+    protected function initListeners(MvcEvent $e)
+    {
+        if ($e->getRequest() instanceof HttpRequest) {
+            $listeners = $this->listeners['http'];
+        } else {
+            $listeners = $this->listeners['console'];
+        }
+        
+        $eventManager = $e->getApplication()->getEventManager();
+        
+        foreach ($listeners as $classname) {
+            $listener = new $classname();
+            $listener->attach($eventManager);
+        }
+        
+
+        
+    }
+    
     public function onBootstrap(MvcEvent $e)
     {
     	$eventManager = $e->getApplication()->getEventManager();
         $sm = $e->getApplication()->getServiceManager();
         
-        //$moduleRouteListener = new ModuleRouteListener();
-        //$moduleRouteListener->attach($eventManager);
-
-
+        $this->initListeners($e);
+        
         $this->bootstrapDoctrineEvents($e);
+        
+        
 
         // View helpers overwrite
         $pm = $sm->get('ViewHelperManager')->get('Navigation')->getPluginManager();

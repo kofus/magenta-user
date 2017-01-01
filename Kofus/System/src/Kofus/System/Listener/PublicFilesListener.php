@@ -4,6 +4,7 @@ use Zend\Mvc\MvcEvent;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
+use Zend\Http\Request as HttpRequest;
 
 class PublicFilesListener extends AbstractListenerAggregate implements ListenerAggregateInterface
 {
@@ -15,7 +16,11 @@ class PublicFilesListener extends AbstractListenerAggregate implements ListenerA
     
     public function provideModulePublicFiles(MvcEvent $e)
     {
-        $uri = $e->getRequest()->getUri();
+        $request = $e->getRequest();
+        if (! $request instanceof HttpRequest)
+            return;
+        
+        $uri = $request->getUri();
         $requestPath = urldecode($uri->getPath()); 
         
         if (strpos($requestPath, '/cache/public/') === 0) {

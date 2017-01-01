@@ -24,6 +24,8 @@ class DeployerService
     
     public static function getDomainConfigFilename()
     {
+        if (! isset($_SERVER['HTTP_HOST']))
+            return;
     	$prefix = 'config/environment/domain/';
     	$domain = self::filter($_SERVER['HTTP_HOST']);
     	$domain = preg_replace('/^www\./', '', $domain);

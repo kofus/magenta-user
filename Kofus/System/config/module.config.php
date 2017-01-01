@@ -119,6 +119,23 @@ return array(
         )
     ),
     
+    'console' => array(
+        	'router' => array(
+    	'routes' => array(
+    	    'cron' => array(
+    	    		'type'    => 'simple',       
+    	    		'options' => array(
+    	    				'route'    => 'cron',
+    	    				'defaults' => array(
+    	    						'controller' => 'Kofus\System\Controller\Cron',
+    	    						'action'     => 'trigger'
+    	    				)
+    	    		)
+    	    )
+        	)
+    )
+        ),
+    
     'router' => array(
         'routes' => array(
 

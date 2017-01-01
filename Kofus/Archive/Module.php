@@ -10,7 +10,7 @@ use Zend\Session\SessionManager;
 use Zend\Session\SaveHandler\DbTableGateway;
 use Zend\Session\SaveHandler\DbTableGatewayOptions;
 use Kofus\Archive\Sqlite\Table\Sessions;
-use Zend\Session\Validator;
+use Zend\Http\Request as HttpRequest;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -105,7 +105,9 @@ class Module implements AutoloaderProviderInterface
     public function onBootstrap(MvcEvent $e)
     {
     	$sm = $e->getApplication()->getServiceManager();
-    	$this->bootstrapSession($sm);
+    	
+    	if ($e->getRequest() instanceof HttpRequest)
+    	   $this->bootstrapSession($sm);
     } 
 
   
