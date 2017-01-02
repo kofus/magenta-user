@@ -113,7 +113,7 @@ class FileEntity implements Node\NodeInterface, Node\EnableableNodeInterface
 	
 	public function getPath()
 	{
-		return 'data/media/uploads/' . $this->getFilename();
+		return 'data/media/files/' . $this->getFilename();
 	}
 	
 	
