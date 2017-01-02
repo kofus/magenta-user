@@ -27,9 +27,9 @@ class NodeNavigationHelper extends AbstractHelper
     public function render()
     {
     	$config = $this->getView()->config()->get('nodes.available.' . $this->nodeType);
-    	if (! $config) return;
+    	if (! $config) return '';
     	if (! isset($config['navigation'][$this->action]))
-    		return;
+    		return '';
     	 
     	$pages = $config['navigation'][$this->action]; 
     	
@@ -70,6 +70,11 @@ class NodeNavigationHelper extends AbstractHelper
     		
     	
     	return $s;
+    }
+    
+    public function __toString()
+    {
+        return $this->render();
     }
 }
 
