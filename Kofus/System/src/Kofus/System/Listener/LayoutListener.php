@@ -24,7 +24,11 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
         $filename = null;
         if (file_exists('public/' . $uri)) 
             $filename = 'public/' . $uri;
-        if (! $filename) {
+        
+        // File in module public path?
+        if (! $filename && strpos($uri, '/cache/public/') === 0) {
+            $uri = str_replace('/cache/public/', '', $uri);
+            
             $paths = $e->getApplication()->getServiceManager()->get('KofusConfigService')->get('public_paths');
             foreach ($paths as $path) {
                 if (file_exists($path . '/' . $uri))
