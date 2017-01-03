@@ -7,6 +7,8 @@ use Zend\EventManager\AbstractListenerAggregate;
 
 class LayoutListener extends AbstractListenerAggregate implements ListenerAggregateInterface
 {
+    protected $e;
+    
     public function attach(EventManagerInterface $events)
     {
         $sharedEvents = $events->getSharedManager();
@@ -19,7 +21,7 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
     	$this->deployLinks($e);
     }
     
-    protected function getPublicFileContent(MvcEvent $e, $uri)
+    protected function getPublicFileContent($uri)
     {
         $filename = null;
         if (file_exists('public/' . $uri)) 
@@ -29,7 +31,7 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
         if (! $filename && strpos($uri, '/cache/public/') === 0) {
             $uri = str_replace('/cache/public/', '', $uri);
             
-            $paths = $e->getApplication()->getServiceManager()->get('KofusConfigService')->get('public_paths');
+            $paths = $this->e->getApplication()->getServiceManager()->get('KofusConfigService')->get('public_paths');
             foreach ($paths as $path) {
                 if (file_exists($path . '/' . $uri))
                     $filename = $path . '/' . $uri;
@@ -49,14 +51,18 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
     {
         // Init
         $viewHelperManager = $e->getApplication()->getServiceManager()->get('viewHelperManager');
-        $layout = $viewHelperManager->get('layout')->getLayout();
         $headLink = $viewHelperManager->get('headLink');
         $headScript = $viewHelperManager->get('headScript');
         $assets = $e->getApplication()->getServiceManager()->get('KofusConfigService')->get('assets');
+        $layout = $viewHelperManager->get('layout')->getLayout();
+        
+        $this->e = $e;
         
         // No assets for this layout enabled?
         if (! isset($assets['enabled'][$layout])) 
             return;
+        
+        $sassUris = array();
 
    	    foreach ($assets['enabled'][$layout] as $asset) {
     		$assetFound = false;
@@ -76,14 +82,7 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
     			foreach ($assets['available'][$asset]['files']['sass'] as $uri) {
     				if (isset($assets['available'][$asset]['base_uri']))
     					$uri = $assets['available'][$asset]['base_uri'] . '/' . $uri;
-    				$scssc = new \scssc();
-    				$scssc->setFormatter('scss_formatter_compressed');
-    				$s = $scssc->compile($this->getPublicFileContent($e, $uri));
-    				$filename = 'public/cache/sass/' . md5($uri) . '.css';
-    				if (! file_exists(dirname($filename)))
-    				    mkdir(dirname($filename), 0777, true);
-    				file_put_contents($filename, $s);
-    				$headLink()->appendStylesheet('/cache/sass/' . md5($uri) . '.css');
+    				$sassUris[] = $uri;
     				$assetFound = true;
     			}
     		}
@@ -102,9 +101,36 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
     				$assetFound = true;
     			}
     		}
+    		
+    		if ($sassUris)
+    		    $this->createSass($sassUris);
     
     		if (! $assetFound) throw new \Exception('No definition found for asset "' . $asset . '"');
     	}
+    }
+    
+    protected function createSass(array $uris)
+    {
+        $viewHelperManager = $this->e->getApplication()->getServiceManager()->get('viewHelperManager');
+        $headLink = $viewHelperManager->get('headLink');
+        
+        $content = '';
+        foreach ($uris as $uri)
+            $content .= $this->getPublicFileContent($uri);
+        
+        // Prepare output file
+        $hash = md5(implode('|', $uris));
+        $filename = 'public/cache/sass/' . $hash . '.css';
+        if (! file_exists(dirname($filename)))
+        	mkdir(dirname($filename), 0777, true);
+        
+        // Compile
+        $scssc = new \scssc();
+        $scssc->setFormatter('scss_formatter_compressed');
+        $s = $scssc->compile($content);
+        
+        file_put_contents($filename, $s);
+        $headLink()->appendStylesheet('/cache/sass/' . $hash . '.css');        
     }
    
     

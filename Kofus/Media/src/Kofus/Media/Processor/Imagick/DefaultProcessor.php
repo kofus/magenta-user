@@ -28,6 +28,7 @@ class DefaultProcessor
             $this->imagick->setImageColorSpace($this->specs['colorspace']);
         if (isset($this->specs['filters'])) {
         	foreach ($this->specs['filters'] as $filter) {
+        	    if (! isset($filter['options'])) $filter['options'] = array();
         		switch ($filter['name']) {
         			case 'magazine-page-left':
         				$this->applyFilterMagazinePageLeft();
