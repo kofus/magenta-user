@@ -47,7 +47,7 @@ return array(
             'locale' => 'Kofus\System\Controller\Plugin\LocalePlugin',
             'paginator' => 'Kofus\System\Controller\Plugin\PaginatorPlugin',
             'lucene' => 'Kofus\System\Controller\Plugin\LucenePlugin',
-            'viewHelper' => 'Kofus\System\Controller\Plugin\ViewHelperPlugin'
+            'viewHelper' => 'Kofus\System\Controller\Plugin\ViewHelperPlugin',
         )
     ),
     
@@ -226,7 +226,9 @@ return array(
             'spamSpan' => 'Kofus\System\View\Helper\SpamSpanHelper',
             'paginationColumnSort' => 'Kofus\System\View\Helper\PaginationColumnSortHelper',
             'session' => 'Kofus\System\View\Helper\SessionHelper',
-			'nodeNavigation' => 'Kofus\System\View\Helper\NodeNavigationHelper'
+			'nodeNavigation' => 'Kofus\System\View\Helper\NodeNavigationHelper',
+            'shortenString' => 'Kofus\System\View\Helper\ShortenStringHelper',
+            'implodeValidPieces' => 'Kofus\System\View\Helper\ImplodeValidPiecesHelper'
         )
     ),
     
