@@ -62,23 +62,6 @@ class SubscriptionEntity implements NodeInterface
     /**
      * @ORM\Column(nullable=true)
      */
-    protected $name;
-    
-    public function setName($value)
-    {
-    	$this->name = $value; return $this;
-    }
-    
-    public function getName()
-    {
-        if ($this->name)
-    	   return $this->name;
-        return trim($this->getTitle() . ' ' . $this->getFirstName() . ' ' . $this->getLastName());
-    }
-    
-    /**
-     * @ORM\Column(nullable=true)
-     */
     protected $firstName;
     
     public function setFirstName($value)
@@ -152,6 +135,29 @@ class SubscriptionEntity implements NodeInterface
     }
     
     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $status = 0;
+    
+    public static $STATUS = array(
+    		1 => 'active',
+    		0 => 'not yet activated',
+    		-1 => 'blocked'
+    );
+    
+    public function setStatus($value)
+    {
+    	$this->status = $value; return $this;
+    }
+    
+    public function getStatus($pretty=false)
+    {
+    	if ($pretty)
+    		return self::$STATUS[$this->status];
+    	return $this->status;
+    }    
+    
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $timestampCreated;
@@ -165,8 +171,6 @@ class SubscriptionEntity implements NodeInterface
     {
         return $this->timestampCreated;
     }
-    
-    
     
 	public function getNodeType()
 	{

@@ -1,26 +1,21 @@
 <?php
 
-namespace Mailer\Controller;
+namespace Kofus\Mailer\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Stdlib\RequestInterface as Request;
-use Zend\Stdlib\ResponseInterface as Response;
+use Zend\View\Model\ViewModel;
 
 
 class SubscriptionController extends AbstractActionController
 {
-    public function dispatch(Request $request, Response $response=null)
-    {
-    	parent::dispatch($request, $response);
-    	$this->layout('layout/admin');
-    }
-    
     public function listAction()
     {
-        $this->uriStack()->push();
-    	$entities = $this->em()->getRepository('Mailer\Entity\SubscriptionEntity')->findAll();
-    	return array(
-    		'entities' => $entities
-    	);
+        $this->archive()->uriStack()->push();
+    	$qb = $this->nodes()->createQueryBuilder('SUBSCR');
+    	$paginator = $this->paginator($qb);
+    	
+    	return new ViewModel(array(
+    		'paginator' => $paginator
+    	));
     }
 }

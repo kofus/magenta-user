@@ -8,6 +8,7 @@ return array(
             'Kofus\Mailer\Controller\Template' => 'Kofus\Mailer\Controller\TemplateController',
             'Kofus\Mailer\Controller\Index' => 'Kofus\Mailer\Controller\IndexController',
             'Kofus\Mailer\Controller\Newsgroup' => 'Kofus\Mailer\Controller\NewsgroupController',
+            'Kofus\Mailer\Controller\Subscription' => 'Kofus\Mailer\Controller\SubscriptionController'
         )
     ),
     
