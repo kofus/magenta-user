@@ -21,10 +21,10 @@ class NewsgroupController extends AbstractActionController
     {
         $this->archive()->uriStack()->push();
         $entity = $this->nodes()->getNode($this->params('id'), 'NEWSGROUP');
-        $subscriptions = $this->nodes()->getRepository('SUBSCR')->findBy(array('newsgroup' => $entity), array('timestampCreated' => 'DESC'));
+        //$subscriptions = $this->nodes()->getRepository('SUBSCR')->findBy(array('newsgroup' => $entity), array('timestampCreated' => 'DESC'));
         return new ViewModel(array(
         	'entity' => $entity,
-            'subscriptions' => $subscriptions
+          //  'subscriptions' => $subscriptions
         ));
     }
 }

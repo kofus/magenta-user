@@ -27,6 +27,23 @@ class SubscriptionEntity implements NodeInterface
     	return $this->id;
     }
     
+    
+    /**
+     * @ORM\Column(length=32)
+     */
+    protected $token;
+    
+    public function getToken()
+    {
+        return $this->token;
+    }
+    
+    public function setToken($value)
+    {
+        $this->token = $value; return $this;
+    }
+    
+    
     /**
      * @ORM\Column()
      */
@@ -120,18 +137,18 @@ class SubscriptionEntity implements NodeInterface
     }
     
     /**
-     * @ORM\ManyToOne(targetEntity="Kofus\Mailer\Entity\NewsgroupEntity")
+     * @ORM\ManyToMany(targetEntity="Kofus\Mailer\Entity\NewsgroupEntity")
      */
-    protected $newsgroup;
+    protected $newsgroups = array();
     
-    public function setNewsgroup(NewsgroupEntity $entity)
+    public function setNewsgroups(array $entities)
     {
-    	$this->newsgroup = $entity; return $this;
+    	$this->newsgroups = $entities; return $this;
     }
     
-    public function getNewsgroup()
+    public function getNewsgroups()
     {
-    	return $this->newsgroup;
+    	return $this->newsgroups;
     }
     
     /**
