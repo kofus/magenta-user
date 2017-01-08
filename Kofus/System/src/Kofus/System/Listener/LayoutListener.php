@@ -102,6 +102,14 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
     			}
     		}
     		
+    		// Inline scripts
+    		if (isset($assets['available'][$asset]['files']['js-inlines'])) {
+    			foreach ($assets['available'][$asset]['files']['js-inlines'] as $script) {
+   					$headScript()->appendScript($script);
+    				$assetFound = true;
+    			}
+    		}	
+    		
     		if ($sassUris)
     		    $this->createSass($sassUris);
     

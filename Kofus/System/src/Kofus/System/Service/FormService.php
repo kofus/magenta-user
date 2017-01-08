@@ -216,8 +216,9 @@ class FormService extends AbstractService
         	$labelSize = $this->getLabelSize();
         	
         	
-        	
-        	if ($element instanceof \Zend\Form\Element\Checkbox) {
+        	if ($element instanceof \Zend\Form\Element\MultiCheckbox) {
+        	    // necessary to skip the following "checkbox elseif"
+        	} elseif ($element instanceof \Zend\Form\Element\Checkbox) {
         	    $labelSize = 'col-sm-12';
         	    $fieldSize = 'sm-12';
         	} elseif ($element instanceof \Zend\Form\Element\Submit) {
