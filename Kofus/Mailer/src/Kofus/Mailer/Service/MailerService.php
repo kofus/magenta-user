@@ -14,6 +14,7 @@ class MailerService extends AbstractService implements EventManagerAwareInterfac
 {
     public function countSubscriptions(NewsgroupEntity $newsgroup)
     {
+        return 1;
         $qb = $this->em()->createQueryBuilder();
         $qb->select($qb->expr()->count('s.id'))
             ->from('Kofus\Mailer\Entity\SubscriptionEntity', 's')

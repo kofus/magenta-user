@@ -109,13 +109,20 @@ class SubscriptionEntity implements NodeInterface
      */
     protected $gender;
     
+    public static $GENDERS = array(
+    	'f' => 'Ms.', 'm' => 'Mr.'
+    );
+    
     public function setGender($value)
     {
     	$this->gender = $value; return $this;
     }
     
-    public function getGender()
+    public function getGender($pretty=false)
     {
+        if ($pretty)
+            return self::$GENDERS[$this->gender];
+        
     	return $this->gender;
     }
     
