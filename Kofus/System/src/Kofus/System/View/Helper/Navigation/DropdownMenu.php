@@ -197,7 +197,7 @@ class DropdownMenu extends \Zend\View\Helper\Navigation\Menu
             if ($page->hasPages() && $this->depth < $this->getMaxDepth()) {
 	            $page->setClass('dropdown-toggle');
 	            $page->set('attribs', array(
-	            		'data-toggle' => 'dropdown',
+	            		//'data-toggle' => 'dropdown',
 	            		'data-hover' => 'dropdown'
 	            ));
             }
