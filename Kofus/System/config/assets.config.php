@@ -10,6 +10,7 @@ return array(
     				'bootstrap',
     				'jasny-bootstrap',
     				'bootstrap-datepicker',
+    		        'bootstrap-hover-dropdown',
     				'ckeditor',
     		        'font-awesome',
     				'select2',
