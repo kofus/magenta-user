@@ -40,13 +40,16 @@ class Module implements AutoloaderProviderInterface
     						
     					},
     			),
-    			
-    			
     	);
     }    
     
     protected function bootstrapSession($sm)
     {
+        $config = $sm->get('Config');
+        
+        if (isset($config['kofus_sessions']) && 'disabled' == $config['kofus_sessions'])
+            return;
+        
     	// Init sqlite database for sessions
     	$db = Sessions::getInstance('sessions');
     	$tableGateway = new TableGateway('sessions', $db->getDb());
@@ -71,7 +74,7 @@ class Module implements AutoloaderProviderInterface
     		$container->remoteAddr    = $request->getServer()->get('REMOTE_ADDR');
     		$container->httpUserAgent = $request->getServer()->get('HTTP_USER_AGENT');
     	
-    		$config = $sm->get('Config');
+
     		$sessionConfig = $config['session'];
     		if (isset($sessionConfig['validators'])) {
     			$chain   = $sessionManager->getValidatorChain();

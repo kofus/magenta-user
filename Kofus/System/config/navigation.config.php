@@ -56,6 +56,7 @@ return array(
                 )
                 
             ),
+            /*
             'cms' => array(
                 'label' => 'CMS',
                 'uri' => '#',
@@ -69,7 +70,7 @@ return array(
                         'action' => 'list'
                     )
                 )
-            )
+            ) */
         )
     )
 )
