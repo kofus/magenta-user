@@ -17,8 +17,8 @@ return array(
                     'default' => array(
                         'fieldsets' => array(
                             'master' => array(
-                                'class' => 'Kofus\User\Form\Fieldset\UserAccountFieldset',
-                                'hydrator' => 'Kofus\User\Form\Hydrator\UserAccountHydrator'
+                                'class' => 'Kofus\User\Form\Fieldset\Account\MasterFieldset',
+                                'hydrator' => 'Kofus\User\Form\Hydrator\Account\MasterHydrator'
                             )
                         )
                     )

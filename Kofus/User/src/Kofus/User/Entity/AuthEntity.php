@@ -89,12 +89,12 @@ class AuthEntity implements NodeInterface
     /**
      * @ORM\Column(length=15)
      */
-    protected $type = self::TYPE_APPLICATION_LOGIN;
+    protected $type = self::TYPE_WEB_LOGIN;
     
-    const TYPE_APPLICATION_LOGIN = 'login';
+    const TYPE_WEB_LOGIN = 'login';
     
     public static $TYPES = array(
-    	self::TYPE_APPLICATION_LOGIN => 'Application Login'
+    	self::TYPE_WEB_LOGIN => 'Web Login'
     );
     
     public function setType($value)

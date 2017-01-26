@@ -32,4 +32,15 @@ class AccountController extends AbstractActionController
     {
         
     }
+    
+    public function viewAction()
+    {
+        $this->archive()->uriStack()->push();
+        $account = $this->nodes()->getNode($this->params('id'), 'U');
+        $auths = $this->nodes()->getRepository('AUTH')->findBy(array('account' => $account));
+        return new ViewModel(array(
+        	'entity' => $account,
+            'auths' => $auths
+        ));
+    }
 }

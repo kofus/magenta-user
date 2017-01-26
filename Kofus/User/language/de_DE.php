@@ -19,5 +19,8 @@ return array(
     'public?' => 'öffentlich?',
     'Author' => 'Verfasser',
 	'Last login' => 'Zuletzt online',
-	'Member since' => 'Mitglied seit'
+	'Member since' => 'Mitglied seit',
+    'Encryption' => 'Verschlüsselung',
+    'Repeat password' => 'Kennwort wiederholen',
+    'Type' => 'Typ'
 );
