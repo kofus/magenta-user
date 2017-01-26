@@ -2,6 +2,7 @@
 
 return array(
     'Subscription' => 'Abonnement',
+    'Subscriptions' => 'Abonnements',
     'Subscribers' => 'Abonnenten',
     'Subscriber' => 'Abonnent',
     'Write system mail' => 'System-Mail schreiben',
