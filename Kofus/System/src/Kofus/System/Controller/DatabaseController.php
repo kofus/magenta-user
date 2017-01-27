@@ -28,8 +28,24 @@ class DatabaseController extends AbstractActionController
     
     public function backupAction()
     {
-        $backup = $this->getServiceLocator()->get('KofusDatabase');
-        $backup->download();
+        $dbService = $this->getServiceLocator()->get('KofusDatabase');
+        
+        $path = 'data/backups/';
+        $filename = $dbService->createFilename();
+        $dbService->save($path . $filename);
+        
+        $response = new \Zend\Http\Response\Stream();
+        $response->setStream(fopen($path . $filename, 'r'));
+        $response->setStatusCode(200);
+        
+        $headers = new \Zend\Http\Headers();
+        $headers->addHeaderLine('Content-Type', 'application/sql')
+            ->addHeaderLine('Content-Disposition', 'attachment; filename="' . $filename . '"')
+            ->addHeaderLine('Content-Length', filesize($path . $filename));
+        
+        $response->setHeaders($headers);
+        return $response;        
+        
     }
     
     

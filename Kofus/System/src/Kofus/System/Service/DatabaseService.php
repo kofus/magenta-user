@@ -50,14 +50,14 @@ class DatabaseService extends AbstractService
         return $s;
     }
     
-    protected function createFilename()
+    public function createFilename()
     {
         $config = $this->getServiceLocator()->get('Config');
         $db = $config['doctrine']['connection']['orm_default'];
         if (strpos($db['driverClass'], 'Sqlite')) {
             $filename = 'db-' . date('Y-m-d-His') . '.db';
         } else {
-            $filename = $db['params']['dbname'] . '-' . date('Y-m-d-His') . '.sql';
+            $filename = date('Y-m-d-His') . '-' . $db['params']['dbname'] . '.sql';
         }
         return $filename;
     }
