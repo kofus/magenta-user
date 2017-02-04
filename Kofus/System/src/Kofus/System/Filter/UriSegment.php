@@ -13,6 +13,7 @@ class UriSegment implements FilterInterface
 	    $uri = preg_replace('/\s+/', '-', $uri);
 	    $uri = preg_replace('/\-+/', '-', $uri);
 	    $uri = preg_replace('/[^a-z0-9\-\_]/', '', $uri);
+	    $uri = preg_replace('/\-+/', '-', $uri);
 	    return $uri;
 	}
 }

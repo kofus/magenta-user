@@ -45,6 +45,15 @@ class NodeNavigationHelper extends AbstractHelper
         	        }
         	        $page->set('params', $params);
         	    }
+        	    if ($page->get('query')) {
+        	    	$params = $page->get('query');
+        	    	foreach ($params as $key => $value) {
+        	    		if ($value == '{node_id}') $params[$key] = $this->node->getNodeId();
+        	    		if ($value == '{node_type}') $params[$key] = $this->node->getNodeType();
+        	    	}
+        	    	$page->set('query', $params);
+        	    }
+        	     
         	}
     	}
     	
