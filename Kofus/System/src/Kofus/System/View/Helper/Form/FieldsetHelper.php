@@ -14,6 +14,11 @@ class FieldsetHelper extends AbstractHelper
     
     public function __toString()
     {
+        return $this->render();
+    }
+    
+    public function render()
+    {
         $sFormContent = '<fieldset class="form-horizontal">';
         $bHasColumnSizes = false;
         $sFormLayout = 'horizontal';
