@@ -16,16 +16,17 @@ class CronController extends AbstractActionController
     public function triggerAction()
     {
     	// ACL
-    	$passphrase = $this->config()->get('cron.passphrase');
-    	if ($passphrase && $passphrase != $this->params('passphrase'))
-    		return $this->getResponse()->setStatusCode(404)->setContent('Permission denied.');
-    
-    	$scheduler = CronScheduler::open('data/system/cron.db');
-    	$now = new \DateTime();
+    	if ($this->getRequest() instanceof \Zend\Http\Request) {
+        	$passphrase = $this->config()->get('cron.passphrase');
+        	if ($passphrase && $passphrase != $this->params('passphrase'))
+        		return $this->getResponse()->setStatusCode(404)->setContent('Permission denied.');
+    	}
     	
+    	$now = new \DateTime();
+    
 		foreach ($this->config()->get('cron.tasks', array()) as $taskId => $task) {
 		    if ($this->isTaskInSlot($task, $now))
-    			$this->run($scheduler, $taskId);
+    			$this->run($taskId);
 		}
 		
 
@@ -60,7 +61,7 @@ class CronController extends AbstractActionController
     
     
     
-    protected function run($scheduler, $taskId)
+    protected function run($taskId)
     {
         $task = $this->config()->get('cron.tasks.' . $taskId);
         if (! $task) return;
@@ -71,13 +72,13 @@ class CronController extends AbstractActionController
         if (! $instance instanceof CronInterface)
             throw new \Exception('Service ' . $task[5] . ' must implement CronInterface');
         $instance->setSpecification($task[6]);
-        $instance->setStoreParams($scheduler->getStoreParams($taskId));
-        $scheduler->setStatus($taskId, 'running');
+        //$instance->setStoreParams($scheduler->getStoreParams($taskId));
+        //$scheduler->setStatus($taskId, 'running');
         
         $status = $instance->run();
         
-        $scheduler->setStatus($taskId, $status);
-        $scheduler->setStoreParams($taskId, $instance->getStoreParams());
+        //$scheduler->setStatus($taskId, $status);
+        //$scheduler->setStoreParams($taskId, $instance->getStoreParams());
         print $status . '<br>';        
     }
     
