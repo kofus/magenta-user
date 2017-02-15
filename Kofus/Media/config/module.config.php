@@ -187,31 +187,6 @@ return array (
 						 
 				) 
 		),
-		'navigation' => array (
-				'admin' => array (
-						'system' => array (
-								'label' => 'System',
-								'uri' => '#',
-								'pages' => array (
-										'image_cache' => array (
-												'label' => 'Clear Image Cache',
-												'resource' => 'PublicCache',
-												'privilege' => 'reset',
-												'route' => 'kofus_media',
-												'controller' => 'admin',
-												'action' => 'clearimagecache' 
-										) 
-								) 
-						) 
-				) 
-		),
 		
-		'user' => array (
-				'acl' => array (
-						'resources' => array (
-								'PublicCache' 
-						) 
-				) 
-		) 
 )
 ;
