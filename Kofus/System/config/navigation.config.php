@@ -12,9 +12,10 @@ return array(
     ),
     
     'navigation' => array(
-        'admin' => array(
+        'admin' => array( /*
             'system' => array(
                 'label' => 'System',
+                'enabled' => false,
                 'uri' => '#',
                 'resource' => 'System',
                 'privilege' => 'administer',
