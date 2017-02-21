@@ -48,6 +48,7 @@ return array(
             'paginator' => 'Kofus\System\Controller\Plugin\PaginatorPlugin',
             'lucene' => 'Kofus\System\Controller\Plugin\LucenePlugin',
             'viewHelper' => 'Kofus\System\Controller\Plugin\ViewHelperPlugin',
+            'settings' => 'Kofus\System\Controller\Plugin\SettingsPlugin'
         )
     ),
     
@@ -228,7 +229,8 @@ return array(
             'session' => 'Kofus\System\View\Helper\SessionHelper',
 			'nodeNavigation' => 'Kofus\System\View\Helper\NodeNavigationHelper',
             'shortenString' => 'Kofus\System\View\Helper\ShortenStringHelper',
-            'implodeValidPieces' => 'Kofus\System\View\Helper\ImplodeValidPiecesHelper'
+            'implodeValidPieces' => 'Kofus\System\View\Helper\ImplodeValidPiecesHelper',
+            'settings' => 'Kofus\System\View\Helper\SettingsHelper'
         )
     ),
     
@@ -278,6 +280,8 @@ return array(
             'KofusTranslationService' => 'Kofus\System\Service\TranslationService',
             'KofusLinkService' => 'Kofus\System\Service\LinkService',
             'KofusLuceneService' => 'Kofus\System\Service\LuceneService',
+            'KofusSettingsService' => 'Kofus\System\Service\SettingsService',
+            'KofusSettings' => 'Kofus\System\Service\SettingsService',
             
             // Crons
         	'KofusBatchService' => 'Kofus\System\Service\BatchService',
