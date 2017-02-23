@@ -77,7 +77,7 @@
         <?php endif ?>
         
     </div>
-    <?php $relations = $this->config()->get('relations.enabled') ?>
+    <?php $relations = $this->config()->get('relations.enabled', array()) ?>
     <div class="col-md-3">
         <div class="list-group">
             <a href="<?php echo $this->archive()->uriStack()->first() ?>" class="list-group-item">
