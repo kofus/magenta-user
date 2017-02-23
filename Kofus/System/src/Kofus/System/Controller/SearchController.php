@@ -19,7 +19,7 @@ class SearchController extends AbstractActionController
      		if (isset($nodeTypeConfig['search_documents'])) {
 	     		$nodeTypes[$nodeType]['config'] = $nodeTypeConfig;
      			foreach ($this->config()->get('locales.enabled') as $locale) {
-	     			$hits = $this->search()->getIndex($locale)->find('node_type: ' . $nodeType);
+	     			$hits = $this->lucene()->getIndex($locale)->find('node_type: ' . $nodeType);
      				$nodeTypes[$nodeType][$locale] = count($hits);
      			}
      		}
@@ -46,13 +46,13 @@ class SearchController extends AbstractActionController
      			if ($this->getRequest()->getPost('delete') == 'delete') {
 	     			foreach ($nodeTypes as $nodeType => $delta) {
 	     				if ($form->get($nodeType)->getValue())
-	     					$this->search()->deleteNodeType($nodeType);
+	     					$this->lucene()->deleteNodeType($nodeType);
 	     			}
      			}
      			if ($this->getRequest()->getPost('index') == 'index') {
      				foreach ($nodeTypes as $nodeType => $delta) {
      					if ($form->get($nodeType)->getValue()) 
-     						$this->search()->reindex($nodeType);
+     						$this->lucene()->reindex($nodeType);
      				}
      			}
      			return $this->redirect()->toRoute('kofus_system', array('controller' => 'search', 'action' => 'index'));

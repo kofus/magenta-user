@@ -45,7 +45,6 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
     {
     	$node = $event->getParam(0)->getEntity();
     	if ($node instanceof NodeInterface) {
-    	    print 'update node';
     		$config = $this->getServiceLocator()->get('KofusConfig');
     		if ($config->get('nodes.available.'.$node->getNodeType().'.search_documents'))
     			$this->getServiceLocator()->get('KofusLuceneService')->updateNode($node);
