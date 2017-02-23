@@ -60,7 +60,7 @@ class NavigationHydrator implements HydratorInterface, ServiceLocatorAwareInterf
 	            $uriSegment = \Zend\Math\Rand::getString(8, 'abcdefghijklmnopqrstuvwxyz');
 	        }
 	    }
-	    $filter = new \Kofus\System\Filter\UrlSegment();
+	    $filter = new \Kofus\System\Filter\UriSegment();
 	    $uriSegment = $filter->filter($uriSegment);
 	    $object->setUriSegment($uriSegment);
 	    
