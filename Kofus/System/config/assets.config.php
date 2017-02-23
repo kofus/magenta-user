@@ -150,6 +150,7 @@ return array(
 								'js' => array(
 										'ckeditor.js'
 								),
+						    /*
 								'js-inlines' => array("
 							CKEDITOR.editorConfig = function( config ) {
 								config.toolbarGroups = [
@@ -171,7 +172,7 @@ return array(
 								config.height = '300px';
 								config.removeDialogTabs = 'image:advanced;link:advanced';
 								config.allowedContent='h1(*);h2(*);h3(*);h4(*);pre(*);p(*);br(*);span(*);table[border](*);tbody(*);thead(*);tr(*);th[width](*);td[width,rowspan](*);ul(*);ol(*);li(*);i(*);b(*);strong(*);em(*);u(*);a[!href,target](*);img[alt,!src]{width,height}(*);hr(*);sub;sup;blockquote';
-							};")
+							};") */
 						)
 				),
 				'html5' => array(
