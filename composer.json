@@ -19,7 +19,7 @@
         "doctrine/doctrine-orm-module": "0.*",
 	 	"neilime/zf2-twb-bundle": "2.*@stable",
 	 	"leafo/scssphp": "0.0.12",
-	 	"beberlei/DoctrineExtensions": "dev-master"
+	 	"beberlei/DoctrineExtensions": "1.0.*"
 	    
     }
 }
