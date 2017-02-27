@@ -25,10 +25,6 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
     	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'preUpdate', array($this, 'setTimestamps'));
     	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'prePersist', array($this, 'setTimestamps'));
     	
-    	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'postUpdate', array($this, 'updateNodeDocument'));
-    	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'postPersist', array($this, 'updateNodeDocument'));
-    	
-    	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'preRemove', array($this, 'deleteNodeDocument'));
     	 
     }
     
@@ -39,26 +35,6 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
         	$node->setTimestampModified(new \DateTime());
         if ($node instanceof NodeCreatedInterface && ! $node->getTimestampCreated())
         	$node->setTimestampCreated(new \DateTime());        
-    }
-    
-    public function updateNodeDocument(Event $event)
-    {
-    	$node = $event->getParam(0)->getEntity();
-    	if ($node instanceof NodeInterface) {
-    		$config = $this->getServiceLocator()->get('KofusConfig');
-    		if ($config->get('nodes.available.'.$node->getNodeType().'.search_documents'))
-    			$this->getServiceLocator()->get('KofusLuceneService')->updateNode($node);
-    	}
-    }
-    
-    public function deleteNodeDocument(Event $event)
-    {
-    	$node = $event->getParam(0)->getEntity();
-    	if ($node instanceof NodeInterface) {
-    		$config = $this->getServiceLocator()->get('KofusConfig');
-    		if ($config->get('nodes.available.'.$node->getNodeType().'.search_documents'))
-    			$this->getServiceLocator()->get('KofusLuceneService')->deleteNode($node);
-    	}
     }
     
     protected $sm;
