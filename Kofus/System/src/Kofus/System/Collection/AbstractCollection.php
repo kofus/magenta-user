@@ -59,9 +59,13 @@ abstract class AbstractCollection
 	{
 	    if (is_string($types)) $types = array($types);
 	    foreach ($this->getHydratedLineItems() as $type => $delta) {
-	    	foreach ($delta as $id => $lineItem) {
-	    		if ($types == array() || in_array($lineItem->getType(), $types))
-	    			return $lineItem;
+	    	foreach ($delta as $key => $lineItem) {
+	    	    if ($id) {
+	    	        if ($key == $id) return $lineItem;
+	    	    } else {
+                    if ($types == array() || in_array($lineItem->getType(), $types))
+	    		 	   return $lineItem;
+	    	    }
 	    	}
 	    }
 	}
