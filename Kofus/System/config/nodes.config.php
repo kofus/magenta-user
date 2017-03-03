@@ -6,13 +6,6 @@ return array (
 						'COUNTRY' 
 				),
 				'available' => array (
-						'ADDR' => array (
-								'label' => 'Address',
-								'entity' => 'Kofus\System\Entity\AddressEntity',
-								'search_documents' => array (
-										'Kofus\System\Search\Document\AddressDocument' 
-								) 
-						),
 						'CRON' => array (
 								'label' => 'Cron-Job',
 								'entity' => 'Kofus\System\Entity\CronEntity' 
