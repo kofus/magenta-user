@@ -25,7 +25,7 @@ class NodeController extends AbstractActionController
         // Form
         $form = $this->formBuilder()
             ->setEntity($entity)
-            ->setContext('add')
+            ->setContext($this->params('id2', 'add'))
             ->setLabelSize('col-sm-3')->setFieldSize('sm-9')
             ->buildForm()
             ->add(new \Zend\Form\Element\Submit('submit', array('label' => 'Save')));
@@ -84,7 +84,7 @@ class NodeController extends AbstractActionController
     	// Form
     	$fb = $this->formBuilder()
         	->setEntity($entity)
-        	->setContext('edit')
+        	->setContext($this->params('id2', 'edit'))
         	->setLabelSize('col-sm-3')->setFieldSize('sm-9');
     	if (in_array('en_US', $locales))
     	    $fb->addTranslationFieldset('en_US');
