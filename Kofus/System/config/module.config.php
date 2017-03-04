@@ -293,6 +293,7 @@ return array(
             'KofusErrorListener' => 'Kofus\System\Listener\ErrorListener',
             'KofusPublicFilesListener' => 'Kofus\System\Listener\PublicFilesListener',
             'KofusNodeListener' => 'Kofus\System\Listener\NodeListener',
+            'KofusLuceneListener' => 'Kofus\System\Listener\LuceneListener',
             'KofusI18nListener' => 'Kofus\System\Listener\I18nListener',
             'KofusLayoutListener' => 'Kofus\System\Listener\LayoutListener',
             
