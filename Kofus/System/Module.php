@@ -18,7 +18,6 @@ class Module implements AutoloaderProviderInterface
     {
     	$eventManager = $e->getApplication()->getEventManager();
         $sm = $e->getApplication()->getServiceManager();
-        $this->e = $e;
         
         $this->bootstrapDoctrineEvents($e);
         
@@ -52,11 +51,6 @@ class Module implements AutoloaderProviderInterface
     	);
     }
     
-    public function isConsole()
-    {
-        return isset($_SERVER['SHELL']) || isset($_SERVER['argv']);
-    }
-    
     public function getConfig()
     {
     	$config = array();
@@ -64,11 +58,10 @@ class Module implements AutoloaderProviderInterface
     		$config = array_merge_recursive($config, include $filename);
 
     	
-    	
     	$config['listeners'] = array(
     		'KofusErrorListener'
     	);
-    	if (! $this->isConsole()) {
+    	if (isset($_SERVER['HTTP_HOST'])) {
     	    $config['listeners'][] = 'KofusPublicFilesListener';
     	    $config['listeners'][] = 'KofusNodeListener';
     	    $config['listeners'][] = 'KofusLayoutListener';
