@@ -54,7 +54,7 @@ class Module implements AutoloaderProviderInterface
     
     public function isConsole()
     {
-        return isset($_SERVER['SHELL']);
+        return isset($_SERVER['argc']) && ($_SERVER['argc'] > 0);
     }
     
     public function getConfig()
