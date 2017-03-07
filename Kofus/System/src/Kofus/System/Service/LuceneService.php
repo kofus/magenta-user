@@ -39,13 +39,11 @@ class LuceneService extends AbstractService
     public function updateModifiedNodes($nodeType, $locale)
     {
    		$index = $this->getIndex($locale);
-    	$cache = $this->getServiceLocator()->get('Cache');
-    	$cacheKey = 'lucene.timestamp.modified.' . $nodeType;
-    	if ($cache->hasItem($cacheKey)) {
-	  		$timestampModified = \DateTime::createFromFormat('Y-m-d H:i:s', $cache->getItem($cacheKey));
-    	} else {
-    		$timestampModified = \DateTime::createFromFormat('Y-m-d', '1970-01-01');
-    	}
+    	$settings = $this->getServiceLocator()->get('KofusSettings');
+    	$key = 'lucene.timestamp.modified.' . $nodeType;
+    	$timestampModified = \DateTime::createFromFormat('Y-m-d H:i:s', $settings->getSystemValue($key, '1970-01-01 00:00:00'));
+    	
+    	print 'timestamp last modified: ' . $timestampModified->format('Y-m-d H:i:s') . "\n";
     	
 		$classnames = $this->config()->get('nodes.available.'.$nodeType.'.search_documents', array());
 		foreach ($classnames as $classname) {
@@ -55,7 +53,7 @@ class LuceneService extends AbstractService
 				->getQuery()->getResult();
 
 			foreach ($nodes as $node) {
-				print $node;
+				print $node . "\n";
 				
 				// Delete existing entries
 				$hits = $index->find("node_id: '" . $node->getNodeId() . "'");
@@ -73,7 +71,7 @@ class LuceneService extends AbstractService
     		$index->optimize();
 		}
 		$now = new \DateTime();
-		$cache->setItem($cacheKey, $now->format('Y-m-d H:i:s'));
+		$settings->setSystemValue($key, $now->format('Y-m-d H:i:s'));
     }
     
     public function updateNode(NodeInterface $node)

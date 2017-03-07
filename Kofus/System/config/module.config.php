@@ -288,7 +288,8 @@ return array(
             'KofusDbBackupCron' => 'Kofus\System\Cron\DbBackupCron',
             'KofusTestMailCron' => 'Kofus\System\Cron\TestMailCron',
             'KofusLuceneUpdateCron' => 'Kofus\System\Cron\LuceneUpdateCron',
-
+            'KofusLuceneCron' => 'Kofus\System\Cron\LuceneCron',
+            
             // Listeners
             'KofusErrorListener' => 'Kofus\System\Listener\ErrorListener',
             'KofusPublicFilesListener' => 'Kofus\System\Listener\PublicFilesListener',
