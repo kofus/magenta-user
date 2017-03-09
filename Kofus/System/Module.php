@@ -54,7 +54,7 @@ class Module implements AutoloaderProviderInterface
     
     public function isConsole()
     {
-        return isset($_SERVER['argc']) && ($_SERVER['argc'] > 0);
+        return strpos(php_sapi_name(), 'cli') !== false; 
     }
     
     public function getConfig()
