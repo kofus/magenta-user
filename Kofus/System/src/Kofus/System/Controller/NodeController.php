@@ -225,7 +225,9 @@ class NodeController extends AbstractActionController
     
     public function selectAction()
     {
-    	$nodeType = $this->params('id');
+    	$nodeTypes = explode('_', $this->params('id'));
+    	
+    	
     	$q = $_GET['q'];
     	
     	$filterAlnum = new \Zend\I18n\Filter\Alnum();
@@ -233,7 +235,14 @@ class NodeController extends AbstractActionController
     	if (strlen($filterAlnum->filter($q)) > 2) {
             $filterLucene = new \Kofus\System\Filter\LuceneQueryValue();
     	    $value = $filterLucene->filter($q);
-    	    $query = "'$value*' AND node_type: '$nodeType'";
+    	    
+    	    
+    	    
+    	    $query = "'$value*' AND ";
+    	    $clause = array();
+    	    foreach ($nodeTypes as $nodeType)
+    	        $clause[] = "node_type: '$nodeType'";
+    	    $query .= '(' . implode(' OR ', $clause) . ')';
     	    $hits = $this->lucene()->getIndex()->find($query);
     	} else {
     	    $hits = array();

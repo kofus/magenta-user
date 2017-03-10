@@ -158,7 +158,7 @@ return array(
                     'constraints' => array(
                         'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'language' => '[a-z][a-z]'
+                        'language' => '[a-z][a-z]',
                     ),
                     'defaults' => array(
                         'language' => 'de',

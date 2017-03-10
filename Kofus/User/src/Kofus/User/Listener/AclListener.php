@@ -79,8 +79,13 @@ class AclListener implements ListenerAggregateInterface
             case 'kofus_system':
                 if ('Kofus\System\Controller\Node' == $this->r->getParam('controller')) {
                     $action = $this->r->getParam('action');
-                    $resource = \Zend\Filter\StaticFilter::execute($this->r->getParam('id'), 'Alpha');
-                    return $this->validate($resource, $action);
+                    $resources = explode('_', $this->r->getParam('id'));
+                    $allowed = true; 
+                    foreach ($resources as $resource) {
+                        $resource = \Zend\Filter\StaticFilter::execute($resource, 'Alpha');
+                        $allowed &= $this->validate($resource, $action);
+                    }
+                    return $allowed;
                 }
                 if ('Kofus\System\Controller\Relation' == $this->r->getParam('controller')) {
                 	$action = $this->r->getParam('action');
