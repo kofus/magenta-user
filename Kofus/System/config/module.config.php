@@ -230,7 +230,8 @@ return array(
 			'nodeNavigation' => 'Kofus\System\View\Helper\NodeNavigationHelper',
             'shortenString' => 'Kofus\System\View\Helper\ShortenStringHelper',
             'implodeValidPieces' => 'Kofus\System\View\Helper\ImplodeValidPiecesHelper',
-            'settings' => 'Kofus\System\View\Helper\SettingsHelper'
+            'settings' => 'Kofus\System\View\Helper\SettingsHelper',
+            'duration' => 'Kofus\System\View\Helper\DurationHelper',
         )
     ),
     
