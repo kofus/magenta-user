@@ -45,19 +45,6 @@ return array(
                         )
                     )
                 ),
-                'actions' => array(
-                    'delete' => array(
-                        'factories' => array(
-                            'delete_account' => function ($sm, $node)
-                            {
-                                $service = $sm->get('KofusUser');
-                                $service->deleteAccount($node);
-                            }
-                        )
-                    )
-                    
-                )
-                
             ),
             'AUTH' => array(
                 'label' => 'Authentication',
