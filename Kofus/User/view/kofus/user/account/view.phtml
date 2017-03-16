@@ -3,12 +3,12 @@
         <h1><?php echo $this->escapeHtml($this->entity->getName()) ?></h1>
     </div>
     <div class="col-md-9">
-        <h2>Zugangsdaten</h2>
+        <h2>Authentifizierungsverfahren</h2>
         <?php if ($this->auths) : ?>
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th><?php echo $this->translate('Type') ?></th>
+                        <th>Verfahren</th>
                         <th><?php echo $this->translate('Identity') ?></th>
                     </tr>
                 </thead>
