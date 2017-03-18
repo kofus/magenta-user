@@ -175,8 +175,8 @@ return array (
 								'available' => array (
 										'thumb' => array (
 												'\Kofus\Media\Processor\Imagick\DefaultProcessor' => array (
-														'width' => 150,
-														'height' => 150,
+														'width' => 100,
+														'height' => 100,
 														'extension' => 'png' 
 												// 'cache' => false
 																								) 
