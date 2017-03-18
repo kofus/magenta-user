@@ -70,6 +70,22 @@ class FileEntity implements Node\NodeInterface, Node\EnableableNodeInterface
 	}
 	
 	/**
+	 * @ORM\Column(nullable=true)
+	 */
+	protected $hash;
+	
+	public function setHash($value)
+	{
+		$this->hash = $value; return $this;
+	}
+	
+	public function getHash()
+	{
+		return $this->hash;
+	}
+		
+	
+	/**
 	 * @ORM\Column(type="boolean")
 	 */
 	protected $enabled = true;
