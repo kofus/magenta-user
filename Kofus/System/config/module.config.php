@@ -232,6 +232,8 @@ return array(
             'implodeValidPieces' => 'Kofus\System\View\Helper\ImplodeValidPiecesHelper',
             'settings' => 'Kofus\System\View\Helper\SettingsHelper',
             'duration' => 'Kofus\System\View\Helper\DurationHelper',
+            'filter' => 'Kofus\System\View\Helper\FilterHelper',
+            
         )
     ),
     
