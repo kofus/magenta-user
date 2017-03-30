@@ -44,10 +44,11 @@ class FormBuilderService extends AbstractService
     protected $sections = array();
 
     protected $elementOptions = array(
-        'column-size' => 'sm-8',
+        
+        'column-size' => 'sm-12',
         'label_attributes' => array(
-            'class' => 'col-sm-4'
-        )
+            'class' => 'col-sm-12'
+        ) 
     );
 
     public function addSection($fieldset, $hydrator = null, $name = null)
@@ -108,8 +109,16 @@ class FormBuilderService extends AbstractService
             if ($element instanceof FieldsetInterface)
                 return $this->decorateElementOptions($element);
             
+            // element options
             foreach ($this->elementOptions as $key => $value)
                 $element->setOption($key, $value);
+            
+            // Add default value to submit buttons
+            if ($element instanceof \Zend\Form\Element\Submit) {
+                if (! $element->getValue())
+                    $element->setValue($element->getName());
+            }
+            
         }
     }
 
