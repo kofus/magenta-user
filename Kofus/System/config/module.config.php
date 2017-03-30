@@ -42,7 +42,8 @@ return array(
             'links' => 'Kofus\System\Controller\Plugin\LinksPlugin',
             'config' => 'Kofus\System\Controller\Plugin\ConfigPlugin',
             'translations' => 'Kofus\System\Controller\Plugin\TranslationsPlugin',
-            'formBuilder' => 'Kofus\System\Controller\Plugin\FormBuilderPlugin',
+            'formBuilder' => 'Kofus\System\Controller\Plugin\FormPlugin',
+            'fb' => 'Kofus\System\Controller\Plugin\FormBuilderPlugin',
             'translator' => 'Kofus\System\Controller\Plugin\TranslatorPlugin',
             'locale' => 'Kofus\System\Controller\Plugin\LocalePlugin',
             'paginator' => 'Kofus\System\Controller\Plugin\PaginatorPlugin',
@@ -261,11 +262,6 @@ return array(
                     'key_pattern' => '/^[a-z0-9\.]*$/Di'
                 ));
             },
-            /*
-            'KofusLibService' => function ($sm)
-            {
-                return new \Kofus\System\Service\LibService($sm);
-            } */
         ),
         'aliases' => array(
             'translator' => 'MvcTranslator'
@@ -285,6 +281,7 @@ return array(
             'KofusLuceneService' => 'Kofus\System\Service\LuceneService',
             'KofusSettingsService' => 'Kofus\System\Service\SettingsService',
             'KofusSettings' => 'Kofus\System\Service\SettingsService',
+            'KofusFormBuilderService' => 'Kofus\System\Service\FormBuilderService',
             
             // Crons
         	'KofusBatchService' => 'Kofus\System\Service\BatchService',
