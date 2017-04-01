@@ -23,8 +23,13 @@ class FormBuilderService extends AbstractService
         return $this;
     }
 
-    public function getConfig()
+    public function getConfig($key=null, $default=null)
     {
+        if ($key) {
+            if (isset($this->config[$key]))
+                return $this->config[$key];
+            return $default;
+        }
         return $this->config;
     }
 
@@ -43,13 +48,13 @@ class FormBuilderService extends AbstractService
 
     protected $sections = array();
 
+    /*
     protected $elementOptions = array(
-        
         'column-size' => 'sm-12',
         'label_attributes' => array(
             'class' => 'col-sm-12'
-        ) 
-    );
+        )  
+    ); */
 
     public function addSection($fieldset, $hydrator = null, $name = null)
     {
@@ -110,7 +115,7 @@ class FormBuilderService extends AbstractService
                 return $this->decorateElementOptions($element);
             
             // element options
-            foreach ($this->elementOptions as $key => $value)
+            foreach ($this->getConfig('element_options', array()) as $key => $value)
                 $element->setOption($key, $value);
             
             // Add default value to submit buttons
