@@ -17,7 +17,7 @@ class PdfEntity extends ImageEntity
 	 */
 	public function getImagick()
 	{
-	    return new \Imagick($this->getPath());
+	    return new \Imagick($this->getPath() . '[0]');
 	}
 	
 	/**
