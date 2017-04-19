@@ -18,6 +18,7 @@
             
         <div class="tab-content">
             <?php $isFirst = true ?>
+            <?php $navTreeConfig = $this->config()->get('nodes.available.PG.nav_tree', array('route' => 'kofus_system', 'controller' => 'page', 'action' => 'view')) ?>
             <?php foreach ($this->navbars as $id => $navConfig) : ?>
                 <?php if (isset($navConfig['system'])) continue ?>
                 <div role="tabpanel" class="tab-pane <?php if ($isFirst) echo 'active' ?>" id="<?php echo $this->escapeHtmlAttr($id) ?>">
@@ -34,9 +35,8 @@
 							$page->set('uri', null);
 							$page->set('route', null);
 							if ($page->get('node-id')) {
-								$page->set('route', 'kofus_system');
-								$page->set('controller', 'page');
-								$page->set('action', 'view');
+								foreach ($navTreeConfig as $key => $value)
+									$page->set($key, $value);
 							}
 						}
                     ?>
