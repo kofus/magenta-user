@@ -148,10 +148,11 @@ return array(
 						'base_uri' => '/cache/public/assets/ckeditor',
 						'files' => array(
 								'js' => array(
-										'ckeditor.js'
+										'ckeditor.js', 'config.js'
 								),
-						    /*
-								'js-inlines' => array("
+						    
+								'js-inlines' => array("  alert('OIJOIJ');
+										/*
 							CKEDITOR.editorConfig = function( config ) {
 								config.toolbarGroups = [
 									{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
@@ -169,10 +170,12 @@ return array(
 								];
 								config.removeButtons = 'Underline,Strike,Indent,Outdent,Image,Styles';
 								config.format_tags = 'p;h1;h2;h3;pre';
+										*/
 								config.height = '300px';
+										/*
 								config.removeDialogTabs = 'image:advanced;link:advanced';
 								config.allowedContent='h1(*);h2(*);h3(*);h4(*);pre(*);p(*);br(*);span(*);table[border](*);tbody(*);thead(*);tr(*);th[width](*);td[width,rowspan](*);ul(*);ol(*);li(*);i(*);b(*);strong(*);em(*);u(*);a[!href,target](*);img[alt,!src]{width,height}(*);hr(*);sub;sup;blockquote';
-							};") */
+							};") 
 						)
 				),
 				'html5' => array(
