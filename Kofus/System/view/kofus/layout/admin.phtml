@@ -11,7 +11,7 @@
     </head>
     
     <body>
-    	<nav class="navbar navbar-inverse navbar-top" role="navigation">
+    	<nav class="navbar navbar-inverse navbar-top hidden-xs" role="navigation">
         	<div class="container">
             	<?php
             	   echo $this->navigation()
@@ -37,7 +37,33 @@
             
     		</div>
     	</nav>
-    
+    	<div class="visible-xs">
+        	<nav class="navbar navbar-inverse navbar-top visible-xs" role="navigation">
+                <div class="container-fluid">
+    	            <div class="navbar-header">
+                        <?php if ($this->user()->isAllowed('System', 'logout')) : ?>
+                            <a class="navbar-toggle" href="<?php echo $this->url('logout') ?>" title="Logout" style="color: white">
+                                <i class="glyphicon glyphicon-off"></i>
+                            </a>
+                        <?php endif ?>
+                        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-mobile-main" aria-expanded="false">
+                            <i style="color: white" class="glyphicon glyphicon-menu-hamburger"></i>
+                        </button>
+    	            </div>
+    	            <div class="collapse navbar-collapse" id="nav-mobile-main">
+    				<?php
+    					echo $this->navigation()->dropdownMenu()
+    							->setContainer($this->kofusNavigation('admin')->getContainer())
+    							->setAcl($this->user()->acl())
+    							->setRole($this->user()->getRole())
+    							->setMaxDepth(0)
+    							->setUlClass('nav navbar-nav')
+    							->render()
+    				?>
+    	            </div>
+    	        </div><!-- /.container-fluid -->			
+    	    </nav>	
+        </div>
         <div class="container">
 	    	<?php echo $this->flashMessages() ?>
         	<?php echo $this->content ?>
