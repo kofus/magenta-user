@@ -30,7 +30,8 @@ return array(
     				'Kofus\System\Controller\Search' => 'System',
     				'Kofus\System\Controller\Batch' => 'System',
     				'Kofus\System\Controller\Cron' => 'Frontend',
-    		        'Kofus\System\Controller\CronScheduler' => 'System'
+    		        'Kofus\System\Controller\CronScheduler' => 'System',
+    		        'Kofus\System\Controller\Relation' => 'System'
     		)
     ),
     

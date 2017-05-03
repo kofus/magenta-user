@@ -218,6 +218,32 @@ class RelationController extends AbstractActionController
     	));
     }
     
+    /**
+     * Repair operations:
+     * - delete relation with a missing (already deleted) node
+     */
+    public function repairAction()
+    {
+        $alpha = new \Zend\I18n\Filter\Alpha();
+        $relations = $this->em()->getRepository('Kofus\System\Entity\RelationEntity')->findAll();
+        foreach ($relations as $relation) {
+            $nodeIds = array($relation->getNode1Id(), $relation->getNode2Id());
+            foreach ($nodeIds as $nodeId) {
+                $nodeType = $alpha->filter($nodeId);
+                if (! $this->nodes()->isNodeTypeEnabled($nodeType))
+                    continue;
+                $node = $this->nodes()->getNode($nodeId);
+                if (! $node) {
+                    print $relation->getId() . ': ' . $relation->getNode1Id() . '_' . $relation->getNode2Id() . '<br>';                    
+                    $this->em()->remove($relation);
+                    continue;
+                }
+            }
+        }
+        $this->em()->flush();
+        die('done');
+    }
+    
     public function deleteAction()
     {
         $nodeType = $this->params()->fromQuery('delete');
