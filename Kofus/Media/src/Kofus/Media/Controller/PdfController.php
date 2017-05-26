@@ -37,7 +37,9 @@ class PdfController extends AbstractActionController
                 ->setContent('Not Found');
         }
             
-        $pdf = $this->nodes()->getNode($link->getLinkedNodeId(), 'PDF');
+        $pdf = $this->nodes()->getNode($link->getLinkedNodeId());
+        if (! $pdf instanceof \Kofus\Media\Entity\PdfEntity)
+            throw new \Exception('Node '.$pdf->getNodeId().' must implement PdfEntity');
         
         $cacheFilename = 'public/' . $link->getUri();
         if (! is_dir(dirname($cacheFilename))) {

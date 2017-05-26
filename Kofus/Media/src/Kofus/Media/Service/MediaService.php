@@ -73,6 +73,9 @@ class MediaService extends AbstractService
     	if (! $link) {
     	    if ($pdf->getUriSegment()) {
     	        $uriSegment = $pdf->getUriSegment();
+    	    } elseif ($pdf->getTitle()) {
+    	        $filter = new \Kofus\System\Filter\UriSegment();
+    	        $uriSegment = $filter->filter($pdf->getTitle());
     	    } else {
                 $uriSegment = Rand::getString(16, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789');
     	    }
