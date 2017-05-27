@@ -40,7 +40,7 @@ class FileEntity implements Node\NodeInterface, Node\EnableableNodeInterface
 	}
 	
 	/**
-	 * @ORM\Column(length=25)
+	 * @ORM\Column()
 	 */
 	protected $mimeType;
 	
