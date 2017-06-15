@@ -30,6 +30,9 @@ class DefaultProcessor
         	foreach ($this->specs['filters'] as $filter) {
         	    if (! isset($filter['options'])) $filter['options'] = array();
         		switch ($filter['name']) {
+        			case 'auto-rotate':
+        			    $this->applyFilterAutoRotate();
+        			    break;
         			case 'magazine-page-left':
         				$this->applyFilterMagazinePageLeft();
         				break;
@@ -81,6 +84,41 @@ class DefaultProcessor
     	$gradient->newPseudoImage($this->imagick->getImageHeight(), $this->imagick->getImageWidth() / 9, "gradient:rgba(0, 0, 0, 0.5)-transparent");
     	$gradient->rotateImage('transparent', -90);
     	$this->imagick->compositeImage($gradient, \Imagick::COMPOSITE_OVER, 0, 0);
+    }
+    
+    protected function applyFilterAutoRotate()
+    {
+        switch ($this->imagick->getImageOrientation()) {
+        	case \Imagick::ORIENTATION_TOPLEFT:
+        		break;
+        	case \Imagick::ORIENTATION_TOPRIGHT:
+        		$this->imagick->flopImage();
+        		break;
+        	case \Imagick::ORIENTATION_BOTTOMRIGHT:
+        		$this->imagick->rotateImage("#000", 180);
+        		break;
+        	case \Imagick::ORIENTATION_BOTTOMLEFT:
+        		$this->imagick->flopImage();
+        		$this->imagick->rotateImage("#000", 180);
+        		break;
+        	case \Imagick::ORIENTATION_LEFTTOP:
+        		$this->imagick->flopImage();
+        		$this->imagick->rotateImage("#000", -90);
+        		break;
+        	case \Imagick::ORIENTATION_RIGHTTOP:
+        		$this->imagick->rotateImage("#000", 90);
+        		break;
+        	case \Imagick::ORIENTATION_RIGHTBOTTOM:
+        		$this->imagick->flopImage();
+        		$this->imagick->rotateImage("#000", 90);
+        		break;
+        	case \Imagick::ORIENTATION_LEFTBOTTOM:
+        		$this->imagick->rotateImage("#000", -90);
+        		break;
+        	default: // Invalid orientation
+        		break;
+        }
+        $this->imagick->setImageOrientation(\Imagick::ORIENTATION_TOPLEFT);        
     }
     
     protected function resize()
