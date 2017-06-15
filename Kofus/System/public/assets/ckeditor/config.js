@@ -17,5 +17,5 @@
 			config.format_tags = 'p;h1;h2;h3;pre';
 			config.height = '300px';
 			config.removeDialogTabs = 'image:advanced;link:advanced';
-			config.allowedContent='h1(*);h2(*);h3(*);h4(*);pre(*);p(*);br(*);span(*);table[border](*);tbody(*);thead(*);tr(*);th[width](*);td[width,rowspan,align](*);ul(*);ol(*);li(*);i(*);b(*);strong(*);em(*);u(*);a[!href,target](*);img[alt,src]{width,height}(*);hr(*);sub;sup;blockquote';
+			config.allowedContent='h1(*);h2(*);h3(*);h4(*);pre(*);p(*);br(*);span(*);table[border](*);tbody(*);thead(*);tr(*);th[width,align](*);td[width,rowspan,align](*);ul(*);ol(*);li(*);i(*);b(*);strong(*);em(*);u(*);a[!href,target](*);img[alt,src]{width,height}(*);hr(*);sub;sup;blockquote';
 		}; 
