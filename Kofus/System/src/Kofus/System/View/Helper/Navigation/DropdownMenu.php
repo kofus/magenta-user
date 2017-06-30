@@ -169,11 +169,11 @@ class DropdownMenu extends \Zend\View\Helper\Navigation\Menu
                 if ($ulClass && $this->depth ==  0) {
                     $ulClass = ' class="' . $escaper($ulClass) . '"';
                     
-                } elseif ($this->depth > 0) {
-                	$ulClass = ' class="dropdown-menu" role="menu"';
+                } elseif ($this->depth == 1) {
+                	$ulClass = ' class="dropdown-menu menu-level-1" role="menu"';
                 
                 } else {
-                    $ulClass = '';
+                    $ulClass = ' class="menu-level-' . $this->depth . '" role="menu"';
                 }
                 $html .= $myIndent . '<ul' . $ulClass . '>' . PHP_EOL;
                 
@@ -194,7 +194,7 @@ class DropdownMenu extends \Zend\View\Helper\Navigation\Menu
                 $html .= $myIndent . '    </li>' . PHP_EOL;
             }
             
-            if ($page->hasPages() && $this->depth < $this->getMaxDepth()) {
+            if ($page->hasPages() && $this->depth < 1) {
 	            $page->setClass('dropdown-toggle');
 	            $page->set('attribs', array(
 	            		//'data-toggle' => 'dropdown',
