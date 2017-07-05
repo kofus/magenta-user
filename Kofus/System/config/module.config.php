@@ -235,6 +235,7 @@ return array(
             'settings' => 'Kofus\System\View\Helper\SettingsHelper',
             'duration' => 'Kofus\System\View\Helper\DurationHelper',
             'filter' => 'Kofus\System\View\Helper\FilterHelper',
+            'searchResult' => 'Kofus\System\View\Helper\SearchResultHelper'
             
         )
     ),
