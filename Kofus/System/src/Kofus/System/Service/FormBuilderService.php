@@ -144,9 +144,9 @@ class FormBuilderService extends AbstractService
         }
     }
 
-    public function buildForm($name = null, $options = array())
+    public function buildForm($formId = null, $options = array())
     {
-        $this->form = new Form($name, $options);
+        $this->form = new Form($formId, $options);
         $this->form->setHydrator(new DummyHydrator());
         
         // Deploy from config
@@ -163,9 +163,9 @@ class FormBuilderService extends AbstractService
         // $this->buildLayout($this->form);
         
         // Form id?
-        if ($name) {
+        if ($formId) {
             $el = new \Kofus\System\Form\Element\Immutable\Hidden('form_id');
-            $el->setImmutableValue($name);
+            $el->setImmutableValue($formId);
             $this->form->add($el);
         }
         
