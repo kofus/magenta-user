@@ -12,6 +12,8 @@ use Zend\View\Exception;
  */
 class DropdownMenu extends \Zend\View\Helper\Navigation\Menu
 {
+    
+    protected $dropDownLevel = 2;
 	
 	/**
 	 * Returns an HTML string containing an 'a' element for the given page if
@@ -76,6 +78,16 @@ class DropdownMenu extends \Zend\View\Helper\Navigation\Menu
 		$html .= '</' . $element . '>';
 	
 		return $html;
+	}
+	
+	public function setDropDownLevel($value)
+	{
+	    $this->dropDownLevel = (int) $value; return $this;
+	}
+	
+	public function getDropDownLevel()
+	{
+	    return $this->dropDownLevel;
 	}
 	
 
@@ -167,10 +179,11 @@ class DropdownMenu extends \Zend\View\Helper\Navigation\Menu
             if ($this->depth > $prevDepth) {
                 // start new ul tag
                 if ($ulClass && $this->depth ==  0) {
-                    $ulClass = ' class="' . $escaper($ulClass) . '"';
+                    $ulClass = ' class="' . $escaper($ulClass) . ' menu-level-'.$this->depth.'"';
                     
-                } elseif ($this->depth == 1) {
-                	$ulClass = ' class="dropdown-menu menu-level-1" role="menu"';
+                } elseif ($this->depth <= $this->dropDownLevel) {
+                	$ulClass = ' class="dropdown-menu menu-level-'.$this->depth.'" role="menu"';
+                	
                 
                 } else {
                     $ulClass = ' class="menu-level-' . $this->depth . '" role="menu"';
