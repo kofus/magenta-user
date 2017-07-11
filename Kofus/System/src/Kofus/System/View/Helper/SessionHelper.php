@@ -31,6 +31,18 @@ class SessionHelper extends AbstractHelper
         return $counter;
     }
     
+    public function get($key)
+    {
+        $container = new Container('Kofus\System\View\Helper\SessionHelper');
+        $keys = array();
+        if (isset($container->keys)) {
+            $keys = $container->keys;
+            if (isset($keys[$key]))
+                return $keys[$key];
+        }
+                
+    }
+    
 }
 
 
