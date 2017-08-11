@@ -16,7 +16,7 @@ class UploadEditHydrator implements HydratorInterface, ServiceLocatorAwareInterf
 
 	public function hydrate(array $data, $object)
 	{
-	    if (! isset($_FILES['file']))
+	    if (! isset($data['file']))
 	        return $object;
 	    
 	    // Create filename
