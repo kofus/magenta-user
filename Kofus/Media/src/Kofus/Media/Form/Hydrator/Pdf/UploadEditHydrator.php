@@ -23,11 +23,14 @@ class UploadEditHydrator implements HydratorInterface, ServiceLocatorAwareInterf
 	    if (! $object->getFilename())
 	        $object->setFilename(\Zend\Math\Rand::getString(16, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'));
 	    
-	    // Upload successful?
-	    if (! isset($data['file']['name']))
-	    	return $object;
-	    if ($data['file']['error'] != 0)
-	    	throw new \Exception('File upload error ' . $data['file']['error']);
+        // Upload successful?
+        if (! isset($data['file']['name']))
+            return $object;
+        if ($data['file']['error'] == 4)
+            return $object;
+        if ($data['file']['error'] != 0)
+            throw new \Exception('File upload error ' . $data['file']['error']);
+	        
 
 	    // Handle uploaded file
 	    $target = $object->getPath();
