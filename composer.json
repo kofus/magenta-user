@@ -6,13 +6,12 @@
         "psr-0": {
             "Kofus\\Archive\\": "src/Kofus/Archive/",
             "Kofus\\System\\": "src/Kofus/System/",
-            "Kofus\\Mailer\\": "src/Kofus/Mailer/",
             "Kofus\\Media\\": "src/Kofus/Media/",
             "Kofus\\User\\": "src/Kofus/User/",
             "Kofus\\WebService\\": "src/Kofus/WebService/",
             "Kofus\\Log\\": "src/Kofus/Log/"
         },
-        "classmap" : ["Kofus/Archive/Module.php", "Kofus/System/Module.php", "Kofus/Mailer/Module.php", "Kofus/Media/Module.php", "Kofus/User/Module.php", "Kofus/WebService/Module.php", "Kofus/Log/Module.php"]
+        "classmap" : ["Kofus/Archive/Module.php", "Kofus/System/Module.php", "Kofus/Media/Module.php", "Kofus/User/Module.php", "Kofus/WebService/Module.php", "Kofus/Log/Module.php"]
     },
     "require": {
         "php": ">=5.3.3",
