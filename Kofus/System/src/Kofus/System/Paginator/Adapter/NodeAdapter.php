@@ -22,8 +22,7 @@ class NodeAdapter implements AdapterInterface
     
     public function count()
     {
-        $sql = $this->qb->getQuery()->getSql();
-        return $this->qb->getEntityManager()->getConnection()->exec($sql); 
+        return count($this->qb->getQuery()->getResult());
     }
     
 }
