@@ -25,8 +25,11 @@ class Module implements AutoloaderProviderInterface
 
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        $config = array();
+        foreach (glob(__DIR__ . '/config/*.config.php') as $filename)
+            $config = array_merge_recursive($config, include $filename);
+            return $config;
     }
-
+    
     
 }

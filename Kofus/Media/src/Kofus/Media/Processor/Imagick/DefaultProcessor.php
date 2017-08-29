@@ -124,6 +124,8 @@ class DefaultProcessor
     protected function resize()
     {
     	$this->imagick->setImageFormat($this->specs['extension']);
+    	if ($this->imagick->getImageColorspace() != \Imagick::COLORSPACE_RGB)
+    	    $this->imagick->transformImageColorspace(\Imagick::COLORSPACE_RGB);
     
     	// Border?
     	if (isset($this->specs['border'])) {
