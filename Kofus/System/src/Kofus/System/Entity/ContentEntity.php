@@ -11,7 +11,7 @@ use Kofus\System\Node;
  * @ORM\Table(name="kofus_system_contents")
  *
  */
-class ContentEntity implements Node\NodeInterface, Node\TranslatableNodeInterface, Node\NodeModifiedInterface
+class ContentEntity implements Node\NodeInterface, Node\TranslatableNodeInterface, Node\NodeModifiedInterface, Node\ParameterInterface
 {
     
     public function getTranslatableMethods()
@@ -202,6 +202,23 @@ class ContentEntity implements Node\NodeInterface, Node\TranslatableNodeInterfac
 	{
 		return $this->timestampModified;
 	}
+	
+	/**
+	 * @ORM\Column(type="json_array")
+	 */
+	protected $params = array();
+	
+	public function setParam($key, $value)
+	{
+	    $this->params[$key] = $value; return $this;
+	}
+	
+	public function getParam($key)
+	{
+	    if (isset($this->params[$key]))
+	        return $this->params[$key];
+	}
+	
 	
 	
 }
