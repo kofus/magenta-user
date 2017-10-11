@@ -30,6 +30,14 @@ class UploadHydrator implements HydratorInterface, ServiceLocatorAwareInterface
 	    $fileInfo = $data['file'];
 	    $object->setMimeType($fileInfo['type']);
 	    $object->setFilesize($fileInfo['size']);	
+	    
+	    // Does directory exist? => create it
+	    $dir = dirname($target);
+	    if (! is_dir($dir)) {
+	        if (! mkdir($dir, 0777, true))
+	            throw new \Exception('Could not create directory ' . $dir);
+	    }
+	    // Move uploaded file
 	    if (! move_uploaded_file($fileInfo['tmp_name'], $target))
 	    	throw new \Exception('Uploaded file "'.$fileInfo['tmp_name'].'" could not be moved to "'.$target.'"');
 	    
