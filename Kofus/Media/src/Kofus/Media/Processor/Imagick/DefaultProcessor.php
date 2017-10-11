@@ -124,8 +124,6 @@ class DefaultProcessor
     protected function resize()
     {
     	$this->imagick->setImageFormat($this->specs['extension']);
-    	if ($this->imagick->getImageColorspace() != \Imagick::COLORSPACE_RGB)
-    	    $this->imagick->transformImageColorspace(\Imagick::COLORSPACE_RGB);
     
     	// Border?
     	if (isset($this->specs['border'])) {
@@ -158,6 +156,7 @@ class DefaultProcessor
     		} else {
     			$canvas->newImage($width, $height, new \ImagickPixel('white'));
     		}
+    		$canvas->setImageColorSpace($this->imagick->getImageColorSpace());
     		$canvas->compositeImage($this->imagick, \Imagick::COMPOSITE_DEFAULT, $x, $y, \Imagick::CHANNEL_ALPHA);
     		$canvas->setImageFormat($this->specs['extension']);
     		if (isset($this->specs['compression_quality']))
