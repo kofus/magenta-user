@@ -15,7 +15,7 @@ return array(
             'Kofus\System\Controller\Cron' => 'Kofus\System\Controller\CronController',
             'Kofus\System\Controller\CronScheduler' => 'Kofus\System\Controller\CronSchedulerController',
             'Kofus\System\Controller\Search' => 'Kofus\System\Controller\SearchController',
-            'Kofus\System\Controller\Batch' => 'Kofus\System\Controller\BatchController',
+            'Kofus\System\Controller\Redirect' => 'Kofus\System\Controller\RedirectController',
         )
     ),
     
@@ -31,7 +31,9 @@ return array(
     				'Kofus\System\Controller\Batch' => 'System',
     				'Kofus\System\Controller\Cron' => 'Frontend',
     		        'Kofus\System\Controller\CronScheduler' => 'System',
-    		        'Kofus\System\Controller\Relation' => 'System'
+    		        'Kofus\System\Controller\Relation' => 'System',
+    		      'Kofus\System\Controller\Redirect' => 'Frontend'
+    		    
     		)
     ),
     
@@ -180,7 +182,6 @@ return array(
             				)
             		),
             ),
-            
         )
     ),
     'view_manager' => array(
