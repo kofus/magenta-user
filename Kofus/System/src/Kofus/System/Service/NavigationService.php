@@ -120,15 +120,21 @@ class NavigationService extends AbstractService
     public function getContainer($options=array())
     {
         $container = new \Zend\Navigation\Navigation($this->getArray($options));
-        if (! $container->findOneBy('active', 1)) {
-        	$pages = $container->findAllBy('uri', $_SERVER['REQUEST_URI']);
-        	foreach ($pages as $page)
-        		$page->setActive();
-        }
+        $this->injectHelperClasses($container);
         return $container;
     }
     
-    protected function createNavPage($entity)
+    public function injectHelperClasses(\Zend\Navigation\Navigation &$nav)
+    {
+        if (! $nav->findOneBy('active', 1)) {
+            $pages = $nav->findAllBy('uri', $_SERVER['REQUEST_URI']);
+            foreach ($pages as $page)
+                $page->setActive();
+        }
+        
+    }
+    
+    public function createNavPage($entity)
     {
         $link = $this->nodes()->getLink($entity);
         $navPage = array(
