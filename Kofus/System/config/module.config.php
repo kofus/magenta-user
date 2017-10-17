@@ -16,27 +16,29 @@ return array(
             'Kofus\System\Controller\CronScheduler' => 'Kofus\System\Controller\CronSchedulerController',
             'Kofus\System\Controller\Search' => 'Kofus\System\Controller\SearchController',
             'Kofus\System\Controller\Redirect' => 'Kofus\System\Controller\RedirectController',
+            'Kofus\System\Controller\Console' => 'Kofus\System\Controller\ConsoleController'
+        
         )
     ),
     
     'user' => array(
-    		'acl' => array(
-    				'resources' => array(
-    						'System'
-    				)
-    		),
-    		'controller_mappings' => array(
-    				'Kofus\System\Controller\Database' => 'System',
-    				'Kofus\System\Controller\Search' => 'System',
-    				'Kofus\System\Controller\Batch' => 'System',
-    				'Kofus\System\Controller\Cron' => 'Frontend',
-    		        'Kofus\System\Controller\CronScheduler' => 'System',
-    		        'Kofus\System\Controller\Relation' => 'System',
-    		      'Kofus\System\Controller\Redirect' => 'Frontend'
-    		    
-    		)
+        'acl' => array(
+            'resources' => array(
+                'System'
+            )
+        ),
+        'controller_mappings' => array(
+            'Kofus\System\Controller\Database' => 'System',
+            'Kofus\System\Controller\Search' => 'System',
+            'Kofus\System\Controller\Batch' => 'System',
+            'Kofus\System\Controller\Cron' => 'Frontend',
+            'Kofus\System\Controller\CronScheduler' => 'System',
+            'Kofus\System\Controller\Relation' => 'System',
+            'Kofus\System\Controller\Redirect' => 'Frontend',
+            'Kofus\System\Controller\Console' => 'Console'
+        
+        )
     ),
-    
     
     'controller_plugins' => array(
         'invokables' => array(
@@ -56,10 +58,8 @@ return array(
         )
     ),
     
-
-    
     'public_paths' => array(
-    	__DIR__ . '/../public'
+        __DIR__ . '/../public'
     ),
     
     'session' => array(
@@ -69,15 +69,15 @@ return array(
                 // 'name' => 'KOFUS',
                 'use_cookies' => true,
                 'cookie_httponly' => true
-            // 'gc_maxlifetime' => $SESSION_REMEMBERME_SECONDS,
-            // 'cookie_lifetime' => $SESSION_REMEMBERME_SECONDS,
-            // 'rememberme_seconds' => $SESSION_REMEMBERME_SECONDS
-                        )
+                // 'gc_maxlifetime' => $SESSION_REMEMBERME_SECONDS,
+                // 'cookie_lifetime' => $SESSION_REMEMBERME_SECONDS,
+                // 'rememberme_seconds' => $SESSION_REMEMBERME_SECONDS
+            )
         ),
         'storage' => 'Zend\Session\Storage\SessionArrayStorage',
         'validators' => array(
-            //'Zend\Session\Validator\RemoteAddr',
-            //'Zend\Session\Validator\HttpUserAgent'
+            // 'Zend\Session\Validator\RemoteAddr',
+            // 'Zend\Session\Validator\HttpUserAgent'
         )
     ),
     
@@ -92,8 +92,7 @@ return array(
         ),
         'loaderpluginmanager' => [
             'factories' => [
-                'nodes' => function ($lpm)
-                {
+                'nodes' => function ($lpm) {
                     $sm = $lpm->getServiceLocator();
                     $loader = new \Kofus\System\I18n\Translator\Loader\Nodes($sm);
                     return $loader;
@@ -125,25 +124,25 @@ return array(
     ),
     
     'console' => array(
-        	'router' => array(
-    	'routes' => array(
-    	    'cron' => array(
-    	    		'type'    => 'simple',       
-    	    		'options' => array(
-    	    				'route'    => 'cron',
-    	    				'defaults' => array(
-    	    						'controller' => 'Kofus\System\Controller\Cron',
-    	    						'action'     => 'trigger'
-    	    				)
-    	    		)
-    	    )
-        	)
-    )
-        ),
+        'router' => array(
+            'routes' => array(
+                'cron' => array(
+                    'type' => 'simple',
+                    'options' => array(
+                        'route' => 'cron',
+                        'defaults' => array(
+                            'controller' => 'Kofus\System\Controller\Cron',
+                            'action' => 'trigger'
+                        )
+                    )
+                )
+            )
+        )
+    ),
     
     'router' => array(
         'routes' => array(
-
+            
             'error' => array(
                 'type' => 'Kofus\System\Mvc\ErrorRoute',
                 'may_terminate' => true,
@@ -162,7 +161,7 @@ return array(
                     'constraints' => array(
                         'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'language' => '[a-z][a-z]',
+                        'language' => '[a-z][a-z]'
                     ),
                     'defaults' => array(
                         'language' => 'de',
@@ -172,16 +171,16 @@ return array(
                 'may_terminate' => true
             ),
             'cron' => array(
-            		'type' => 'Segment',
-            		'options' => array(
-            				'route' => '/cron[/:passphrase[/:id]]',
-            				'defaults' => array(
-            						'__NAMESPACE__' => 'Kofus\System\Controller',
-            						'controller' => 'cron',
-            						'action' => 'trigger'
-            				)
-            		),
-            ),
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/cron[/:passphrase[/:id]]',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Kofus\System\Controller',
+                        'controller' => 'cron',
+                        'action' => 'trigger'
+                    )
+                )
+            )
         )
     ),
     'view_manager' => array(
@@ -205,14 +204,13 @@ return array(
             'Kofus\System\Controller\Node' => 'kofus/layout/admin',
             'Kofus\System\Controller\Page' => 'kofus/layout/admin',
             'Kofus\System\Controller\Relation' => 'kofus/layout/admin',
-        	'Kofus\System\Controller\Search' => 'kofus/layout/admin',
-        	'Kofus\System\Controller\Batch' => 'kofus/layout/admin',
-            'Kofus\System\Controller\CronScheduler' => 'kofus/layout/admin',
-            
+            'Kofus\System\Controller\Search' => 'kofus/layout/admin',
+            'Kofus\System\Controller\Batch' => 'kofus/layout/admin',
+            'Kofus\System\Controller\CronScheduler' => 'kofus/layout/admin'
+        
         )
     ),
     
-   
     'view_helpers' => array(
         'invokables' => array(
             'flashMessages' => 'Kofus\System\View\Helper\FlashMessagesHelper',
@@ -230,14 +228,14 @@ return array(
             'spamSpan' => 'Kofus\System\View\Helper\SpamSpanHelper',
             'paginationColumnSort' => 'Kofus\System\View\Helper\PaginationColumnSortHelper',
             'session' => 'Kofus\System\View\Helper\SessionHelper',
-			'nodeNavigation' => 'Kofus\System\View\Helper\NodeNavigationHelper',
+            'nodeNavigation' => 'Kofus\System\View\Helper\NodeNavigationHelper',
             'shortenString' => 'Kofus\System\View\Helper\ShortenStringHelper',
             'implodeValidPieces' => 'Kofus\System\View\Helper\ImplodeValidPiecesHelper',
             'settings' => 'Kofus\System\View\Helper\SettingsHelper',
             'duration' => 'Kofus\System\View\Helper\DurationHelper',
             'filter' => 'Kofus\System\View\Helper\FilterHelper',
             'searchResult' => 'Kofus\System\View\Helper\SearchResultHelper'
-            
+        
         )
     ),
     
@@ -245,8 +243,7 @@ return array(
         'factories' => array(
             'MvcTranslator' => 'Kofus\System\Mvc\Service\TranslatorServiceFactory',
             
-            'Cache' => function ($sm)
-            {
+            'Cache' => function ($sm) {
                 if (! is_dir('data/cache'))
                     mkdir('data/cache', 0777);
                 return new \Zend\Cache\Storage\Adapter\Filesystem(array(
@@ -255,8 +252,7 @@ return array(
                     'key_pattern' => '/^[a-z0-9\.]*$/Di'
                 ));
             },
-            'SessionCache' => function ($sm)
-            {
+            'SessionCache' => function ($sm) {
                 $session = $sm->get('Zend\Session\SessionManager');
                 return new \Zend\Cache\Storage\Adapter\Filesystem(array(
                     'cache_dir' => 'data/cache',
@@ -264,7 +260,7 @@ return array(
                     'ttl' => 3600, // 1h
                     'key_pattern' => '/^[a-z0-9\.]*$/Di'
                 ));
-            },
+            }
         ),
         'aliases' => array(
             'translator' => 'MvcTranslator'
@@ -275,7 +271,7 @@ return array(
             'KofusConfig' => 'Kofus\System\Service\ConfigService',
             'KofusConfigService' => 'Kofus\System\Service\ConfigService',
             'KofusLocale' => 'Kofus\System\Service\LocaleService',
-        	'KofusLocaleService' => 'Kofus\System\Service\LocaleService',
+            'KofusLocaleService' => 'Kofus\System\Service\LocaleService',
             'KofusNodeService' => 'Kofus\System\Service\NodeService',
             'KofusFormService' => 'Kofus\System\Service\FormService',
             'KofusNavigationService' => 'Kofus\System\Service\NavigationService',
@@ -287,7 +283,7 @@ return array(
             'KofusFormBuilderService' => 'Kofus\System\Service\FormBuilderService',
             
             // Crons
-        	'KofusBatchService' => 'Kofus\System\Service\BatchService',
+            'KofusBatchService' => 'Kofus\System\Service\BatchService',
             'KofusDbBackupCron' => 'Kofus\System\Cron\DbBackupCron',
             'KofusTestMailCron' => 'Kofus\System\Cron\TestMailCron',
             'KofusLuceneUpdateCron' => 'Kofus\System\Cron\LuceneUpdateCron',
@@ -299,9 +295,8 @@ return array(
             'KofusNodeListener' => 'Kofus\System\Listener\NodeListener',
             'KofusLuceneListener' => 'Kofus\System\Listener\LuceneListener',
             'KofusI18nListener' => 'Kofus\System\Listener\I18nListener',
-            'KofusLayoutListener' => 'Kofus\System\Listener\LayoutListener',
-            
-            
+            'KofusLayoutListener' => 'Kofus\System\Listener\LayoutListener'
+        
         )
-    ),
+    )
 );

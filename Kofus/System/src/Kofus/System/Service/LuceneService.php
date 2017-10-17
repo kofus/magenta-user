@@ -133,6 +133,7 @@ class LuceneService extends AbstractService
     
     public function reindex($nodeTypes=null, $locales=null)
     {
+        $debug = '';
         ini_set('max_execution_time', 0);
         
         if (is_string($nodeTypes))
@@ -148,6 +149,9 @@ class LuceneService extends AbstractService
         	$index = $this->getIndex($locale);
         
 	        foreach ($nodeTypes as $nodeType) {
+	            
+	            $debug .= $nodeType . ' ' . $locale . PHP_EOL;
+	            $debug .= 'old entries: ' . count($index->find('node_type: ' . $nodeType)) . PHP_EOL;
 	        
 	            // Delete existing entries
 	            $hits = $index->find("node_type: '" . $nodeType . "'");
@@ -193,8 +197,11 @@ class LuceneService extends AbstractService
 	            }
 	            
 	            $index->commit();
+	            $debug .= 'new entries: ' . count($index->find('node_type: ' . $nodeType)) . PHP_EOL;
+	            $debug .= 'total entries: ' . $index->numDocs() . PHP_EOL;
 	        }
 	        $index->optimize();
         }
+        return $debug;
     }
 }

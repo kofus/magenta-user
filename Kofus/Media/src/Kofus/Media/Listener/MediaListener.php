@@ -16,7 +16,7 @@ class MediaListener extends AbstractListenerAggregate implements ListenerAggrega
     {
         $config = $e->getApplication()->getServiceManager()->get('KofusConfig');
         $mirrors = $config->get('media.mirrors', array());
-        if ($mirrors) {
+        if ($mirrors && $e->getRequest() instanceof \Zend\Http\Request) {
             $hostname = 'http://' . $_SERVER['HTTP_HOST'];
             if (in_array($hostname, $mirrors)) {
                 
