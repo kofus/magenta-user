@@ -199,6 +199,7 @@ class LuceneService extends AbstractService
 	            $index->commit();
 	            $debug .= 'new entries: ' . count($index->find('node_type: ' . $nodeType)) . PHP_EOL;
 	            $debug .= 'total entries: ' . $index->numDocs() . PHP_EOL;
+	            $debug .= PHP_EOL;
 	        }
 	        $index->optimize();
         }
