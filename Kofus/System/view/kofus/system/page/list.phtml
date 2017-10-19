@@ -35,6 +35,7 @@
 							$page->set('uri', null);
 							$page->set('route', null);
 							if ($page->get('node-id')) {
+							    $page->setLabel($page->getLabel() . ' (' . $page->get('node-id') . ')');
 								foreach ($navTreeConfig as $key => $value)
 									$page->set($key, $value);
 							}
