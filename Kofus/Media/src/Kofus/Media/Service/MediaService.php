@@ -41,11 +41,11 @@ class MediaService extends AbstractService
         $link = $this->em()->getRepository('Kofus\System\Entity\LinkEntity')->findOneBy(array('linkedNodeId' => $image->getNodeId(), 'context' => $display));
         if (! $link) {
             $config = $this->config()->get('media.image.displays.available.' . $display);
-            $extension = 'jpg';
-            foreach ($config as $processor => $spec) {
-            	if (isset($spec['extension']))
-            		$extension = $spec['extension'];
-            }
+            
+            $imagick = $image->getImagick();
+            $imagick = $this->process($image, $display);
+            $extension = strtolower($imagick->getImageFormat());
+            
             $r = Rand::getString(16, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789');
             $uri = '/cache/media/image/' . $display . '/' . $r . '.' . $extension;
             
@@ -102,14 +102,21 @@ class MediaService extends AbstractService
             throw new \Exception('No media specifications found for ' . $node->getNodeType() . ' / ' . $display);
 
         $imagick = $node->getImagick();
-
-        foreach ($config as $classname => $spec) {
-            $processor = new $classname();
-            $processor->setSpecifications($spec);
-            $processor->setImagick($imagick);
-            $processor->process();
-            $imagick = $processor->getImagick();
+        
+        $pluginManager = new \Zend\Filter\FilterPluginManager();
+        $filenames = scandir(__DIR__ . '/../Imagick/Filter');
+        foreach ($filenames as $filename) {
+            if (in_array($filename, array('.', '..')))
+                continue;
+            $classname = 'Kofus\Media\Imagick\Filter\\' . str_replace('.php', '', $filename);
+            $filtername = str_replace('.php', '', $filename);
+            $pluginManager->setInvokableClass($filtername, $classname);
         }
+        
+        $filterChain = new \Zend\Filter\FilterChain();
+        $filterChain->setPluginManager($pluginManager);
+        $filterChain->setOptions($config);
+        $imagick = $filterChain->filter($imagick);
         
         return $imagick;
     }

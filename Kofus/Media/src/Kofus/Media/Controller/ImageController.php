@@ -27,12 +27,10 @@ class ImageController extends AbstractActionController
         $imagick = $this->media()->process($image, $link->getContext());
         
         // Save?
-        $config = $this->config()->get('media.image.displays.available.' . $link->getContext());
+        $spec = $this->config()->get('media.image.displays.available.' . $link->getContext());
         $useCache = true;
-        foreach ($config as $processor => $spec) {
-            if (array_key_exists('cache', $spec))
-                $useCache = $spec['cache'];
-        }        
+        if (array_key_exists('cache', $spec))
+            $useCache = $spec['cache'];
         
         if ($useCache) {
             $cacheFilename = 'public/' . $uri;
