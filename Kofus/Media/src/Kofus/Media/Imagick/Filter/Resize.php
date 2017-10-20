@@ -44,10 +44,6 @@ class Resize extends AbstractFilter
             $canvas->setImageColorSpace($imagick->getImageColorSpace());
             $canvas->compositeImage($imagick, \Imagick::COMPOSITE_DEFAULT, $x, $y, \Imagick::CHANNEL_ALPHA);
             $canvas->setImageFormat($imagick->getImageFormat());
-            /*
-            if (isset($this->options['compression_quality']))
-                $canvas->setImageCompressionQuality($this->specs['compression_quality']);
-                */
             $imagick = $canvas;
                                 
         // Max width or height => flexible width/height
@@ -62,6 +58,10 @@ class Resize extends AbstractFilter
                 if ($imagick->getImageHeight() > $maxHeight)
                     $imagick->scaleImage(null, $maxHeight);
             }
+        } elseif (isset($this->options['width']) && ! isset($this->options['height'])) {
+            $imagick->scaleImage($this->options['width'], null);
+        } elseif (isset($this->options['height']) && ! isset($this->options['width'])) {
+            $imagick->scaleImage(null, $this->options['height']);
         }
             
         return $imagick;

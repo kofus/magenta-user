@@ -13,18 +13,27 @@ class Branding extends AbstractFilter
         if (! $value instanceof \Imagick)
             throw new \Exception('Filter value must be an instance of Imagick');
         
-        $im = $value;
+        $this->imagick = $value;
         
         $canvas = new \Imagick();
-        $canvas->newImage($im->getImageWidth(), $im->getImageHeight(), new \ImagickPixel('white'));
+        $canvas->newImage($this->imagick->getImageWidth(), $this->imagick->getImageHeight(), new \ImagickPixel('white'));
         $canvas->setImageFormat('jpg');
-        $canvas->compositeImage($im, \Imagick::COMPOSITE_DEFAULT, 0, 0);
+        $canvas->compositeImage($this->imagick, \Imagick::COMPOSITE_DEFAULT, 0, 0);
+        
+        
+        $rectangle = new \ImagickDraw();
+        $rectangle->setFillColor(new \ImagickPixel('rgba(1, 29, 79, 0.6)'));
+        $rectangle->rectangle(0, 670, 800, 800);
+        $canvas->drawImage($rectangle);
+        
         
         $imagick = $canvas;
         $branding = new \Imagick($this->options['filename']);
-        $branding->scaleImage($imagick->getImageWidth() / 2, null);
+        $branding->setCompression(100);
+        $branding->setCompressionQuality(100);
+        $branding->scaleImage(null, 100);
         
-        $imagick->compositeImage($branding, \Imagick::COMPOSITE_DEFAULT, $imagick->getImageWidth() / 2, ($imagick->getImageHeight() / 3 * 2), $imagick->getImageAlphaChannel());
+        $imagick->compositeImage($branding, \Imagick::COMPOSITE_DEFAULT, 550 , 686, \Imagick::ALPHACHANNEL_TRANSPARENT);
         
         return $imagick;
             

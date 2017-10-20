@@ -5,9 +5,10 @@ use Zend\Filter\AbstractFilter as ZendAbstractFilter;
 
 abstract class AbstractFilter extends ZendAbstractFilter
 {
-    public function __construct($options)
+    public function __construct($options=null)
     {
-        $this->setOptions($options);
+        if ($options)
+            $this->setOptions($options);
     }
     
 }
