@@ -42,7 +42,11 @@ class MediaService extends AbstractService
         if (! $link) {
             $config = $this->config()->get('media.image.displays.available.' . $display);
             
-            $imagick = $image->getImagick();
+            $path = $image->getPath();
+            if (! is_readable($path) && isset($config['error_image']))
+                $path = $config['error_image'];
+            
+            $imagick = new \Imagick($path);
             $imagick = $this->process($image, $display);
             $extension = strtolower($imagick->getImageFormat());
             
@@ -101,7 +105,11 @@ class MediaService extends AbstractService
         if (! $config)
             throw new \Exception('No media specifications found for ' . $node->getNodeType() . ' / ' . $display);
 
-        $imagick = $node->getImagick();
+        $path = $node->getPath();
+        if (! is_readable($path) && isset($config['error_image']))
+            $path = $config['error_image'];
+                
+        $imagick = new \Imagick($path);
         
         $pluginManager = new \Zend\Filter\FilterPluginManager();
         $filenames = scandir(__DIR__ . '/../Imagick/Filter');

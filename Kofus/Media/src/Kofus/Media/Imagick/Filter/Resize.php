@@ -25,30 +25,30 @@ class Resize extends AbstractFilter
             $height = $this->options['height'];
             if ($imagick->getImageWidth() > $width)
                 $imagick->scaleImage($width, null);
-                if ($imagick->getImageHeight() > $height)
-                    $imagick->scaleImage(null, $height);
+            if ($imagick->getImageHeight() > $height)
+                $imagick->scaleImage(null, $height);
                     
-                    // Calc offsets
-                    $x = 0; $y = 0;
-                    if ($width > $imagick->getImageWidth())
-                        $x = ($width - $imagick->getImageWidth()) / 2;
-                        if ($height > $imagick->getImageHeight())
-                            $y = ($height - $imagick->getImageHeight()) / 2;
+            // Calc offsets
+            $x = 0; $y = 0;
+            if ($width > $imagick->getImageWidth())
+                $x = ($width - $imagick->getImageWidth()) / 2;
+            if ($height > $imagick->getImageHeight())
+                $y = ($height - $imagick->getImageHeight()) / 2;
                             
-                            $canvas = new \Imagick();
-                            if (in_array($imagick->getImageFormat(), array('gif', 'png'))) {
-                                $canvas->newImage($width, $height, new \ImagickPixel('transparent'));
-                            } else {
-                                $canvas->newImage($width, $height, new \ImagickPixel('white'));
-                            }
-                            $canvas->setImageColorSpace($imagick->getImageColorSpace());
-                            $canvas->compositeImage($imagick, \Imagick::COMPOSITE_DEFAULT, $x, $y, \Imagick::CHANNEL_ALPHA);
-                            $canvas->setImageFormat($imagick->getImageFormat());
-                            /*
-                            if (isset($this->options['compression_quality']))
-                                $canvas->setImageCompressionQuality($this->specs['compression_quality']);
-                                */
-                            $imagick = $canvas;
+            $canvas = new \Imagick();
+            if (in_array($imagick->getImageFormat(), array('gif', 'png'))) {
+                $canvas->newImage($width, $height, new \ImagickPixel('transparent'));
+            } else {
+                $canvas->newImage($width, $height, new \ImagickPixel('white'));
+            }
+            $canvas->setImageColorSpace($imagick->getImageColorSpace());
+            $canvas->compositeImage($imagick, \Imagick::COMPOSITE_DEFAULT, $x, $y, \Imagick::CHANNEL_ALPHA);
+            $canvas->setImageFormat($imagick->getImageFormat());
+            /*
+            if (isset($this->options['compression_quality']))
+                $canvas->setImageCompressionQuality($this->specs['compression_quality']);
+                */
+            $imagick = $canvas;
                                 
         // Max width or height => flexible width/height
         } elseif (isset($this->options['max-width']) || isset($this->options['max-height'])) {
@@ -64,7 +64,7 @@ class Resize extends AbstractFilter
             }
         }
             
-        return $value;
+        return $imagick;
     }
     
 

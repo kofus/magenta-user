@@ -4,6 +4,10 @@ use Kofus\Media\Imagick\AbstractFilter;
 
 class Branding extends AbstractFilter
 {
+    protected $options = array(
+        'filename' => null
+    );
+    
     public function filter($value)
     {
         if (! $value instanceof \Imagick)
@@ -17,7 +21,7 @@ class Branding extends AbstractFilter
         $canvas->compositeImage($im, \Imagick::COMPOSITE_DEFAULT, 0, 0);
         
         $imagick = $canvas;
-        $branding = new \Imagick($options['filename']);
+        $branding = new \Imagick($this->options['filename']);
         $branding->scaleImage($imagick->getImageWidth() / 2, null);
         
         $imagick->compositeImage($branding, \Imagick::COMPOSITE_DEFAULT, $imagick->getImageWidth() / 2, ($imagick->getImageHeight() / 3 * 2), $imagick->getImageAlphaChannel());
@@ -25,6 +29,8 @@ class Branding extends AbstractFilter
         return $imagick;
             
     }
+    
+    
     
     
     
