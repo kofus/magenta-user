@@ -150,12 +150,18 @@ class NodeController extends AbstractActionController
     	    }
     	}
     	
+    	$formTemplate = 'kofus/system/node/form/panes.phtml';
+    	if (isset($nodeTypeConfig['form']['edit']['template'])) {
+    	    $formTemplate = $nodeTypeConfig['form']['edit']['template'];
+    	} elseif (isset($nodeTypeConfig['form']['default']['template'])) {
+    	    $formTemplate = $nodeTypeConfig['form']['default']['template'];
+    	}
     	
     	
     	return new ViewModel(array(
     			'form' => $form->prepare(),
     			'nodeTypeConfig' => $nodeTypeConfig,
-    			'formTemplate' => 'kofus/system/node/form/panes.phtml',
+    			'formTemplate' => $formTemplate,
     	       'entity' => $entity,
     	       'locales' => $locales
     	));
@@ -207,20 +213,6 @@ class NodeController extends AbstractActionController
             'nodeTypeConfig' => $nodeTypeConfig,
             'token' => $session->token
         ));
-    }
-    
-    public function rebuildlinksAction()
-    {
-        foreach ($this->config()->get('nodes.enabled') as $nodeType) {
-            if (in_array($nodeType, array('LANGUAGE', 'COUNTRY'))) continue;
-            $nodes = $this->nodes()->getNodes($nodeType);
-            foreach ($nodes as $node) {
-                if (! $node instanceof LinkedNodeInterface)
-                    continue;
-                //print $node . '<br>';
-                $this->links()->rebuildLinks($node);
-            }
-        }
     }
     
     public function selectAction()
