@@ -63,7 +63,7 @@ class TreeHelper extends AbstractHelper
     				$params['action'] = $page->get('action');
     			if ($page->get('node-id'))
     				$params['id'] = $page->get('node-id');
-    			$href = $this->getView()->url('kofus_system', $params, true);
+    			$href = $this->getView()->url($page->get('route'), $params, true);
     			$html .= '<a href="'.$href.'">&nbsp;<i class="glyphicon glyphicon-arrow-right"></i></a>';
     			 
     		} elseif ($page->get('uri')) {

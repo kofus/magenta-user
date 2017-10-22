@@ -18,15 +18,6 @@ class PdfController extends AbstractActionController
         ));
     }
     
-    public function viewAction()
-    {
-        $this->archive()->uriStack()->push();
-        $entity = $this->nodes()->getNode($this->params('id'), 'PDF');
-        return new ViewModeL(array(
-        	'entity' => $entity
-        ));
-    }
-    
     public function dumpAction()
     {
         $uri = $this->getRequest()->getRequestUri();
