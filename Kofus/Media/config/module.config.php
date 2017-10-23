@@ -67,6 +67,7 @@ return array (
 						),
 						'PDF' => array (
 								'label' => 'PDF',
+						        'label_pl' => 'PDFs',
 								'entity' => 'Kofus\Media\Entity\PdfEntity',
 								'controllers' => array (
 										'Kofus\Media\Controller\Pdf' 
