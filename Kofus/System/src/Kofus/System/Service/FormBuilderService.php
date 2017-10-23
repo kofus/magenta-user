@@ -172,11 +172,11 @@ class FormBuilderService extends AbstractService
         $el = new \Zend\Form\Element\Csrf('csrf');
         $this->form->add($el);
         
-        // Element options
-        $this->decorateElementOptions($this->form);
-        
         // Required fields
         foreach ($this->form->getFieldsets() as $fieldset) {
+            
+            $this->decorateElementOptions($fieldset);
+            
             if ($fieldset instanceof InputFilterProviderInterface) {
                 $spec = $fieldset->getInputFilterSpecification();
                 $this->decorateRequiredFields($fieldset, $spec);
