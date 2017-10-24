@@ -108,7 +108,9 @@ class MediaService extends AbstractService
         $path = $node->getPath();
         if (! is_readable($path) && isset($config['error_image']))
             $path = $config['error_image'];
-                
+        
+        if ($node instanceof \Kofus\Media\Entity\PdfEntity)
+            $path .= '[0]';
         $imagick = new \Imagick($path);
         
         $pluginManager = new \Zend\Filter\FilterPluginManager();
