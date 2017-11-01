@@ -237,6 +237,17 @@ class NodeService extends AbstractService
         
     }
     
+    public function isNode($nodeId)
+    {
+        $nodeType = \Zend\Filter\StaticFilter::execute($nodeId, 'Alpha');
+        if (! $this->isNodeTypeEnabled($nodeType))
+            return false;
+        $node = $this->getNode($nodeId);
+        if (! $node) return false;
+        return true;
+        
+    }
+    
     public function isNodeTypeEnabled($type)
     {
         return in_array($type, $this->config()->get('nodes.enabled'));

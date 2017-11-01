@@ -52,10 +52,11 @@ class NodeSelect extends ZendSelect implements InputProviderInterface
         		$countries = self::$sm->get('KofusConfig')->get('nodes.available.COUNTRY.values');
         		$options[$value] = \Locale::getDisplayRegion('-' . $value, \Locale::getDefault());
         		
+        	} elseif (self::$sm->get('KofusNodeService')->isNode($value)) {
+        	    $node = self::$sm->get('KofusNodeService')->getNode($value);
+        	    $options[$value] = (string) $node;
         	} else {
-        		$node = self::$sm->get('KofusNodeService')->getNode($value);
-        		$options[$value] = (string) $node;
-        		
+        		$options[$value] = $value . ' [neu]';
         	}
         	
         	

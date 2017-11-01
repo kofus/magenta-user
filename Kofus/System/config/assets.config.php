@@ -209,8 +209,8 @@ return array(
 										//'js/i18n/de.js'
 								),
 								'css' => array(
-										'select2.min.css',
-										'select2-bootstrap.min.css'
+										'css/select2.min.css',
+										'css/select2-bootstrap.min.css'
 								)
 						)
 
