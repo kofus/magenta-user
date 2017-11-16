@@ -51,7 +51,7 @@ class NodeSelect extends ZendSelect implements InputProviderInterface
             $values = array($value);
         }
           
-        foreach ($value as $value) {
+        foreach ($values as $value) {
             if ($value && ! isset($options[$value])) {
             	if ($this->getOption('node-type') == 'LANGUAGE') {
             		$languages = self::$sm->get('KofusConfig')->get('nodes.available.LANGUAGE.values');
