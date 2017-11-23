@@ -6,6 +6,7 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\MvcEvent;
 use Kofus\System\Form\Element\NodeSelect;
 use Zend\ModuleManager\ModuleManager;
+use Zend\Console\Adapter\AdapterInterface as Console;
 
 
 use Zend\View\Helper\PaginationControl;
@@ -101,6 +102,23 @@ class Module implements AutoloaderProviderInterface
     			\Doctrine\ORM\Events::preRemove,
     			\Doctrine\ORM\Events::preUpdate
     	), $events);
+    }
+    
+    /**
+     * Assembles console help texts as provided in console router config (param "help_text")
+     * @return array
+     */
+    public function getConsoleUsage(Console $console)
+    {
+        $usage = array();
+        $config = $this->getConfig();
+        if (isset($config['console']['router']['routes'])) {
+            foreach ($config['console']['router']['routes'] as $route) {
+                if (isset($route['options']['help_text']))
+                    $usage[$route['options']['route']] = $route['options']['help_text'];
+            }
+        }
+        return $usage;
     }
     
     
