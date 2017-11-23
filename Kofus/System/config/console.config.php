@@ -14,6 +14,18 @@ return array(
                         ),
                     )
                 ),
+                'optimize' => array(
+                    'options' => array(
+                        'route' => 'optimize',
+                        'help_text' => 'Delete detached records and files',
+                        'defaults' => array(
+                            'action' => 'optimize',
+                            'controller' => 'console',
+                            '__NAMESPACE__' => 'Kofus\System\Controller'
+                        ),
+                    )
+                ),
+                
             )
         )
     )

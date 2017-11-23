@@ -102,6 +102,11 @@ class RelationEntity
         return $this->node;
     }
     
+    public function __toString()
+    {
+        return 'Relation ' . $this->getId() . ': ' . $this->getNode1Id() . ' <> ' . $this->getNode2Id();
+    }
+    
     public function getType()
     {
         $alpha = new \Zend\I18n\Filter\Alpha();
