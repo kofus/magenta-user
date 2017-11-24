@@ -17,6 +17,30 @@ class ConsoleController extends AbstractActionController
     
     public function optimizeAction()
     {
+        // Delete files
+        print 'Delete files with missin record' . PHP_EOL;
+        foreach (scandir('data/media/files') as $filename) {
+            if (in_array($filename, array('.', '..')))
+                continue;
+            
+            $node = null;
+            foreach ($this->config()->get('nodes.enabled') as $nodeType) {
+                $entityClass = $this->config()->get('nodes.available.' . $nodeType . '.entity');
+                if (! $entityClass) continue;
+                $entity = new $entityClass();
+                if (is_a($entity, 'Kofus\Media\Entity\FileEntity')) {
+                    $node = $this->nodes()->getRepository($nodeType)->findOneBy(array('filename' => $filename));
+                    if ($node)
+                        break;
+                }
+            }
+            if (! $node) {
+                print 'DELETE ' . $filename . PHP_EOL;
+                unlink('data/media/files/' . $filename);
+            }
+            
+        }
+        
         // File nodes
         print 'Delete file nodes with missing file...' . PHP_EOL;
         foreach ($this->config()->get('nodes.enabled') as $nodeType) {
@@ -38,13 +62,21 @@ class ConsoleController extends AbstractActionController
         
         // Links
         print 'Delete node links with missing node...' . PHP_EOL;
+        $alpha = new \Zend\I18n\Filter\Alpha();
         $links = $this->em()->getRepository('Kofus\System\Entity\LinkEntity')->findAll();
         foreach ($links as $link) {
             $linkedNodeId = $link->getLinkedNodeId();
-            $linkedNode = $this->nodes()->getNode($linkedNodeId);
-            if (! $linkedNode) {
+            $linkedNodeType = $alpha->filter($linkedNodeId);
+            if (! in_array($linkedNodeType, $this->config()->get('nodes.enabled'))) {
                 print 'DELETE LINK ' . $linkedNode . PHP_EOL;
                 $this->em()->remove($link);
+            } else {
+                $linkedNode = $this->nodes()->getNode($linkedNodeId);
+                
+                if (! $linkedNode) {
+                    print 'DELETE LINK ' . $linkedNode . PHP_EOL;
+                    $this->em()->remove($link);
+                }
             }
         }
         $this->em()->flush();
