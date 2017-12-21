@@ -65,10 +65,6 @@ class Module implements AutoloaderProviderInterface
     		$config = array_merge_recursive($config, include $filename);
 
     	
-    	
-    	$config['listeners'] = array(
-    		'KofusErrorListener'
-    	);
     	if (! $this->isConsole()) {
     	    $config['listeners'][] = 'KofusPublicFilesListener';
     	    $config['listeners'][] = 'KofusNodeListener';

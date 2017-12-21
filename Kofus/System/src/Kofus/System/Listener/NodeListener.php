@@ -54,7 +54,8 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
                         'timestamp' => '?',
                         'field' => '?',
                         'value' => '?',
-                        'nodeId' => '?'
+                        'nodeId' => '?',
+                        'number' => 1
                     ))
                     ->setParameter(0, $now->format('Y-m-d H:i:s'))
                     ->setParameter(1, $field)
@@ -70,6 +71,8 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
         $node = $event->getParam(0)->getEntity();
         if ($node instanceof RevisableNodeInterface) {
             $now = new \DateTime();
+            $number = $this->getServiceLocator()->get('KofusNodeService')->getRevisionNumber($node);
+            $number += 1;
             
             foreach ($event->getParam(0)->getEntityChangeSet() as $field => $changes) {
                 $qb = $this->em()->getConnection()->createQueryBuilder();
@@ -78,12 +81,15 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
                         'timestamp' => '?',
                         'field' => '?',
                         'value' => '?',
-                        'nodeId' => '?'
+                        'nodeId' => '?',
+                        'number' => '?'
                     ))
                     ->setParameter(0, $now->format('Y-m-d H:i:s'))
                     ->setParameter(1, $field)
                     ->setParameter(2, $changes[1])
-                    ->setParameter(3, $node->getNodeId());
+                    ->setParameter(3, $node->getNodeId())
+                    ->setParameter(4, $number)
+                    ;
                 $qb->execute();
             }
         }

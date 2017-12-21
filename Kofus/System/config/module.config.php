@@ -62,6 +62,7 @@ return array(
         __DIR__ . '/../public'
     ),
     
+    /*
     'session' => array(
         'config' => array(
             'class' => 'Zend\Session\Config\SessionConfig',
@@ -79,7 +80,7 @@ return array(
             // 'Zend\Session\Validator\RemoteAddr',
             // 'Zend\Session\Validator\HttpUserAgent'
         )
-    ),
+    ), */
     
     'translator' => array(
         // 'locale' => 'de_DE',
@@ -290,7 +291,6 @@ return array(
             'KofusLuceneCron' => 'Kofus\System\Cron\LuceneCron',
             
             // Listeners
-            'KofusErrorListener' => 'Kofus\System\Listener\ErrorListener',
             'KofusPublicFilesListener' => 'Kofus\System\Listener\PublicFilesListener',
             'KofusNodeListener' => 'Kofus\System\Listener\NodeListener',
             'KofusLuceneListener' => 'Kofus\System\Listener\LuceneListener',

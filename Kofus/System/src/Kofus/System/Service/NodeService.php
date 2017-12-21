@@ -284,6 +284,21 @@ class NodeService extends AbstractService
         $link = $qb->getQuery()->getOneOrNullResult();
         
         return $link;
+    }
+    
+    public function getRevisionNumber($nodeId)
+    {
+        if ($nodeId instanceof NodeInterface)
+            $nodeId = $nodeId->getNodeId();
         
+        $qb = $this->em()->createQueryBuilder()
+            ->select('r.number')
+            ->from('Kofus\System\Entity\NodeRevisionEntity', 'r')
+            ->where('r.nodeId = :node_id')
+            ->setParameter('node_id', $nodeId)
+            ->orderBy('r.number', 'DESC')
+            ->setMaxResults(1);
+        ;
+        return (int) $qb->getQuery()->getOneOrNullResult();
     }
 }

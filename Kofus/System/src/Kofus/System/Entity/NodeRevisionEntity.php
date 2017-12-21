@@ -2,6 +2,7 @@
 namespace Kofus\System\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Kofus\User\Entity\AccountEntity;
 
 /**
  * @ORM\Entity
@@ -21,6 +22,22 @@ class NodeRevisionEntity
     {
         return $this->id;
     }
+    
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $number;
+    
+    public function setNumber($value)
+    {
+        $this->number = (int) $value; return $this;
+    }
+    
+    public function getNumber()
+    {
+        return $this->number;
+    }
+    
     
 	/**
 	 * @ORM\Column()
@@ -82,13 +99,19 @@ class NodeRevisionEntity
 	    return $this->value;
 	}
 	
+	/**
+	 * @ORM\ManyToOne(targetEntity="Kofus\User\Entity\AccountEntity")
+	 */
+	protected $userAccount;
 	
+	public function setUserAccount(AccountEntity $entity=null)
+	{
+	    $this->userAccount = $entity; return $this;
+	}
 	
-	
-	
-	
-	
-	
-	
+	public function getUserAccount()
+	{
+	    return $this->userAccount;
+	}
 	
 }
