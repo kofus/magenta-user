@@ -51,11 +51,6 @@
 		    			<?php $counter += 1 ?>
 		    		<?php endforeach ?>
 		    		
-		    		<?php if ($info) : ?>
-	    				<div role="tabpanel" class="tab-pane <?php if (1 == $counter) echo 'active' ?>" id="tab-info">
-	    				   <?php echo $info ?>
-		    		    </div>
-		    		<?php endif ?>
     			</div>
     		</div>
     		<?php foreach ($form->getElements() as $element) : ?>
