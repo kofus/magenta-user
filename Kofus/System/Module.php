@@ -70,6 +70,8 @@ class Module implements AutoloaderProviderInterface
     	    $config['listeners'][] = 'KofusNodeListener';
     	    $config['listeners'][] = 'KofusLayoutListener';
     	    $config['listeners'][] = 'KofusI18nListener';
+    	} else {
+    	    $config['listeners'][] = 'KofusNodeListener';
     	}
     	return $config;
     }
