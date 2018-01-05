@@ -16,8 +16,9 @@ return array(
             'Kofus\System\Controller\CronScheduler' => 'Kofus\System\Controller\CronSchedulerController',
             'Kofus\System\Controller\Search' => 'Kofus\System\Controller\SearchController',
             'Kofus\System\Controller\Redirect' => 'Kofus\System\Controller\RedirectController',
-            'Kofus\System\Controller\Console' => 'Kofus\System\Controller\ConsoleController'
-        
+            'Kofus\System\Controller\Console' => 'Kofus\System\Controller\ConsoleController',
+            'Kofus\System\Controller\Test' => 'Kofus\System\Controller\TestController',
+            
         )
     ),
     
@@ -35,8 +36,9 @@ return array(
             'Kofus\System\Controller\CronScheduler' => 'System',
             'Kofus\System\Controller\Relation' => 'System',
             'Kofus\System\Controller\Redirect' => 'Frontend',
-            'Kofus\System\Controller\Console' => 'Console'
-        
+            'Kofus\System\Controller\Console' => 'Console',
+            'Kofus\System\Controller\Test' => 'System',
+            
         )
     ),
     
