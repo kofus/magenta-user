@@ -180,7 +180,6 @@ class NavigationService extends AbstractService
 		return $pages;
 	}
 	
-	
     protected function getArrayLocales(array $options=array())
     {
 		$application = $this->getServiceLocator()->get('Application');
@@ -189,7 +188,7 @@ class NavigationService extends AbstractService
         
         $pages = array();
         foreach ($this->getServiceLocator()->get('KofusConfig')->get('locales.enabled', array()) as $locale) {
-            if (\Locale::getDefault() == $locale)
+            if (! isset($options['includeDefaultLocale']) && \Locale::getDefault() == $locale)
                 continue;
             
             $uri = null;
@@ -216,9 +215,21 @@ class NavigationService extends AbstractService
             if (! $uri)
                 $uri = $language;
             
+            if (isset($options['labelFormat'])) {
+                switch ($options['labelFormat']) {
+                    case 'short':
+                        $label = $language;
+                        break;
+                    default:
+                        $label = \Locale::getDisplayLanguage($locale, $locale);
+                }
+            } else {
+                $label = \Locale::getDisplayLanguage($locale, $locale);
+            }
+            
             $page = array(
                 'uri' => '/' . trim($uri, '/'),
-                'label' => \Locale::getDisplayLanguage($locale, $locale),
+                'label' => $label
             );
             $pages[] = $page;
         }
@@ -239,7 +250,7 @@ class NavigationService extends AbstractService
 	        // Special method for this navbar?
 	        $method = 'getArray' . $this->getNavbar();
 	        if (method_exists($this, $method))
-	            $pages = array_merge_recursive($pages, $this->$method());
+	            $pages = array_merge_recursive($pages, $this->$method($options));
 	        
 	        
 	        $qb = $this->em()->createQueryBuilder()
