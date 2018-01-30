@@ -14,9 +14,18 @@ class LuceneQueryValue implements FilterInterface
     );
     protected $escapeChar = '/';
     
-	public function filter($value) {
+    protected $removeChars = array(
+        '(', ')'
+    );
+    
+	public function filter($value) 
+	{
+	    foreach ($this->removeChars as $removeChar)
+	        $value = str_replace($removeChar, '', $value);
 	    foreach ($this->specialChars as $specialChar)
 	        $value = str_replace($specialChar, $this->escapeChar . $specialChar, $value);
+	    
+        $value = trim($value);
 	    
 	    return $value;
 	}

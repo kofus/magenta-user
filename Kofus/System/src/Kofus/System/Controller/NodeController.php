@@ -228,13 +228,11 @@ class NodeController extends AbstractActionController
             $filterLucene = new \Kofus\System\Filter\LuceneQueryValue();
     	    $value = $filterLucene->filter($q);
     	    
-    	    
-    	    
-    	    $query = "'$value*' AND ";
+    	    $query = "+'$value*' ";
     	    $clause = array();
     	    foreach ($nodeTypes as $nodeType)
-    	        $clause[] = "node_type: '$nodeType'";
-    	    $query .= '(' . implode(' OR ', $clause) . ')';
+    	        $clause[] = "+node_type:'$nodeType'";
+    	    $query .= implode(' ', $clause);
     	    $hits = $this->lucene()->getIndex()->find($query);
     	} else {
     	    $hits = array();
