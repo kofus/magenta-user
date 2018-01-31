@@ -225,15 +225,25 @@ class NodeController extends AbstractActionController
     	$filterAlnum = new \Zend\I18n\Filter\Alnum();
     	
     	if (strlen($filterAlnum->filter($q)) > 2) {
-            $filterLucene = new \Kofus\System\Filter\LuceneQueryValue();
-    	    $value = $filterLucene->filter($q);
+            //$filterLucene = new \Kofus\System\Filter\LuceneQueryValue();
+    	    //$words = $filterLucene->filter($q);
     	    
-    	    $query = "+'$value*' ";
+    	    $filterAlnum = new \Zend\I18n\Filter\Alnum(true);
+    	    $words = $filterAlnum->filter($q);
+    	    
+    	    $query = array();
+    	    foreach (explode(' ', $words) as $word) {
+    	        if (strlen($word) < 3)
+    	            continue;
+    	        $query[] = "+'" . $word . "'"; 
+    	    }
+    	    
     	    $clause = array();
     	    foreach ($nodeTypes as $nodeType)
     	        $clause[] = "+node_type:'$nodeType'";
-    	    $query .= implode(' ', $clause);
-    	    $hits = $this->lucene()->getIndex()->find($query);
+    	    $query[] = implode(' ', $clause);
+    	    
+    	    @ $hits = $this->lucene()->getIndex()->find(implode(' ' , $query));
     	} else {
     	    $hits = array();
     	}
@@ -241,9 +251,10 @@ class NodeController extends AbstractActionController
     	// Assemble result array
     	$results = array();
     	foreach ($hits as $hit) {
+    	    $label = preg_replace('/ \([a-z]+[0-9]+\)$/i', '', $hit->label);
     		$results[] = array(
     				'id' => $hit->node_id,
-    				'text' => $hit->label
+    				'text' => $label
     				);
     	}
     	
