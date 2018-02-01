@@ -235,7 +235,7 @@ class NodeController extends AbstractActionController
     	    foreach (explode(' ', $words) as $word) {
     	        if (strlen($word) < 3)
     	            continue;
-    	        $query[] = "+'" . $word . "'"; 
+    	        $query[] = "+'" . $word . "*'"; 
     	    }
     	    
     	    $clause = array();
