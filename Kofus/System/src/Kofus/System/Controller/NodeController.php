@@ -219,14 +219,15 @@ class NodeController extends AbstractActionController
     {
     	$nodeTypes = explode('_', $this->params('id'));
     	
+    	$q = '';
+    	if (isset($_GET['q']))
+    	   $q = $_GET['q'];
     	
-    	$q = $_GET['q'];
+    	$results = array();
     	
     	$filterAlnum = new \Zend\I18n\Filter\Alnum();
     	
     	if (strlen($filterAlnum->filter($q)) > 2) {
-            //$filterLucene = new \Kofus\System\Filter\LuceneQueryValue();
-    	    //$words = $filterLucene->filter($q);
     	    
     	    $filterAlnum = new \Zend\I18n\Filter\Alnum(true);
     	    $words = $filterAlnum->filter($q);
@@ -244,19 +245,35 @@ class NodeController extends AbstractActionController
     	    $query[] = implode(' ', $clause);
     	    
     	    @ $hits = $this->lucene()->getIndex()->find(implode(' ' , $query));
+    	    
+    	    // Assemble result array
+    	    foreach ($hits as $hit) {
+    	        $label = preg_replace('/ \([a-z]+[0-9]+\)$/i', '', $hit->label);
+    	        $results[] = array(
+    	            'id' => $hit->node_id,
+    	            'text' => $label
+    	        );
+    	    }
+    	} elseif ($filterAlnum->filter($q) == '') {
+    	    $clause = array();
+    	    foreach ($nodeTypes as $nodeType)
+    	        $clause[] = "+node_type:'$nodeType'";
+    	    $query[] = implode(' ', $clause);
+    	        
+    	    @ $hits = $this->lucene()->getIndex()->find(implode(' ' , $query));
+    	    
+    	    // Assemble result array
+    	    foreach ($hits as $hit) {
+    	        $label = preg_replace('/ \([a-z]+[0-9]+\)$/i', '', $hit->label);
+    	        $results[] = array(
+    	            'id' => $hit->node_id,
+    	            'text' => $label
+    	        );
+    	    }
     	} else {
-    	    $hits = array();
+    	    $results = array();
     	}
     	
-    	// Assemble result array
-    	$results = array();
-    	foreach ($hits as $hit) {
-    	    $label = preg_replace('/ \([a-z]+[0-9]+\)$/i', '', $hit->label);
-    		$results[] = array(
-    				'id' => $hit->node_id,
-    				'text' => $label
-    				);
-    	}
     	
     	// Output json
     	return new JsonModel(array(
