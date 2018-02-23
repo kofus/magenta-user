@@ -27,7 +27,7 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
     	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'prePersist', array($this, 'setTimestamps'));
     	
     	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'preUpdate', array($this, 'addNodeRevision'));
-    	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'postPersist', array($this, 'addFirstNodeRevision'));
+    	//$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'postPersist', array($this, 'addFirstNodeRevision'));
     }
     
     public function setTimestamps(Event $event)
@@ -70,26 +70,34 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
     {
         $node = $event->getParam(0)->getEntity();
         if ($node instanceof RevisableNodeInterface) {
-            $now = new \DateTime();
-            $number = $this->getServiceLocator()->get('KofusNodeService')->getRevisionNumber($node);
+            $now = \DateTime::createFromFormat('U', REQUEST_TIME);
+            $nodeService = $this->getServiceLocator()->get('KofusNodeService');
+            $number = $nodeService->getRevisionNumber($node);
             $number += 1;
             
             foreach ($event->getParam(0)->getEntityChangeSet() as $field => $changes) {
+                
+                if (! $node->getFieldName($field)) continue;
+                
+                $value = $changes[0];
+                if (is_array($value))
+                    $value = implode('; ', $value);
+                
                 $qb = $this->em()->getConnection()->createQueryBuilder();
                 $qb->insert('kofus_system_node_revisions')
-                    ->values(array(
-                        'timestamp' => '?',
-                        'field' => '?',
-                        'value' => '?',
-                        'nodeId' => '?',
-                        'number' => '?'
-                    ))
-                    ->setParameter(0, $now->format('Y-m-d H:i:s'))
-                    ->setParameter(1, $field)
-                    ->setParameter(2, $changes[1])
-                    ->setParameter(3, $node->getNodeId())
-                    ->setParameter(4, $number)
-                    ;
+                ->values(array(
+                    'timestamp' => '?',
+                    'field' => '?',
+                    'value' => '?',
+                    'nodeId' => '?',
+                    'number' => '?'
+                ))
+                ->setParameter(0, $now->format('Y-m-d H:i:s'))
+                ->setParameter(1, $field)
+                ->setParameter(2, $value)
+                ->setParameter(3, $node->getNodeId())
+                ->setParameter(4, $number)
+                ;
                 $qb->execute();
             }
         }
