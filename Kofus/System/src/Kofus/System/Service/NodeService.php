@@ -286,6 +286,37 @@ class NodeService extends AbstractService
         return $link;
     }
     
+    public function addRevision($nodeId, $field, $value, $number=null)
+    {
+        if ($nodeId instanceof NodeInterface)
+            $nodeId = $nodeId->getNodeId();
+        if (null === $number)
+            $number = $this->getRevisionNumber($nodeId) + 1;
+        if (is_array($value))
+            $value = implode('; ', $value);
+                
+        
+        $now = \DateTime::createFromFormat('U', REQUEST_TIME);
+            
+        $qb = $this->em()->getConnection()->createQueryBuilder();
+        $qb->insert('kofus_system_node_revisions')
+            ->values(array(
+                'timestamp' => '?',
+                'field' => '?',
+                'value' => '?',
+                'nodeId' => '?',
+                'number' => '?'
+            ))
+            ->setParameter(0, $now->format('Y-m-d H:i:s'))
+            ->setParameter(1, $field)
+            ->setParameter(2, $value)
+            ->setParameter(3, $nodeId)
+            ->setParameter(4, $number)
+        ;
+        $qb->execute();
+            
+    }
+    
     public function countFieldRevisions($nodeId, $field)
     {
         if ($nodeId instanceof NodeInterface)
