@@ -25,6 +25,18 @@ return array(
                         ),
                     )
                 ),
+                'database-upgrade' => array(
+                    'options' => array(
+                        'route' => 'database upgrade',
+                        'help_text' => 'Rebuild database structure using Doctrine entities',
+                        'defaults' => array(
+                            'action' => 'database-upgrade',
+                            'controller' => 'console',
+                            '__NAMESPACE__' => 'Kofus\System\Controller'
+                        ),
+                    )
+                ),
+                
                 
             )
         )

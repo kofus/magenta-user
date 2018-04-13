@@ -15,6 +15,23 @@ class ConsoleController extends AbstractActionController
         print $this->lucene()->reindex($this->params('node_type'));
     }
     
+    public function databaseUpgradeAction()
+    {
+        $backup = $this->getServiceLocator()->get('KofusDatabase');
+        $backup->save();
+        
+        $classNames = $this->em()->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
+        
+        $tool = new \Doctrine\ORM\Tools\SchemaTool($this->em());
+        $metadata = array();
+        foreach ($classNames as $className)
+            $metadata[] = $this->em()->getClassMetadata($className);
+        $tool->updateSchema($metadata);
+        
+        foreach ($classNames as $className)
+            echo $className . PHP_EOL;
+    }
+    
     public function optimizeAction()
     {
         // Delete files
