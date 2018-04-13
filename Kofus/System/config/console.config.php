@@ -36,6 +36,17 @@ return array(
                         ),
                     )
                 ),
+                'database-backup' => array(
+                    'options' => array(
+                        'route' => 'database backup',
+                        'help_text' => 'Rebuild database structure using Doctrine entities',
+                        'defaults' => array(
+                            'action' => 'database-backup',
+                            'controller' => 'console',
+                            '__NAMESPACE__' => 'Kofus\System\Controller'
+                        ),
+                    )
+                ),
                 
                 
             )

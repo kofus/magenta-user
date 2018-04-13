@@ -17,9 +17,6 @@ class ConsoleController extends AbstractActionController
     
     public function databaseUpgradeAction()
     {
-        $backup = $this->getServiceLocator()->get('KofusDatabase');
-        $backup->save();
-        
         $classNames = $this->em()->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
         
         $tool = new \Doctrine\ORM\Tools\SchemaTool($this->em());
@@ -31,6 +28,13 @@ class ConsoleController extends AbstractActionController
         foreach ($classNames as $className)
             echo $className . PHP_EOL;
     }
+    
+    public function databaseBackupAction()
+    {
+        $backup = $this->getServiceLocator()->get('KofusDatabase');
+        $backup->save();
+    }
+    
     
     public function optimizeAction()
     {
