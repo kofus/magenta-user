@@ -284,6 +284,7 @@ return array(
             'KofusSettingsService' => 'Kofus\System\Service\SettingsService',
             'KofusSettings' => 'Kofus\System\Service\SettingsService',
             'KofusFormBuilderService' => 'Kofus\System\Service\FormBuilderService',
+            'KofusFormWizardService' => 'Kofus\System\Service\FormWizardService',
             
             // Crons
             'KofusBatchService' => 'Kofus\System\Service\BatchService',
