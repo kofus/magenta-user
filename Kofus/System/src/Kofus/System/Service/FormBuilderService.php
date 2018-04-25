@@ -14,6 +14,15 @@ use Kofus\System\Service\AbstractService;
 
 class FormBuilderService extends AbstractService
 {
+    public function reset()
+    {
+        $this->config = array();
+        $this->form = null;
+        $this->object = null;
+        $this->sections = array();
+        return $this;
+    }
+    
 
     protected $config = array();
 
@@ -170,6 +179,9 @@ class FormBuilderService extends AbstractService
         }
         
         $el = new \Zend\Form\Element\Csrf('csrf');
+        $el->setOptions(array(
+            'csrf_options' => array('timeout' => 30 * 60)
+        ));
         $this->form->add($el);
         
         // Required fields
