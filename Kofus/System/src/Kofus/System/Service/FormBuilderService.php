@@ -124,7 +124,18 @@ class FormBuilderService extends AbstractService
                 return $this->decorateElementOptions($element);
             
             // element options
-            foreach ($this->getConfig('element_options', array()) as $key => $value)
+            $elementOptions = array();
+            if ($form instanceof FieldsetInterface) {
+                $config = $this->getConfig();
+                if (isset($config['sections'][$form->getName()]['element_options'])) {
+                    $elementOptions = $config['sections'][$form->getName()]['element_options'];
+                }
+            }
+            
+            if (! $elementOptions)
+                $elementOptions = $this->getConfig('element_options', array());
+            
+            foreach ($elementOptions as $key => $value)
                 $element->setOption($key, $value);
             
             // Add default value to submit buttons
