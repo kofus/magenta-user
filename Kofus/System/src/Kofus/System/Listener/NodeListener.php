@@ -25,23 +25,38 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
         $sharedEvents = $events->getSharedManager();
     	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'preUpdate', array($this, 'setTimestamps'));
     	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'prePersist', array($this, 'setTimestamps'));
-    	
     	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'preUpdate', array($this, 'addNodeRevision'));
+    }
+    
+    protected function getCurrentDateTime()
+    {
+        return \DateTime::createFromFormat('U', REQUEST_TIME);
     }
     
     public function setTimestamps(Event $event)
     {
         $node = $event->getParam(0)->getEntity();
         if ($node instanceof NodeModifiedInterface)
-        	$node->setTimestampModified(new \DateTime());
+        	$node->setTimestampModified($this->getCurrentDateTime());
         if ($node instanceof NodeCreatedInterface && ! $node->getTimestampCreated())
-        	$node->setTimestampCreated(new \DateTime());        
+        	$node->setTimestampCreated($this->getCurrentDateTime());        
     }
     
     public function addNodeRevision(Event $event)
     {
         $node = $event->getParam(0)->getEntity();
         if ($node instanceof RevisableNodeInterface) {
+            
+            // Has the node just been created within this request?
+            if ($node instanceof NodeCreatedInterface) {
+                $created = $node->getTimestampCreated();
+                $now = $this->getCurrentDateTime();
+                if ($created->format('Y-m-d H:i:s') == $now->format('Y-m-d H:i:s')) {
+                    return;
+                }
+            }
+            
+            
             $nodeService = $this->getServiceLocator()->get('KofusNodeService');
             $number = $nodeService->getRevisionNumber($node);
             $number += 1;
@@ -54,9 +69,10 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
                         continue;
                 }
                 
-                $value = $changes[0];
+                $newValue = $changes[1];
+                $oldValue = $changes[0];
                 
-                $nodeService->addRevision($node, $field, $value, $number);
+                $nodeService->addRevision($node, $field, $oldValue, $newValue, $number);
             }
         }
     }

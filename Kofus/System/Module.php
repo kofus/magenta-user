@@ -19,8 +19,10 @@ class Module implements AutoloaderProviderInterface
         $sm = $e->getApplication()->getServiceManager();
         $this->e = $e;
         
+        $this->bootstrapPhpSettings($e);
         $this->bootstrapSession($e);
         $this->bootstrapDoctrineEvents($e);
+        
         
         // View helpers overwrite
         $pm = $sm->get('ViewHelperManager')
@@ -42,6 +44,7 @@ class Module implements AutoloaderProviderInterface
         
         define('REQUEST_TIME', time());
     }
+    
 
     public function getAutoloaderConfig()
     {
@@ -79,6 +82,17 @@ class Module implements AutoloaderProviderInterface
         }
         return $config;
     }
+    
+    public function bootstrapPhpSettings(MvcEvent $e)
+    {
+        $config = $e->getApplication()->getServiceManager()->get('config');
+        if (isset($config['php_settings'])) {
+            foreach ($config['php_settings'] as $key => $value) {
+                ini_set($key, $value);
+            }
+        }
+    }
+    
 
     /**
      * Listen to events from Doctrine event manager and then

@@ -100,6 +100,38 @@ class NodeRevisionEntity
 	}
 	
 	/**
+	 * @ORM\Column(type="text", nullable=true)
+	 */
+	protected $oldValue;
+	
+	public function setOldValue($value)
+	{
+	    $this->oldValue = $value; return $this;
+	}
+	
+	public function getOldValue()
+	{
+	    return $this->oldValue;
+	}
+	
+	/**
+	 * @ORM\Column(type="text", nullable=true)
+	 */
+	protected $newValue;
+	
+	public function setNewValue($value)
+	{
+	    $this->newValue = $value; return $this;
+	}
+	
+	public function getNewValue()
+	{
+	    return $this->newValue;
+	}
+	
+	
+	
+	/**
 	 * @ORM\ManyToOne(targetEntity="Kofus\User\Entity\AccountEntity")
 	 */
 	protected $userAccount;

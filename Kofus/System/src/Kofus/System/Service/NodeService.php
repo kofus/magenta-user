@@ -286,14 +286,16 @@ class NodeService extends AbstractService
         return $link;
     }
     
-    public function addRevision($nodeId, $field, $value, $number=null)
+    public function addRevision($nodeId, $field, $oldValue, $newValue, $number=null)
     {
         if ($nodeId instanceof NodeInterface)
             $nodeId = $nodeId->getNodeId();
         if (null === $number)
             $number = $this->getRevisionNumber($nodeId) + 1;
-        if (is_array($value))
-            $value = implode('; ', $value);
+        if (is_array($oldValue))
+            $oldValue = implode('; ', $oldValue);
+        if (is_array($newValue))
+            $newValue = implode('; ', $newValue);
                 
         
         $now = \DateTime::createFromFormat('U', REQUEST_TIME);
@@ -303,18 +305,19 @@ class NodeService extends AbstractService
             ->values(array(
                 'timestamp' => '?',
                 'field' => '?',
-                'value' => '?',
+                'oldValue' => '?',
+                'newValue' => '?',
                 'nodeId' => '?',
                 'number' => '?'
             ))
             ->setParameter(0, $now->format('Y-m-d H:i:s'))
             ->setParameter(1, $field)
-            ->setParameter(2, $value)
-            ->setParameter(3, $nodeId)
-            ->setParameter(4, $number)
+            ->setParameter(2, $oldValue)
+            ->setParameter(3, $newValue)
+            ->setParameter(4, $nodeId)
+            ->setParameter(5, $number)
         ;
         $qb->execute();
-            
     }
     
     public function countFieldRevisions($nodeId, $field)
@@ -333,13 +336,20 @@ class NodeService extends AbstractService
         return count($qb->getQuery()->getResult());
     }
     
-    public function getLastRevision($nodeId)
+    public function getLastRevision($nodeId, $field=null)
     {
         if ($nodeId instanceof NodeInterface)
             $nodeId = $nodeId->getNodeId();
+        
+        $criteria = array(
+            'nodeId' => $nodeId
+        );
+        
+        if ($field)
+            $criteria['field'] = $field; 
             
         return $this->em()->getRepository('Kofus\System\Entity\NodeRevisionEntity')
-            ->findOneBy(array('nodeId' => $nodeId), array('id' => 'DESC'));
+            ->findOneBy($criteria, array('id' => 'DESC'));
     }
     
     public function getRevisions($nodeId)
