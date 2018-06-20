@@ -36,10 +36,13 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
     public function setTimestamps(Event $event)
     {
         $node = $event->getParam(0)->getEntity();
-        if ($node instanceof NodeModifiedInterface)
-        	$node->setTimestampModified($this->getCurrentDateTime());
         if ($node instanceof NodeCreatedInterface && ! $node->getTimestampCreated())
-        	$node->setTimestampCreated($this->getCurrentDateTime());        
+        	$node->setTimestampCreated($this->getCurrentDateTime());
+    	if ($node instanceof NodeModifiedInterface) {
+    	    if (! $node->getTimestampCreated() || $node->getTimestampCreated()->format('Y-m-d H:i:s') != $this->getCurrentDateTime()->format('Y-m-d H:i:s'))
+        	    $node->setTimestampModified($this->getCurrentDateTime());
+    	}
+        	
     }
     
     public function addNodeRevision(Event $event)
