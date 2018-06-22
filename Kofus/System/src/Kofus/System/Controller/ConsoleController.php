@@ -116,4 +116,11 @@ class ConsoleController extends AbstractActionController
         $this->em()->flush();
     }
     
+    public function runBatchAction()
+    {
+        $cron = $this->getServiceLocator()->get($this->params('batch'));
+        $cron->run();
+    }
+    
+    
 }

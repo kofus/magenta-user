@@ -1,53 +1,68 @@
 <?php
 namespace Kofus\System\Batch;
-
-use Kofus\System\Service\AbstractService;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Kofus\System\Batch\BatchInterface;
+use Kofus\System\Service\AbstractService;
+use Zend\Mail;
+use Zend\Mime;
 
-class AbstractBatch extends AbstractService implements BatchInterface
+abstract class AbstractBatch extends AbstractService implements BatchInterface, ServiceLocatorAwareInterface
 {
-	protected $metaParams = array();
-	
-	public function setMetaParams(array $params)
-	{
-		$this->metaParams = $params; return $this;
-	}
-	
-	public function getMetaParams()
-	{
-		return $this->metaParams;
-	}
-	
-	public function getMetaParam($key)
-	{
-		if (isset($this->metaParams[$key]))
-			return $this->metaParams[$key];
-	}
-	
-	public function getItems()
-	{
-		return array();
-	}
-	
-	public function process($item) {}
-	
-	public function beforeProcess() {}
-	
-	public function afterProcess() {}
-	
-	public function beforeBatch() {}
-	public function afterBatch() {}
-	
-	protected $batchSize = 10;
-	
-	public function getBatchSize()
-	{
-		return $this->batchSize;
-	}
-	
-	public function setBatchSize($value)
-	{
-		$this->batchSize = $value; return $this;
-	}
-	
+    protected $spec = array();
+    
+    public function setSpecification(array $spec)
+    {
+    	$this->spec = $spec; return $this;
+    }
+    
+    public function getSpecification()
+    {
+        return $this->spec;
+    }
+    
+    
+    protected $storeParams = array();
+    
+    public function getStoreParams()
+    {
+    	return $this->storeParams;
+    }
+    
+    public function setStoreParams(array $params)
+    {
+    	$this->storeParams = $params; return $this;
+    } 
+
+    protected $sm;
+    
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+    	$this->sm = $serviceLocator;
+    }
+    
+    public function getServiceLocator()
+    {
+    	return $this->sm;
+    }
+    
+    protected function sendDebugMail($txt, $subject='Cron Debug', $to='log@kofus.de')
+    {
+    	$html = new Mime\Part($txt);
+    	$html->type = 'text/plain';
+    	
+    	$mimeBody = new Mime\Message();
+    	$mimeBody->setParts(array($html));
+    	
+    	$mail = new Mail\Message();
+    	$mail->setSubject('[' . $_SERVER['HTTP_HOST'] . '] ' . $subject);
+    	$mail->addTo($to);
+    	$mail->setBody($mimeBody);
+    	$mail->setFrom('log@kofus.de', 'Cron Debug');
+    	
+    	$transport = new Mail\Transport\Sendmail();
+    	$transport->send($mail);    	
+    }
+    
+    
 }

@@ -4,11 +4,9 @@ namespace Kofus\System\Batch;
 
 interface BatchInterface
 {
-	public function getItems();
-	
-	public function process($item);
-	
-	public function setMetaParams(array $params);
-	
-	public function getMetaParams();
+    public function setSpecification(array $spec);
+    public function getSpecification();
+    public function setStoreParams(array $params);
+    public function getStoreParams();
+    public function run();
 }
