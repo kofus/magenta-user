@@ -39,8 +39,12 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
         if ($node instanceof NodeCreatedInterface && ! $node->getTimestampCreated())
         	$node->setTimestampCreated($this->getCurrentDateTime());
     	if ($node instanceof NodeModifiedInterface) {
-    	    if (! $node->getTimestampCreated() || $node->getTimestampCreated()->format('Y-m-d H:i:s') != $this->getCurrentDateTime()->format('Y-m-d H:i:s'))
-        	    $node->setTimestampModified($this->getCurrentDateTime());
+    	    if ($node instanceof NodeCreatedInterface) {
+        	    if (! $node->getTimestampCreated() || $node->getTimestampCreated()->format('Y-m-d H:i:s') != $this->getCurrentDateTime()->format('Y-m-d H:i:s'))
+            	    $node->setTimestampModified($this->getCurrentDateTime());
+            } else {
+                $node->setTimestampModified($this->getCurrentDateTime());
+        	}
     	}
         	
     }
