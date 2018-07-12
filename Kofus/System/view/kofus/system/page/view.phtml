@@ -4,76 +4,7 @@
 	<div class="col-md-9">
         <?php echo $this->translateNode($entity)->getContent() ?>
         <?php if ($this->relations) : ?>
-            <hr>
-            <ul class="nav nav-tabs" role="tablist">
-                <?php $isFirst = true ?>
-                <?php foreach ($this->relations as $type => $data) : ?>
-                    <?php if (! $data) continue ?>
-                    <li class="<?php if ($isFirst) echo 'active' ?>">
-                        <a href="<?php echo '#' . md5($type) ?>" role="tab" data-toggle="tab">
-                            <?php echo $this->escapeHtml($this->translate($this->config()->get('nodes.available.'.$type.'.label'))) ?>
-                        </a>
-                    </li>
-                    <?php $isFirst = false ?>
-                <?php endforeach ?>
-            </ul>
-            <br>
-            <div class="tab-content">
-                <?php $isFirst = true ?>
-                <?php foreach ($this->relations as $type => $delta) : ?>
-                    <?php if (! $delta) continue ?>
-                    <div role="tabpanel" class="tab-pane <?php if ($isFirst) echo 'active' ?>" id="<?php echo md5($type) ?>">
-                        <?php foreach ($delta as $r) : ?>
-                            <?php $node = $r->getNode() ?>
-                            <div class="panel-group">
-                                <div class="panel <?php echo ($node->isEnabled()) ? 'panel-default' : 'panel-danger' ?>">
-                                    <div class="panel-heading">
-                                        <div class="dropdown pull-right">
-                                            <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown">
-                                                <span class="glyphicon glyphicon-cog"></span>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a href="<?php echo $this->url('kofus_system', array('controller' => 'relation', 'action' => 'edit', 'id' => $r->getId())) ?>?edit=<?php echo $type ?>">
-                                                        <span class="glyphicon glyphicon-pencil"></span>
-                                                        <?php echo $this->translate('Edit') ?>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="<?php echo $this->url('kofus_system', array('controller' => 'relation', 'action' => 'delete', 'id' => $r->getId())) ?>?delete=<?php echo $type ?>">
-                                                        <span class="glyphicon glyphicon-remove"></span>
-                                                        <?php echo $this->translate('Delete') ?>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <h4 class="panel-title">
-                                            <a class="collapsed" data-toggle="collapse" href="#collapse-<?php echo $node->getNodeId() ?>">
-                                                <?php echo $node ?>
-                                            </a>
-                                        </h4>
-                                        
-                                    </div>
-                                    <div id="collapse-<?php echo $node->getNodeId() ?>" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <?php echo $node ?> 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach ?>
-                    </div>
-                    <?php $isFirst = false ?>
-                <?php endforeach ?>
-            </div>
-        <?php endif ?>
-        <?php if ($this->relFiles) : ?>
-            <?php foreach ($this->relFiles as $relFile) : ?>
-                <?php $pdf = $relFile->getNode() ?>
-                <a href="<?php echo $this->url('kofus_system', array('controller' => 'relation', 'action' => 'edit', 'id' => $relFile->getId()), array('query' => array('edit' => 'PDF'))) ?>">
-                    <img src="<?php echo $this->media()->getImageLink($pdf) ?>" class="img-responsive img-thumbnail" />
-                </a>
-            <?php endforeach ?>
+       		<?php echo $this->partial('kofus/system/relations.phtml', array('relations' => $this->relations)) ?>         	
         <?php endif ?>
         
     </div>
