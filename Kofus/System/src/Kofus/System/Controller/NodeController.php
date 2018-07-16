@@ -241,8 +241,8 @@ class NodeController extends AbstractActionController
     	    
     	    $clause = array();
     	    foreach ($nodeTypes as $nodeType)
-    	        $clause[] = "+node_type:'$nodeType'";
-    	    $query[] = implode(' ', $clause);
+    	        $clause[] = "node_type:'$nodeType'";
+    	    $query[] = '+(' . implode(' OR ', $clause) . ')';
     	    
     	    @ $hits = $this->lucene()->getIndex()->find(implode(' ' , $query));
     	    
@@ -257,8 +257,8 @@ class NodeController extends AbstractActionController
     	} elseif ($filterAlnum->filter($q) == '') {
     	    $clause = array();
     	    foreach ($nodeTypes as $nodeType)
-    	        $clause[] = "+node_type:'$nodeType'";
-    	    $query[] = implode(' ', $clause);
+    	        $clause[] = "node_type:'$nodeType'";
+    	    $query[] = '+(' . implode(' OR ', $clause) . ')';
     	        
     	    @ $hits = $this->lucene()->getIndex()->find(implode(' ' , $query));
     	    
