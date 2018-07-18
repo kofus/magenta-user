@@ -19,6 +19,8 @@
                     <div role="tabpanel" class="tab-pane <?php if ($isFirst) echo 'active' ?>" id="<?php echo md5($type) ?>">
                         <?php 
                             switch ($type) {
+                                case 'GIMG':
+                                case 'PIMG':
                                 case 'IMG':
                                     echo $this->partial('kofus/system/relations/IMG.phtml', array('delta' => $delta, 'type' => $type));
                                     break;
