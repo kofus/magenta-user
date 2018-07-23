@@ -43,6 +43,7 @@ class Module implements AutoloaderProviderInterface
         \Zend\Navigation\Page\Mvc::setDefaultRouter($e->getRouter());
         
         define('REQUEST_TIME', time());
+        define('ROOT_DIR', realpath(__DIR__ . '/../../../../..'));
     }
     
 

@@ -27,6 +27,9 @@
                                 case 'PDF':
                                     echo $this->partial('kofus/system/relations/PDF.phtml', array('delta' => $delta, 'type' => $type));
                                     break;
+                                case 'VF':
+                                    echo $this->partial('kofus/system/relations/VF.phtml', array('delta' => $delta, 'type' => $type));
+                                    break;
                                     
                                 default:
                                     echo $this->partial('kofus/system/relations/default.phtml', array('delta' => $delta, 'type' => $type));
