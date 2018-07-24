@@ -1,0 +1,37 @@
+
+<?php if (count($this->delta)) : ?>
+
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Dateiname</th>
+			<th>Mime-Type</th>
+			<th>Größe</th>
+		</tr>
+	</thead>
+	<tbody data-link="row" class="rowlink">
+        <?php foreach ($this->delta as $r) : ?>
+            <?php $node = $r->getNode() ?>
+        	<tr <?php if (! $node->isEnabled()) echo 'class="danger" '?>>
+        		<td>
+        			<a href="<?php echo $this->url('kofus_system', array('controller' => 'relation', 'action' => 'edit', 'id' => $r->getId()), array('query' => array('edit' => 'VF'))) ?>">
+	        			<?php echo $this->escapeHtml($node->getTitle()) ?>
+        			</a>
+        		</td>
+        		<td>
+        			<?php echo $this->escapeHtml($node->getMimeType()) ?>
+        		</td>
+        		<td>
+        			<?php echo $this->fileSize($node->getFilesize()) ?>
+        		</td>
+        	</tr>
+        <?php endforeach ?>
+    </tbody>
+</table>
+
+<?php else : ?>
+	<p>Keine Einträge.</p>
+<?php endif ?>
+
+
+
