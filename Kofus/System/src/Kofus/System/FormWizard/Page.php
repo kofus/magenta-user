@@ -39,7 +39,8 @@ class Page
     
     public function getParam($key)
     {
-        return $this->params[$key];
+        if (isset($this->params[$key]))
+            return $this->params[$key];
     }
     
     /**

@@ -189,11 +189,14 @@ class FormBuilderService extends AbstractService
             $this->form->add($el);
         }
         
-        $el = new \Zend\Form\Element\Csrf('csrf');
-        $el->setOptions(array(
-            'csrf_options' => array('timeout' => 30 * 60)
-        ));
-        $this->form->add($el);
+        if (! array_key_exists('csrf_enabled', $this->config) || (array_key_exists('csrf_enabled', $this->config) && $this->config['csrf_enabled'] !== false)) {
+     
+            $el = new \Zend\Form\Element\Csrf('csrf');
+            $el->setOptions(array(
+                'csrf_options' => array('timeout' => 30 * 60)
+            ));
+            $this->form->add($el);
+        }
         
         // Required fields
         foreach ($this->form->getFieldsets() as $fieldset) {
