@@ -14,18 +14,31 @@ class UserService extends AbstractService implements EventManagerAwareInterface
 {
     public function encrypt($password, $encryption='password')
     {
-        $bcrypt = new \Zend\Crypt\Password\Bcrypt();
-        return $bcrypt->create($password);
+        switch ($encryption) {
+            case 'md5':
+                $crypt = md5($password);
+                break;
+            case 'password':
+                $bcrypt = new \Zend\Crypt\Password\Bcrypt();
+                $crypt = $bcrypt->create($password);
+                break;
+            case 'plaintext':
+                $crypt = $password;
+                break;
+            throw new \Exception('Unknown encryption method: ' . $encryption);
+            
+        }
+        return $crypt;
     }
     
 	public function login($identity, $credential, $type='login')
 	{
 	    // Get auth entity by identity
-        $auth = $this->nodes()->getRepository('AUTH')->findOneBy(array(
+        $auth = $this->nodes()->getRepository('AUTH' . strtoupper($type))->findOneBy(array(
             'identity' => $identity,
-            'type' => $type,
             'enabled' => true
         ));
+
         if (! $auth)
             return new Result(Result::FAILURE_IDENTITY_NOT_FOUND, $identity);
         $account = $auth->getAccount();
@@ -76,8 +89,13 @@ class UserService extends AbstractService implements EventManagerAwareInterface
 	{
 	    $storage = new Storage();
 	    $authNodeId = $storage->read();
-	    if ($authNodeId)
-	       return $this->nodes()->getNode($authNodeId, 'AUTH');
+	    if ($authNodeId) {
+	       $auth = $this->nodes()->getNode($authNodeId);
+	       if (! $auth instanceof \Kofus\User\Entity\AuthEntity)
+	           throw new \Exception('Not an authentication node: ' . $authNodeId);
+	       return $auth;
+	    }
+	    
 	}
 	
 	public function getAccount()

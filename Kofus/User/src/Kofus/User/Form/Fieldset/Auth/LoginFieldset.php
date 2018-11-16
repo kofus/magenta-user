@@ -4,9 +4,9 @@ namespace Kofus\User\Form\Fieldset\Auth;
 use Zend\Form\Fieldset;
 use Zend\Form\Element;
 use Zend\InputFilter\InputFilterProviderInterface;
-use Kofus\User\Entity\AuthEntity;
+use Kofus\User\Entity\AuthLoginEntity;
 
-class MasterFieldset extends Fieldset implements InputFilterProviderInterface
+class LoginFieldset extends Fieldset implements InputFilterProviderInterface
 {
 
     public function init()
@@ -15,14 +15,8 @@ class MasterFieldset extends Fieldset implements InputFilterProviderInterface
         $el->setAttribute('readonly', 'readonly');
         $this->add($el);
         
-        $el = new Element\Select('type', array(
-            'label' => 'Authentication Method'
-        ));
-        $el->setValueOptions(AuthEntity::$TYPES);
-        $this->add($el);
-        
         $el = new Element\Select('encryption', array('label' => 'Encryption'));
-        $el->setValueOptions(AuthEntity::$ENCRYPTIONS);
+        $el->setValueOptions(AuthLoginEntity::$ENCRYPTIONS);
         $this->add($el);
         
         $el = new Element\Text('identity', array(
@@ -49,11 +43,7 @@ class MasterFieldset extends Fieldset implements InputFilterProviderInterface
 
     public function getInputFilterSpecification()
     {
-        $stringTrim = new \Zend\Filter\StringTrim();
         return array(
-            'type' => array(
-                'required' => true
-            ),
             'encryption' => array(
             	'required' => true
             ),

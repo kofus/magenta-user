@@ -46,8 +46,9 @@ return array(
                     )
                 ),
             ),
-            'AUTH' => array(
-                'label' => 'Authentication',
+            'AUTHLOGIN' => array(
+                'label' => 'Login Authentication',
+                'label_pl' => 'Login Authentications',
                 'entity' => 'Kofus\User\Entity\AuthEntity',
                 'controllers' => array(
                     'Kofus\User\Controller\Auth'
@@ -55,14 +56,37 @@ return array(
                 'form' => array(
                     'default' => array(
                         'fieldsets' => array(
-                            'master' => array(
-                                'class' => 'Kofus\User\Form\Fieldset\Auth\MasterFieldset',
-                                'hydrator' => 'Kofus\User\Form\Hydrator\Auth\MasterHydrator'
+                            'login' => array(
+                                'class' => 'Kofus\User\Form\Fieldset\Auth\LoginFieldset',
+                                'hydrator' => 'Kofus\User\Form\Hydrator\Auth\LoginHydrator'
                             )
                         )
                     )
                 )
+            ),
+            'AUTHPASS' => array(
+                'label' => 'Passphrase Authentication',
+                'label_pl' => 'Passphrase Authentications',
+                'entity' => 'Kofus\User\Entity\AuthPassphraseEntity',
+                'controllers' => array(
+                    'Kofus\User\Controller\Auth'
+                ),
+                'form' => array(
+                    'default' => array(
+                        'fieldsets' => array(
+                            'master' => array(
+                                'class' => 'Kofus\User\Form\Fieldset\Auth\PassphraseFieldset',
+                                'hydrator' => 'Kofus\User\Form\Hydrator\Auth\PassphraseHydrator'
+                            )
+                        )
+                    )
+                )
+            ),
+            'AUTH' => array(
+                'label' => 'Authentication',
+                'entity' => 'Kofus\User\Entity\AuthEntity'
             )
+            
         )
     )
 )

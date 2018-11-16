@@ -14,7 +14,8 @@ use Kofus\System\Node\NodeModifiedInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Kofus\System\Node\RevisableNodeInterface;
-use Kofus\System\Entity\NodeRevisionEntity;
+use Kofus\System\Node\NodeUserCreatedInterface;
+
 
 
 
@@ -26,6 +27,9 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
     	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'preUpdate', array($this, 'setTimestamps'));
     	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'prePersist', array($this, 'setTimestamps'));
     	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'preUpdate', array($this, 'addNodeRevision'));
+    	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'preUpdate', array($this, 'setUserAccount'));
+    	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'prePersist', array($this, 'setUserAccount'));
+    	
     }
     
     protected function getCurrentDateTime()
@@ -33,6 +37,10 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
         return \DateTime::createFromFormat('U', REQUEST_TIME);
     }
     
+    /**
+     * Deploy timestamps for NodeCreatedInterface and NodeModifiedInterface
+     * @param Event $event
+     */
     public function setTimestamps(Event $event)
     {
         $node = $event->getParam(0)->getEntity();
@@ -47,6 +55,19 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
         	}
     	}
         	
+    }
+
+    /**
+     * Deploy user account for NodeUserCreatedInterface
+     * @param Event $event
+     */
+    public function setUserAccount(Event $event)
+    {
+        $node = $event->getParam(0)->getEntity();
+        if ($node instanceof NodeUserCreatedInterface && ! $node->getUserCreated()) {
+            $account = $this->getServiceLocator()->get('KofusUserService')->getAccount();
+            $node->setUserCreated($account);
+        }
     }
     
     public function addNodeRevision(Event $event)

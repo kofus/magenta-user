@@ -5,7 +5,7 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class MasterHydrator implements HydratorInterface, ServiceLocatorAwareInterface
+class PassphraseHydrator implements HydratorInterface, ServiceLocatorAwareInterface
 {
 
     public function extract($object)
@@ -17,8 +17,6 @@ class MasterHydrator implements HydratorInterface, ServiceLocatorAwareInterface
             $accountId = $_GET['account'];
         
         return array(
-            'type' => $object->getType(),
-            'encryption' => $object->getEncryption(),
             'identity' => $object->getIdentity(),
             'account' => $accountId,
             'enabled' => $object->isEnabled()
@@ -32,18 +30,10 @@ class MasterHydrator implements HydratorInterface, ServiceLocatorAwareInterface
         if (! $account)
             throw new \Exception('A user account is required');
 
-        // Encrypt password
-        $userService = $this->getServiceLocator()->get('KofusUserService');
-        $credential = $userService->encrypt($data['password'], $data['encryption']);
-        
         // Setters
-        $object->setType($data['type']);
-        $object->setEncryption($data['encryption']);
         $object->setIdentity($data['identity']);
         $object->setAccount($account);
-        $object->setCredential($credential);
         $object->isEnabled($data['enabled']);
-        
         
         return $object;
     }

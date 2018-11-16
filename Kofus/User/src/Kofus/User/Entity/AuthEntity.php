@@ -9,7 +9,8 @@ use Kofus\User\Entity\AccountEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="kofus_user_auth", indexes={@ORM\Index(name="kofus_user_auth_identitytype", columns={"identity", "type"})})
+ * @ORM\InheritanceType("SINGLE_TABLE") 
+ * @ORM\Table(name="kofus_user_auth")
  *
  */
 class AuthEntity implements NodeInterface
@@ -26,22 +27,6 @@ class AuthEntity implements NodeInterface
         return $this->id;
     }
     
-    
-    /**
-     * Set the encrypted password
-     * @ORM\Column()
-     */
-    protected $credential;
-    
-    public function setCredential($value)
-    {
-    	$this->credential = $value; return $this;
-    }
-    
-    public function getCredential()
-    {
-    	return $this->credential;
-    }
 
     /**
      * @ORM\Column(nullable=true)
@@ -59,55 +44,7 @@ class AuthEntity implements NodeInterface
     }
     
     
-    /**
-     * @ORM\Column(length=15)
-     */
-    protected $encryption = 'password';
     
-    const ENCRYPT_MD5 = 'md5';
-    const ENCRYPT_PLAINTEXT = 'plaintext';
-    const ENCRYPT_PASSWORD = 'password';
-    const ENCRYPT_DRUPAL = 'drupal';
-    
-    public static $ENCRYPTIONS = array(
-    	self::ENCRYPT_PASSWORD => 'PASSWORD',
-        self::ENCRYPT_MD5 => 'MD5',
-        self::ENCRYPT_DRUPAL => 'Drupal',
-        self::ENCRYPT_PLAINTEXT => 'No encryption (plain text)'
-    );
-    
-    public function setEncryption($value)
-    {
-    	$this->encryption = $value; return $this;
-    }
-    
-    public function getEncryption()
-    {
-    	return $this->encryption;
-    }
-    
-    /**
-     * @ORM\Column(length=15)
-     */
-    protected $type = self::TYPE_WEB_LOGIN;
-    
-    const TYPE_WEB_LOGIN = 'login';
-    
-    public static $TYPES = array(
-    	self::TYPE_WEB_LOGIN => 'Web Login'
-    );
-    
-    public function setType($value)
-    {
-    	$this->type = $value; return $this;
-    }
-    
-    public function getType($pretty=false)
-    {
-        if ($pretty)
-    	   return self::$TYPES[$this->type];
-        return $this->type;
-    }
     
     /**
      * @ORM\ManyToOne(targetEntity="Kofus\User\Entity\AccountEntity")
@@ -167,7 +104,7 @@ class AuthEntity implements NodeInterface
     
     public function __toString()
     {
-    	return $this->getType() .':'. $this->getIdentity() . ' (AUTH' . $this->getId() . ')';
+    	return $this->getIdentity() . ' (' . $this->getNodeId() . ')';
     }
     
     

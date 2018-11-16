@@ -17,7 +17,7 @@
                         <tr>
                             <td>
                                 <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'edit', 'id' => $auth->getNodeId())) ?>">
-                                    <?php echo $this->escapeHtml($auth->getType(true)) ?>
+                                    <?php echo $this->escapeHtml($this->nodes()->getConfig($auth->getNodeType(), 'label')) ?>
                                 </a>
                             </td>
                             <td>
@@ -42,10 +42,15 @@
                 <i class="glyphicon glyphicon-pencil"></i>
                 <?php echo $this->translate('Edit') ?>
             </a>
-            <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'add', 'id' => 'AUTH'), array('query' => array('account' => $this->entity->getNodeId()))) ?>" class="list-group-item">
+            <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'add', 'id' => 'AUTHLOGIN'), array('query' => array('account' => $this->entity->getNodeId()))) ?>" class="list-group-item">
                 <i class="glyphicon glyphicon-plus"></i>
-                <?php echo $this->translate('Authentication') ?>
+                Login
             </a>
+            <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'add', 'id' => 'AUTHPASS'), array('query' => array('account' => $this->entity->getNodeId()))) ?>" class="list-group-item">
+                <i class="glyphicon glyphicon-plus"></i>
+                Passphrase
+            </a>
+            
         </div>
     </div>
 </div>
