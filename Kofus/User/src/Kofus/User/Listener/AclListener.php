@@ -117,10 +117,14 @@ class AclListener implements ListenerAggregateInterface
         
         // Determine "resource" and "action"
         $resource = $this->r->getParam('controller'); 
+        $mappings = $sm->get('KofusConfigService')->get('user.controller_mappings', array());
+        if (isset($mappings[$resource]))
+            $resource = $mappings[$resource];
         $action = $this->r->getParam('action');
 
         
         // Is allowed? => done
+        
         if ($this->userService->isAllowed($resource, $action))
             return;
         

@@ -31,7 +31,7 @@ class UserService extends AbstractService implements EventManagerAwareInterface
         return $crypt;
     }
     
-	public function login($identity, $credential, $type='login')
+	public function login($identity, $credential=null, $type='login')
 	{
 	    // Get auth entity by identity
         $auth = $this->nodes()->getRepository('AUTH' . strtoupper($type))->findOneBy(array(
@@ -45,21 +45,25 @@ class UserService extends AbstractService implements EventManagerAwareInterface
         if (! $account || $account->getStatus() != 1)
             return new Result(Result::FAILURE_UNCATEGORIZED, $identity);
         
-        switch ($auth->getEncryption()) {
-        	case 'md5':
-        	    $authAdapter = new AuthAdapter\Md5();
-        	    break;
-        	    
-        	case 'drupal':
-        	    $authAdapter = new AuthAdapter\Drupal();
-        	    break;
-        	    
-        	case 'password':
-        	    $authAdapter = new AuthAdapter\Password();
-        	    break;
-        	    
-        	default:
-        	    throw new \Exception('Encryption type not supported: ' . $auth->getEncryption());
+        if ('login' == $type) {
+            switch ($auth->getEncryption()) {
+            	case 'md5':
+            	    $authAdapter = new AuthAdapter\Md5();
+            	    break;
+            	    
+            	case 'drupal':
+            	    $authAdapter = new AuthAdapter\Drupal();
+            	    break;
+            	    
+            	case 'password':
+            	    $authAdapter = new AuthAdapter\Password();
+            	    break;
+            	    
+            	default:
+            	    throw new \Exception('Encryption type not supported: ' . $auth->getEncryption());
+            }
+        } else {
+            $authAdapter = new AuthAdapter\Passphrase();
         }
         
         $authAdapter->setIdentity($auth)->setCredential($credential);
