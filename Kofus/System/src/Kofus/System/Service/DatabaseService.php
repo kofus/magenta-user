@@ -6,7 +6,7 @@ use Kofus\System\Service\AsbtractService;
 
 class DatabaseService extends AbstractService
 {
-    public function dump()
+    public function dump($filename)
     {
         // Fetch database config
         $config = $this->getServiceLocator()->get('Config');
@@ -16,11 +16,12 @@ class DatabaseService extends AbstractService
         // Determine database driver type
         if (strpos(strtolower($db['driverClass']), 'mysql') !== false) {
         	$type = 'mysql';
+        	/*
         } elseif (strpos(strtolower($db['driverClass']), 'pgsql')) {
         	$type = 'psql';
     	} elseif (strpos(strtolower($db['driverClass']), 'sqlite')) {
     		$type = 'sqlite';
-        		 
+        	*/	 
         } else {
         	throw new \Exception('Database driver? ' . $db['driverClass']);
         }
@@ -28,9 +29,7 @@ class DatabaseService extends AbstractService
         // Fetch dump via console
         switch ($type) {
         	case 'mysql':
-        		$handle = popen('mysqldump --default-character-set=latin1 --user='.escapeshellarg($dbParams['user']).' --password='.escapeshellarg($dbParams['password']).' --host='.escapeshellarg($dbParams['host']).' --port='. ((int) $dbParams['port']) . ' '. escapeshellarg($dbParams['dbname']), 'r');
-        		$s = stream_get_contents($handle);
-        		fclose($handle);
+        		exec('mysqldump -r '.escapeshellarg($filename).' --user='.escapeshellarg($dbParams['user']).' --password='.escapeshellarg($dbParams['password']).' --host='.escapeshellarg($dbParams['host']).' --port='. ((int) $dbParams['port']) . ' '. escapeshellarg($dbParams['dbname']));
         		break;
         
         	case 'psql':
@@ -47,7 +46,7 @@ class DatabaseService extends AbstractService
         	    $s = file_get_contents($dbParams['path']);
         	    
         }
-        return $s;
+        return;
     }
     
     public function createFilename()
@@ -66,12 +65,13 @@ class DatabaseService extends AbstractService
     {
         if (! $filename) 
             $filename = 'data/backups/' . $this->createFilename();
-        $s = $this->dump();
+
         
         if (! is_dir(dirname($filename)))
         	mkdir(dirname($filename), 0777, true);
         
-        file_put_contents($filename, $s);
+        $this->dump($filename);
+        
     }
     
 }
