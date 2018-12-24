@@ -39,7 +39,7 @@ class DatabaseController extends AbstractActionController
         $response->setStatusCode(200);
         
         $headers = new \Zend\Http\Headers();
-        $headers->addHeaderLine('Content-Type', 'application/sql')
+        $headers->addHeaderLine('Content-Type', 'application/sql; charset=utf-8')
             ->addHeaderLine('Content-Disposition', 'attachment; filename="' . $filename . '"')
             ->addHeaderLine('Content-Length', filesize($path . $filename));
         
