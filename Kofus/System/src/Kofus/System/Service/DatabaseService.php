@@ -28,7 +28,7 @@ class DatabaseService extends AbstractService
         // Fetch dump via console
         switch ($type) {
         	case 'mysql':
-        		$handle = popen('mysqldump --user='.escapeshellarg($dbParams['user']).' --password='.escapeshellarg($dbParams['password']).' --host='.escapeshellarg($dbParams['host']).' --port='. ((int) $dbParams['port']) . ' '. escapeshellarg($dbParams['dbname']), 'r');
+        		$handle = popen('mysqldump --default-character-set=latin1 --user='.escapeshellarg($dbParams['user']).' --password='.escapeshellarg($dbParams['password']).' --host='.escapeshellarg($dbParams['host']).' --port='. ((int) $dbParams['port']) . ' '. escapeshellarg($dbParams['dbname']), 'r');
         		$s = stream_get_contents($handle);
         		fclose($handle);
         		break;
