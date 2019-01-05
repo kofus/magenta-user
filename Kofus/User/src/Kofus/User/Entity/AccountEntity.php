@@ -47,6 +47,17 @@ class AccountEntity implements Node\NodeInterface, Node\NodeCreatedInterface
         return $this->name;
     }
     
+    public function getInitials()
+    {
+        $initials = '';
+        $names = explode(' ', $this->getName());
+        foreach ($names as $name) {
+            $initials .= substr($name, 0, 1);
+        }
+        return $initials;
+        
+    }
+    
     /**
      * @ORM\Column(type="integer")
      */
