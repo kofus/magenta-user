@@ -45,11 +45,11 @@ class NodeService extends AbstractService
         return new $classname();        
     }
     
-    public function createQueryBuilder($nodeType)
+    public function createQueryBuilder($nodeType, $alias='n')
     {
         $qb = $this->em()->createQueryBuilder();
-        $qb->select('n')
-            ->from($this->getEntityClass($nodeType), 'n');
+        $qb->select($alias)
+            ->from($this->getEntityClass($nodeType), $alias);
         return $qb;
     }
     
