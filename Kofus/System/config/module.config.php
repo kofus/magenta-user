@@ -12,13 +12,12 @@ return array(
             'Kofus\System\Controller\Content' => 'Kofus\System\Controller\ContentController',
             'Kofus\System\Controller\Page' => 'Kofus\System\Controller\PageController',
             'Kofus\System\Controller\Error' => 'Kofus\System\Controller\ErrorController',
-            'Kofus\System\Controller\Cron' => 'Kofus\System\Controller\CronController',
-            'Kofus\System\Controller\CronScheduler' => 'Kofus\System\Controller\CronSchedulerController',
             'Kofus\System\Controller\Search' => 'Kofus\System\Controller\SearchController',
             'Kofus\System\Controller\Redirect' => 'Kofus\System\Controller\RedirectController',
             'Kofus\System\Controller\Console' => 'Kofus\System\Controller\ConsoleController',
             'Kofus\System\Controller\Test' => 'Kofus\System\Controller\TestController',
-            
+            'Kofus\System\Controller\Tag' => 'Kofus\System\Controller\TagController',
+            'Kofus\System\Controller\TagVocabulary' => 'Kofus\System\Controller\TagVocabularyController',
         )
     ),
     
