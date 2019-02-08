@@ -1,0 +1,27 @@
+<h1>Doctrine ORM Connections</h1>
+
+<?php if ($this->connections) : ?>
+	<table class="table">
+		<tbody>
+            <?php foreach ($this->connections as $connectionId) : ?>
+				<tr>
+					<td>
+						<?php echo $this->escapeHtml($connectionId) ?>
+					</td>
+					<td>
+						<a href="<?php echo $this->url('kofus_system', array('controller' => 'doctrine', 'action' => 'dump', 'id' => $connectionId)) ?>">
+							Dump
+						</a>
+						<a href="<?php echo $this->url('kofus_system', array('controller' => 'doctrine', 'action' => 'upload', 'id' => $connectionId)) ?>">
+							Upload
+						</a>
+					</td>
+
+				</tr>            	
+            <?php endforeach ?>
+        </tbody>
+	</table>
+<?php else : ?>
+	<p>Keine Einträge.</p>
+<?php endif ?>
+

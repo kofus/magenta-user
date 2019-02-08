@@ -7,6 +7,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Kofus\System\Controller\Database' => 'Kofus\System\Controller\DatabaseController',
+            'Kofus\System\Controller\Doctrine' => 'Kofus\System\Controller\DoctrineController',
             'Kofus\System\Controller\Node' => 'Kofus\System\Controller\NodeController',
             'Kofus\System\Controller\Relation' => 'Kofus\System\Controller\RelationController',
             'Kofus\System\Controller\Content' => 'Kofus\System\Controller\ContentController',
@@ -29,6 +30,7 @@ return array(
         ),
         'controller_mappings' => array(
             'Kofus\System\Controller\Database' => 'System',
+            'Kofus\System\Controller\Doctrine' => 'System',
             'Kofus\System\Controller\Search' => 'System',
             'Kofus\System\Controller\Batch' => 'System',
             'Kofus\System\Controller\Cron' => 'Frontend',
@@ -203,6 +205,7 @@ return array(
         ),
         'module_layouts' => array(
             'Kofus\System\Controller\Database' => 'kofus/layout/admin',
+            'Kofus\System\Controller\Doctrine' => 'kofus/layout/admin',
             'Kofus\System\Controller\Node' => 'kofus/layout/admin',
             'Kofus\System\Controller\Page' => 'kofus/layout/admin',
             'Kofus\System\Controller\Relation' => 'kofus/layout/admin',
