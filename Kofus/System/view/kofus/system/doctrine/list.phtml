@@ -13,8 +13,12 @@
 							Dump
 						</a>
 						<a href="<?php echo $this->url('kofus_system', array('controller' => 'doctrine', 'action' => 'upload', 'id' => $connectionId)) ?>">
-							Upload
+							Restore
 						</a>
+						<a href="<?php echo $this->url('kofus_system', array('controller' => 'doctrine', 'action' => 'upgrade', 'id' => $connectionId)) ?>">
+							Upgrade
+						</a>
+						
 					</td>
 
 				</tr>            	

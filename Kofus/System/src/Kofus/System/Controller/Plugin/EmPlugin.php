@@ -9,11 +9,9 @@ class EmPlugin extends AbstractPlugin
 {
     protected $em;
     
-    public function __invoke()
+    public function __invoke($namespace='orm_default')
     {
-        if (! $this->em) 
-            $this->em = $this->getController()->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-        return $this->em;
+        return $this->getController()->getServiceLocator()->get('doctrine.entitymanager.' . $namespace);
 	}
 
 }

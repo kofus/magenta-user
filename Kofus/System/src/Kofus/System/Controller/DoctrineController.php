@@ -20,6 +20,31 @@ class DoctrineController extends AbstractActionController
         ));
     }
     
+    public function upgradeAction()
+    {
+        $connectionId = $this->params('id');
+        $em = $this->getServiceLocator()->get('doctrine.entitymanager.' . $connectionId);
+        $metadata = array();
+        
+        $config = $this->config()->get('doctrine.driver.' . $connectionId . '.drivers');
+        foreach ($config as $classPrefix => $configKey) {
+            $paths = $this->config()->get('doctrine.driver.' . $configKey . '.paths');
+            foreach ($paths as $path) {
+                foreach (scandir($path) as $filename) {
+                    if (in_array($filename, array('.', '..'))) continue;
+                    $classname = preg_replace('/\.php$/', '', $filename);
+                    //print $classPrefix . '\\' . $classname . '<br>';
+                    $metadata[] = $em->getClassMetadata($classPrefix . '\\' . $classname);
+                }
+            }
+        }
+        
+        $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
+        $tool->updateSchema($metadata);
+            
+        return $this->redirect()->toUrl($this->archive()->uriStack()->pop());
+    }
+    
     public function dumpAction()
     {
         $connectionId = $this->params('id');
