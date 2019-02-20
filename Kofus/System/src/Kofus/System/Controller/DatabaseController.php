@@ -14,7 +14,6 @@ class DatabaseController extends AbstractActionController
         $backup->save();
         
     	$classNames = $this->em()->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
-    	print_r($classNames); die();
 
     	$tool = new \Doctrine\ORM\Tools\SchemaTool($this->em());
     	$metadata = array();
