@@ -299,6 +299,10 @@ class NodeService extends AbstractService
                 
         
         $now = \DateTime::createFromFormat('U', REQUEST_TIME);
+        $userService = $this->getServiceLocator()->get('KofusUserService');
+        $user = $userService->getAccount();
+        $userId = null;
+        if ($user) $userId = $userService->getAccount()->getId();
             
         $qb = $this->em()->getConnection()->createQueryBuilder();
         $qb->insert('kofus_system_node_revisions')
@@ -308,7 +312,8 @@ class NodeService extends AbstractService
                 'oldValue' => '?',
                 'newValue' => '?',
                 'nodeId' => '?',
-                'number' => '?'
+                'number' => '?',
+                'userAccount_id' => '?'
             ))
             ->setParameter(0, $now->format('Y-m-d H:i:s'))
             ->setParameter(1, $field)
@@ -316,6 +321,7 @@ class NodeService extends AbstractService
             ->setParameter(3, $newValue)
             ->setParameter(4, $nodeId)
             ->setParameter(5, $number)
+            ->setParameter(6, $userId)
         ;
         $qb->execute();
     }
