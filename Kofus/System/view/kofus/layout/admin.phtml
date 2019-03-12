@@ -11,6 +11,12 @@
     </head>
     
     <body>
+        	<?php if ($this->config()->get('production_site') && $_SERVER['HTTP_HOST'] != $this->config()->get('production_site')) : ?>
+        		<div style="text-align: center; background-color: #f0ad4e; color: black; font-size: 12px">
+    				<?php echo $this->escapeHtml($_SERVER['HTTP_HOST']) ?>
+    			</div>
+    		<?php endif ?>
+    
     	<nav class="navbar navbar-inverse navbar-top hidden-xs" role="navigation">
         	<div class="container">
             	<?php
