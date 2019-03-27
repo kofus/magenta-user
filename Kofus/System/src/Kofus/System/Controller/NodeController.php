@@ -225,6 +225,8 @@ class NodeController extends AbstractActionController
     	
     	$results = array();
     	
+    	\ZendSearch\Lucene\Search\Query\Wildcard::setMinPrefixLength(0);
+    	
     	$filterAlnum = new \Zend\I18n\Filter\Alnum();
     	
     	if (strlen($filterAlnum->filter($q)) > 2) {
@@ -236,7 +238,7 @@ class NodeController extends AbstractActionController
     	    foreach (explode(' ', $words) as $word) {
     	        if (strlen($word) < 3)
     	            continue;
-    	        $query[] = "+'" . $word . "*'"; 
+    	        $query[] = "+'*" . $word . "*'"; 
     	    }
     	    
     	    $clause = array();
