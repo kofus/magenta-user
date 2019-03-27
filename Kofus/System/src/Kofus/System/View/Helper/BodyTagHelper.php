@@ -7,6 +7,7 @@ class BodyTagHelper extends AbstractHelper
 {
 	protected $css = array();
 	protected $html = array();
+	protected $styles = array();
 	
     public function __invoke()
     {
@@ -23,6 +24,11 @@ class BodyTagHelper extends AbstractHelper
         $this->html[$position][] = $html;
     }
     
+    public function setStyle($key, $value)
+    {
+        $this->styles[$key] = $value;
+    }
+    
     public function getClassNames()
     {
     	return $this->css;
@@ -34,6 +40,13 @@ class BodyTagHelper extends AbstractHelper
     	if ($this->css) {
     		$css = implode(' ', $this->css);
     		$s .= ' class="' . $this->view->escapeHtmlAttr($css) . '"';
+    	}
+    	if ($this->styles) {
+    	    $styles = array();
+    	    foreach ($this->styles as $key => $value) {
+    	        $styles[] = $key . ': ' . $value;
+    	    }
+    	    $s .= ' style="' . $this->view->escapeHtmlAttr(implode('; ', $styles)). '"';
     	}
     	 
     	return $s . '>';
