@@ -226,12 +226,17 @@ class NodeController extends AbstractActionController
     	$results = array();
     	
     	\ZendSearch\Lucene\Search\Query\Wildcard::setMinPrefixLength(0);
+        $analyzer = new \ZendSearch\Lucene\Analysis\Analyzer\Common\Utf8Num();
+    	\ZendSearch\Lucene\Analysis\Analyzer\Analyzer::setDefault(
+    	    $analyzer
+    	);
     	
     	$filterAlnum = new \Zend\I18n\Filter\Alnum();
     	
     	if (strlen($filterAlnum->filter($q)) > 2) {
     	    
     	    $filterAlnum = new \Zend\I18n\Filter\Alnum(true);
+    	    $q = str_replace('-', ' ', $q);
     	    $words = $filterAlnum->filter($q);
     	    
     	    $query = array();
