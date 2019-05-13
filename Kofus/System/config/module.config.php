@@ -239,10 +239,24 @@ return array(
             'settings' => 'Kofus\System\View\Helper\SettingsHelper',
             'duration' => 'Kofus\System\View\Helper\DurationHelper',
             'filter' => 'Kofus\System\View\Helper\FilterHelper',
-            'searchResult' => 'Kofus\System\View\Helper\SearchResultHelper'
-        
+            'searchResult' => 'Kofus\System\View\Helper\SearchResultHelper',
+            
+            'formHtml' => 'Kofus\System\View\Helper\Form\HtmlHelper',
+        ),
+        'factories' => array(
+            'formElement' => function($sm) {
+                $helper = new \Zend\Form\View\Helper\FormElement();
+                $helper->addClass('Kofus\System\Form\Element\Html', 'formHtml');
+                return $helper;
+            }
         )
     ),
+    /*
+    'form_elements' => array(
+        'invokables' => array(
+            'html' => 'Kofus\System\Form\Element\Html'
+        )
+    ), */
     
     'service_manager' => array(
         'factories' => array(
