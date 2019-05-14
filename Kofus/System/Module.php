@@ -22,6 +22,7 @@ class Module implements AutoloaderProviderInterface
         $this->bootstrapPhpSettings($e);
         $this->bootstrapSession($e);
         $this->bootstrapDoctrineEvents($e);
+        $this->bootstrapExceptionLogging($e);
         
         
         // View helpers overwrite
@@ -46,6 +47,19 @@ class Module implements AutoloaderProviderInterface
         define('ROOT_DIR', realpath(__DIR__ . '/../../../../..'));
     }
     
+    protected function bootstrapExceptionLogging($e)
+    {
+        $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager->attach('dispatch.error', function($event){
+            $exception = $event->getResult()->exception;
+            if ($exception) {
+                $sm = $event->getApplication()->getServiceManager();
+                $service = $sm->get('logger');
+                $service->crit((string) $exception);
+            }
+        });
+            
+    }
 
     public function getAutoloaderConfig()
     {
