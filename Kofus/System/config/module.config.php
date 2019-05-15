@@ -243,7 +243,7 @@ return array(
             
             'formHtml' => 'Kofus\System\View\Helper\Form\HtmlHelper',
         ),
-        'factories' => array(
+        '___factories' => array(
             'formElement' => function($sm) {
                 $helper = new \Zend\Form\View\Helper\FormElement();
                 $helper->addClass('Kofus\System\Form\Element\Html', 'formHtml');
