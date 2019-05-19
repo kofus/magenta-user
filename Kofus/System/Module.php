@@ -55,7 +55,7 @@ class Module implements AutoloaderProviderInterface
             $eventManager->attach('dispatch.error', function($event){
                 $exception = $event->getResult()->exception;
                 if ($exception) {
-                    $sm = $e->getApplication()->getServiceManager();
+                    $sm = $event->getApplication()->getServiceManager();
                     $service = $sm->get('logger');
                     $service->crit((string) $exception);
                 }
