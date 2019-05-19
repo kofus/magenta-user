@@ -49,15 +49,17 @@ class Module implements AutoloaderProviderInterface
     
     protected function bootstrapExceptionLogging($e)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
-        $eventManager->attach('dispatch.error', function($event){
-            $exception = $event->getResult()->exception;
-            if ($exception) {
-                $sm = $event->getApplication()->getServiceManager();
-                $service = $sm->get('logger');
-                $service->crit((string) $exception);
-            }
-        });
+        $sm = $e->getApplication()->getServiceManager();
+        if ($sm->has('logger')) {
+            $eventManager        = $e->getApplication()->getEventManager();
+            $eventManager->attach('dispatch.error', function($event){
+                $exception = $event->getResult()->exception;
+                if ($exception) {
+                    $service = $sm->get('logger');
+                    $service->crit((string) $exception);
+                }
+            });
+        }
             
     }
 
