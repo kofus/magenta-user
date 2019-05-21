@@ -45,6 +45,11 @@ class Module implements AutoloaderProviderInterface
         
         define('REQUEST_TIME', time());
         define('ROOT_DIR', realpath(__DIR__ . '/../../../../..'));
+        
+        $helper = $sm->get('ViewHelperManager')->get('formElement');
+        $helper->addClass('Kofus\System\Form\Element\Html', 'formHtml');
+        return $helper;
+        
     }
     
     protected function bootstrapExceptionLogging($e)
