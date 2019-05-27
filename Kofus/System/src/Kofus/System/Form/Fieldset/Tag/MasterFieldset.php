@@ -5,6 +5,7 @@ use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilterProviderInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Kofus\System\Form\Element\NodeSelect;
 
 
 
@@ -16,12 +17,18 @@ class MasterFieldset extends Fieldset implements InputFilterProviderInterface, S
 		$this->add($el);
 		
 		$valueOptions = array();
-		foreach ($this->nodes()->getRepository('TAGV')->findAll() as $node)
+		foreach ($this->nodes()->getRepository('TV')->findAll() as $node)
 		    $valueOptions[$node->getNodeId()] = $node->getTitle();
 		$el = new Element\Select('vocabulary', array('label' => 'Vokabular'));
 		$el->setValueOptions($valueOptions);
 		$this->add($el);
 		
+		$el = new NodeSelect('parent', array('label' => 'Übergeordnetes Tag', 'node-type' => 'T'));
+		$this->add($el);
+		
+		$el = new Element\Text('uri_segment', array('label' => 'URL-Segment'));
+		$el->setAttribute('placeholder', 'Wird automatisch erzeugt wenn leer');
+		$this->add($el);
 	}
 
 	public function getInputFilterSpecification()
@@ -35,6 +42,10 @@ class MasterFieldset extends Fieldset implements InputFilterProviderInterface, S
 		    ),
 		    'vocabulary' => array(
 		        'required' => true
+		    ),
+		    'parent' => array('required' => false),
+		    'uri_segment' => array(
+		        'required' => false
 		    )
 		);
 	}

@@ -16,6 +16,15 @@ class MasterHydrator implements HydratorInterface, ServiceLocatorAwareInterface
 	    
 		$data['title'] = $object->getTitle();
 		$data['vocabulary'] = $vocabularyId;
+		
+		$parentId = null;
+		if ($object->getParent())
+		    $parentId = $object->getParent()->getNodeId();
+		$data['parent'] = $parentId;
+		
+		$data['uri_segment'] = $object->getUriSegment();
+		
+		
 		return $data;
 	}
 
@@ -25,8 +34,23 @@ class MasterHydrator implements HydratorInterface, ServiceLocatorAwareInterface
 	    
 	    $vocabulary = null;
 	    if ($data['vocabulary'])
-	        $vocabulary = $this->nodes()->getNode($data['vocabulary'], 'TAGV');
+	        $vocabulary = $this->nodes()->getNode($data['vocabulary'], 'TV');
 	    $object->setVocabulary($vocabulary);
+	    
+	    $parent = null;
+	    if ($data['parent'])
+	        $parent = $this->nodes()->getNode($data['parent'], 'T');
+	    $object->setParent($parent);
+	    
+	    $filter = new \Kofus\System\Filter\UriSegment();
+	    
+	    $uriSegment = null;
+	    if ($data['uri_segment'])
+	        $uriSegment = $data['uri_segment'];
+	        
+	    if (! $uriSegment)
+	        $uriSegment = $object->getTitle();
+	    $object->setUriSegment($filter->filter($uriSegment));
 	    
         
 		return $object;

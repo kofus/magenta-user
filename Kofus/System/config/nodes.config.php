@@ -6,17 +6,15 @@ return array(
             'COUNTRY'
         ),
         'available' => array(
-            'TAGR' => array(
-                'label' => 'Tag Relation',
-                'label_pl' => 'Tag Relations',
-                'entity' => 'Kofus\System\Entity\TagRelationEntity'
-            ),
-            'TAG' => array(
+            'T' => array(
                 'label' => 'Tag',
                 'label_pl' => 'Tags',
                 'entity' => 'Kofus\System\Entity\TagEntity',
                 'controllers' => array(
                     'Kofus\System\Controller\Tag'
+                ),
+                'search_documents' => array(
+                    'Kofus\System\Search\Document\TagDocument'
                 ),
                 'form' => array(
                     'default' => array(
@@ -43,7 +41,7 @@ return array(
                     )
                 )
             ),
-            'TAGV' => array(
+            'TV' => array(
                 'label' => 'Vocabulary',
                 'label_pl' => 'Vocabularies',
                 'entity' => 'Kofus\System\Entity\TagVocabularyEntity',
@@ -71,7 +69,18 @@ return array(
                             'params' => array(
                                 'id' => 'TAGV'
                             )
-                        )
+                        ),
+                        'tag' => array(
+                            'label' => 'Tag',
+                            'route' => 'kofus_system',
+                            'controller' => 'node',
+                            'action' => 'add',
+                            'icon' => 'glyphicon glyphicon-plus',
+                            'params' => array(
+                                'id' => 'TAG'
+                            )
+                        ),
+                        
                     )
                 )
             ),

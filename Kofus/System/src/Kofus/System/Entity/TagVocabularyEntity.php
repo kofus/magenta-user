@@ -28,7 +28,7 @@ class TagVocabularyEntity implements Node\NodeInterface
     
     public function getNodeType()
     {
-        return 'TAGV';
+        return 'TV';
     }
     
     public function getNodeId()

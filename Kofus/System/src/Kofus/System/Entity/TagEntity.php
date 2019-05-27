@@ -28,7 +28,7 @@ class TagEntity implements Node\NodeInterface, Node\SortableNodeInterface
     
     public function getNodeType()
     {
-        return 'TAG';
+        return 'T';
     }
     
     public function getNodeId()
@@ -68,48 +68,51 @@ class TagEntity implements Node\NodeInterface, Node\SortableNodeInterface
 	
 	
 	/**
-	 * @ORM\ManyToMany(targetEntity="Kofus\System\Entity\TagEntity", mappedBy="parents")
+	 * @ORM\ManyToOne(targetEntity="Kofus\System\Entity\TagEntity", inversedBy="children")
+	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
 	 */
-	protected $children = array();
+	protected $parent;
 	
-	public function setChildren($entities)
+	public function setParent(TagEntity $entity=null)
 	{
-	    $this->children = $entities; return $this;
+	    $this->parent = $entity; return $this;
 	}
+	
+	/**
+	 * @return Opac\Entity\TagEntity
+	 */
+	public function getParent()
+	{
+	    return $this->parent;
+	}
+	
+	/**
+	 * @ORM\OneToMany(targetEntity="Kofus\System\Entity\TagEntity", mappedBy="parent")
+	 * @var array
+	 */
+	protected $children=array();
 	
 	public function getChildren()
 	{
 	    return $this->children;
 	}
 	
-	public function hasChildren()
-	{
-	    return (count($this->children) > 0);
-	}
-	
 	/**
-	 * @ORM\ManyToMany(targetEntity="Kofus\System\Entity\TagEntity", inversedBy="children")
-	 * @ORM\JoinTable(name="kofus_tags_hierarchy",
-	 *      joinColumns={@ORM\JoinColumn(name="parent_id", referencedColumnName="id")},
-	 *      inverseJoinColumns={@ORM\JoinColumn(name="child_id", referencedColumnName="id")}
-	 *      )
+	 * @ORM\Column(nullable=true)
 	 */
-	protected $parents = array();
+	protected $uriSegment;
 	
-	public function setParents($entities)
+	public function getUriSegment()
 	{
-	    $this->parents = $entities; return $this;
+	    return $this->uriSegment;
 	}
 	
-	public function getParents()
+	public function setUriSegment($value)
 	{
-	    return $this->parents;
+	    $this->uriSegment = $value; return $this;
 	}
 	
-	public function hasParents()
-	{
-	    return (count($this->parents) > 0);
-	}
+	
 	
 	/**
 	 * @ORM\Column(type="bigint", nullable=true)

@@ -210,8 +210,9 @@ return array(
             'Kofus\System\Controller\Page' => 'kofus/layout/admin',
             'Kofus\System\Controller\Relation' => 'kofus/layout/admin',
             'Kofus\System\Controller\Search' => 'kofus/layout/admin',
-            'Kofus\System\Controller\Batch' => 'kofus/layout/admin',
-            'Kofus\System\Controller\CronScheduler' => 'kofus/layout/admin'
+            'Kofus\System\Controller\TagVocabulary' => 'kofus/layout/admin',
+            'Kofus\System\Controller\Tag' => 'kofus/layout/admin',
+            
         
         )
     ),
