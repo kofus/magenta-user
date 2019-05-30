@@ -20,7 +20,6 @@ class Module implements AutoloaderProviderInterface
         $this->e = $e;
         
         $this->bootstrapPhpSettings($e);
-        $this->bootstrapSession($e);
         $this->bootstrapDoctrineEvents($e);
         $this->bootstrapExceptionLogging($e);
         
@@ -164,52 +163,6 @@ class Module implements AutoloaderProviderInterface
         return $usage;
     }
 
-    public function bootstrapSession($e)
-    {
-        if ($this->isConsole()) return;
-        
-        $serviceManager = $e->getApplication()->getServiceManager();
-        $config = $serviceManager->get('Config');
-        if (! isset($config['session'])) return;
-            
-        $session = $e->getApplication()
-            ->getServiceManager()
-            ->get('Zend\Session\SessionManager');
-        $session->start();
-        
-        $container = new Container('initialized');
-        if (! isset($container->init)) {
-            $request = $serviceManager->get('Request');
-            
-            $container->init = 1;
-            $container->remoteAddr = $request->getServer()->get('REMOTE_ADDR');
-            $container->httpUserAgent = $request->getServer()->get('HTTP_USER_AGENT');
-            
-            
-            $sessionConfig = $config['session'];
-            if (isset($sessionConfig['validators'])) {
-                $chain = $session->getValidatorChain();
-                
-                foreach ($sessionConfig['validators'] as $validator) {
-                    switch ($validator) {
-                        case 'Zend\Session\Validator\HttpUserAgent':
-                            $validator = new $validator($container->httpUserAgent);
-                            break;
-                        case 'Zend\Session\Validator\RemoteAddr':
-                            $validator = new $validator($container->remoteAddr);
-                            break;
-                        default:
-                            $validator = new $validator();
-                    }
-                    
-                    $chain->attach('session.validate', array(
-                        $validator,
-                        'isValid'
-                    ));
-                }
-            }
-        }
-    }
 
     public function getServiceConfig()
     {
