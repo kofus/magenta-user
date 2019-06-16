@@ -19,6 +19,9 @@ class Module implements AutoloaderProviderInterface
         $sm = $e->getApplication()->getServiceManager();
         $this->e = $e;
         
+        // Logger must be initialised explicitly to catch php warnings, etc.
+        if ($sm->has('logger'))$logger = $sm->get('logger');
+        
         $this->bootstrapPhpSettings($e);
         $this->bootstrapDoctrineEvents($e);
         $this->bootstrapExceptionLogging($e);

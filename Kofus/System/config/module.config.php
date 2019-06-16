@@ -65,26 +65,6 @@ return array(
         __DIR__ . '/../public'
     ),
     
-    /*
-    'session' => array(
-        'config' => array(
-            'class' => 'Zend\Session\Config\SessionConfig',
-            'options' => array(
-                // 'name' => 'KOFUS',
-                'use_cookies' => true,
-                'cookie_httponly' => true
-                // 'gc_maxlifetime' => $SESSION_REMEMBERME_SECONDS,
-                // 'cookie_lifetime' => $SESSION_REMEMBERME_SECONDS,
-                // 'rememberme_seconds' => $SESSION_REMEMBERME_SECONDS
-            )
-        ),
-        'storage' => 'Zend\Session\Storage\SessionArrayStorage',
-        'validators' => array(
-            // 'Zend\Session\Validator\RemoteAddr',
-            // 'Zend\Session\Validator\HttpUserAgent'
-        )
-    ), */
-    
     'translator' => array(
         // 'locale' => 'de_DE',
         'translation_file_patterns' => array(
@@ -249,6 +229,7 @@ return array(
     
     'service_manager' => array(
         'factories' => array(
+            'logger' => 'Zend\Log\LoggerServiceFactory',
             'MvcTranslator' => 'Kofus\System\Mvc\Service\TranslatorServiceFactory',
             
             'Cache' => function ($sm) {
