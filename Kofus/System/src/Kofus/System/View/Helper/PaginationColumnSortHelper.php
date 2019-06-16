@@ -33,10 +33,10 @@ class PaginationColumnSortHelper extends AbstractHelper implements ServiceLocato
     	// Init defaults
     	if (! $paginator)
     		$paginator = $this->getView()->paginator;
-    	if (! $paginator)
-    		throw new \Exception('View helper "paginationColumnSort" requires a paginator instance');
-    	if (! $label)
-    		$label = $name;
+    		if (! $label)
+    		    $label = $name;
+    		if (! $paginator) 
+                return $label;
     	
      	$sortDirections = $paginator->getSortDirections();
     	if (isset($sortDirections[$name])) {
