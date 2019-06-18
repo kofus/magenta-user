@@ -14,6 +14,7 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
         $sharedEvents = $events->getSharedManager();
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH, array($this, 'initModuleLayout'));
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, array($this, 'deployAssets'));
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_FINISH, array($this, 'compressHtml'));
     }
     
     public function deployAssets(MvcEvent $e)
@@ -63,7 +64,11 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
             return;
         
         $sassUris = array();
-
+        $compressCss = isset($assets['compress_css']);
+        $compressJs = isset($assets['compress_js']);
+        $contentJs = '';
+        $contentCss = '';
+        
    	    foreach ($assets['enabled'][$layout] as $asset) {
     		$assetFound = false;
     		
@@ -72,8 +77,19 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
     			foreach ($assets['available'][$asset]['files']['css'] as $uri) {
     				if (isset($assets['available'][$asset]['base_uri']))
     					$uri = $assets['available'][$asset]['base_uri'] . '/' . $uri;
-    				$headLink()->appendStylesheet($uri);
+    				if ($compressCss)
+    			        $contentCss .= $this->getPublicFileContent($uri);
+    			   
+    			    if (! $compressCss)
+    				    $headLink()->appendStylesheet($uri);
     				$assetFound = true;
+    			}
+    			if ($compressCss && $contentCss) {
+    			    $compressCssFilename = 'public/cache/css/' . $layout . '.css';
+    			    if (! is_dir(dirname($compressCssFilename)))
+    			        mkdir(dirname($compressCssFilename));
+    			    file_put_contents($compressCssFilename, $contentCss);
+    			    $headLink()->appendStylesheet('/cache/css/' . $layout . '.css');
     			}
     		}
     		
@@ -96,10 +112,21 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
     				if ('html5' == $asset) {
     					$headScript()->appendFile($uri, 'text/javascript', array('conditional' => 'lt IE 9',));
     				} else {
-    					$headScript()->appendFile($uri);
+    				    if (! $compressJs) {
+    					   $headScript()->appendFile($uri);
+    				    } else {
+    				        $contentJs .= "\n" . $this->getPublicFileContent($uri);
+    				    }
     				}
     				$assetFound = true;
     			}
+    		}
+    		if ($compressJs && $contentJs) {
+    		    $compressJsFilename = 'public/cache/js/' . md5($layout) . '.js';
+    		    if (! is_dir(dirname($compressJsFilename)))
+    		        mkdir(dirname($compressJsFilename));
+    		    file_put_contents($compressJsFilename, $contentJs);
+    		    $headScript()->appendFile('/cache/js/' . md5($layout) . '.js');
     		}
     		
     		// Inline scripts
@@ -171,14 +198,14 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
     }
     
 
-    public function ____compressHtml()
-    {
-    	return; // it does not work yet!
-    	if ($this->getConfig('optimizer.' . $this->getLayout() . '.html.compress')) {
-    		$body = $this->e->getApplication()->getResponse()->getContent();
+    public function compressHtml($e)
+    {        
+        $config = $e->getApplication()->getServiceManager()->get('KofusConfig');
+    	if ($config->get('assets.compress_html')) {
+    		$body = $e->getApplication()->getResponse()->getContent();
     		if (strpos($body, '<!DOCTYPE html') === 0) {
     			$body = preg_replace('/\s+/', ' ', $body);
-    			$this->e->getApplication()->getResponse()->setContent($body);
+    			$e->getApplication()->getResponse()->setContent($body);
     		}
     	}
     }
