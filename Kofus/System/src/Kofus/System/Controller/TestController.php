@@ -11,7 +11,6 @@ class TestController extends AbstractActionController
     public function triggerAction()
     {
         $type = $this->params('id');
-        $logger = $this->getServiceLocator()->get('logger');
         
         switch ($type) {
             case 'exception':
