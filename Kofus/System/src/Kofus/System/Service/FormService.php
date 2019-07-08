@@ -51,6 +51,8 @@ class FormService extends AbstractService
         
         $methods = $this->entity->getTranslatableMethods();
         $tFieldsets = array();
+        $filterCamelCase = new \Zend\Filter\Word\UnderscoreToCamelCase();
+        
         
         foreach ($this->locales as $locale) {
             foreach ($this->form as $fieldset) {
@@ -58,8 +60,10 @@ class FormService extends AbstractService
                     continue;
                 $translatableFields = array();
                 foreach ($fieldset as $element) {
-                	if (in_array($element->getName(), $methods))
+                    $camelCaseName = lcfirst($filterCamelCase->filter($element->getName()));
+                	if (in_array($element->getName(), $methods) || in_array($camelCaseName, $methods)) {
                 		$translatableFields[] = $element;
+                	}
                 }
                 if ($translatableFields) {
                     $tFieldset = new \Zend\Form\Fieldset($locale . '_' . $fieldset->getName());

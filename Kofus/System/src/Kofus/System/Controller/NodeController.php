@@ -73,6 +73,7 @@ class NodeController extends AbstractActionController
     {
         $locales = $this->config()->get('locales.available', array('de_DE'));
         $translator = $this->getServiceLocator()->get('translator');
+        $filterUnderscore = new \Zend\Filter\Word\CamelCaseToUnderscore();
         
         
     	// Entity
@@ -113,6 +114,10 @@ class NodeController extends AbstractActionController
     			    	$locale = substr($fieldset->getName(), 0, 5);
     			    	if (in_array($locale, $locales)) {
     			    		foreach ($entity->getTranslatableMethods() as $method => $attribute) {
+    			    		    $underscoreAttribute = strtolower($filterUnderscore->filter($attribute));
+    			    		    if (! $fieldset->has($attribute) && $fieldset->has($underscoreAttribute))
+    			    		        $attribute = $underscoreAttribute;
+    			    		    
     			    			if (! $fieldset->has($attribute)) continue;
     			    			$value = $fieldset->get($attribute)->getValue();    			    			
     			    			$translations->addNodeTranslation($entity, $method, $value, $locale);
@@ -136,6 +141,10 @@ class NodeController extends AbstractActionController
     	            $locale = substr($fieldset->getName(), 0, 5);
     	            if (in_array($locale, $locales)) {
     	                foreach ($entity->getTranslatableMethods() as $method => $attribute) {
+    	                    $underscoreAttribute = strtolower($filterUnderscore->filter($attribute));
+    	                    if (! $fieldset->has($attribute) && $fieldset->has($underscoreAttribute))
+    	                        $attribute = $underscoreAttribute;
+    	                        
     	                    if (! $fieldset->has($attribute)) continue;
     	                	$msgId = $entity->getNodeId() . ':' . $method;
     	                	$msg = $this->em()->getRepository('Kofus\System\Entity\NodeTranslationEntity')->findOneBy(array('msgId' => $msgId, 'locale' => $locale));

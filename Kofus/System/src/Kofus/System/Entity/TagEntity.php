@@ -12,7 +12,7 @@ use Kofus\System\Entity\TagVocabularyEntity;
  * @ORM\Table(name="kofus_tags")
  *
  */
-class TagEntity implements Node\NodeInterface, Node\SortableNodeInterface
+class TagEntity implements Node\NodeInterface, Node\SortableNodeInterface, Node\TranslatableNodeInterface
 {
     /**
      * @ORM\Id
@@ -132,6 +132,14 @@ class TagEntity implements Node\NodeInterface, Node\SortableNodeInterface
 	public function __toString()
 	{
 	    return $this->getTitle();
+	}
+	
+	public function getTranslatableMethods()
+	{
+	    return array(
+	        'getUriSegment' => 'uriSegment',
+	        'getTitle' => 'title'
+	    );
 	}
 	
 	

@@ -12,7 +12,7 @@ use Kofus\Calendar\Entity\CalendarEntity;
  * @ORM\Table(name="kofus_tag_vocabularies")
  *
  */
-class TagVocabularyEntity implements Node\NodeInterface
+class TagVocabularyEntity implements Node\NodeInterface, Node\TranslatableNodeInterface
 {
     /**
      * @ORM\Id
@@ -54,5 +54,12 @@ class TagVocabularyEntity implements Node\NodeInterface
 	public function __toString()
 	{
 	    return $this->getTitle() . ' (' . $this->getNodeId() . ')';
+	}
+	
+	public function getTranslatableMethods()
+	{
+	    return array(
+	        'getTitle' => 'title'
+	    );
 	}
 }

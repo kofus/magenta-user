@@ -35,15 +35,15 @@ return array(
                             'action' => 'add',
                             'icon' => 'glyphicon glyphicon-plus',
                             'params' => array(
-                                'id' => 'TAG'
+                                'id' => 'T'
                             )
                         )
                     )
                 )
             ),
             'TV' => array(
-                'label' => 'Vocabulary',
-                'label_pl' => 'Vocabularies',
+                'label' => 'Tag Vocabulary',
+                'label_pl' => 'Tag Vocabularies',
                 'entity' => 'Kofus\System\Entity\TagVocabularyEntity',
                 'controllers' => array(
                     'Kofus\System\Controller\TagVocabulary'
@@ -60,16 +60,6 @@ return array(
                 ),
                 'navigation' => array(
                     'list' => array(
-                        'add' => array(
-                            'label' => 'Add',
-                            'route' => 'kofus_system',
-                            'controller' => 'node',
-                            'action' => 'add',
-                            'icon' => 'glyphicon glyphicon-plus',
-                            'params' => array(
-                                'id' => 'TAGV'
-                            )
-                        ),
                         'tag' => array(
                             'label' => 'Tag',
                             'route' => 'kofus_system',
@@ -77,7 +67,17 @@ return array(
                             'action' => 'add',
                             'icon' => 'glyphicon glyphicon-plus',
                             'params' => array(
-                                'id' => 'TAG'
+                                'id' => 'T'
+                            )
+                        ),
+                        'add' => array(
+                            'label' => 'Tag Vocabulary',
+                            'route' => 'kofus_system',
+                            'controller' => 'node',
+                            'action' => 'add',
+                            'icon' => 'glyphicon glyphicon-plus',
+                            'params' => array(
+                                'id' => 'TV'
                             )
                         ),
                         
