@@ -1,5 +1,10 @@
-<?php echo $this->doctype() ?>
-<html lang="">
+<?php
+    $session = new \Zend\Session\Container('autologout');
+    $session->heartbeat = time();
+
+    echo $this->doctype() 
+
+?><html lang="<?php echo $this->locale()->getLanguage() ?>">
     <head>
         <meta charset="utf-8">
         <?php echo $this->headTitle()->append('Administration') ?>
@@ -36,12 +41,13 @@
             		     </a>
             		</li>
             		<li>
-            		  <a href="<?php echo $this->url('logout') ?>"><span class="glyphicon glyphicon-off"></span></a>
+            		  <a id="logout-link" href="<?php echo $this->url('logout') ?>"><span class="glyphicon glyphicon-off"></span></a>
             		</li>    					    	
         		</ul>
             <?php endif ?>
             
     		</div>
+    		
     	</nav>
     	<div class="visible-xs">
         	<nav class="navbar navbar-inverse navbar-top visible-xs" role="navigation">

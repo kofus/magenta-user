@@ -19,6 +19,7 @@ return array(
             'Kofus\System\Controller\Test' => 'Kofus\System\Controller\TestController',
             'Kofus\System\Controller\Tag' => 'Kofus\System\Controller\TagController',
             'Kofus\System\Controller\TagVocabulary' => 'Kofus\System\Controller\TagVocabularyController',
+            'Kofus\System\Controller\Autologout' => 'Kofus\System\Controller\AutologoutController',
         )
     ),
     
@@ -39,6 +40,7 @@ return array(
             'Kofus\System\Controller\Redirect' => 'Frontend',
             'Kofus\System\Controller\Console' => 'Console',
             'Kofus\System\Controller\Test' => 'System',
+            'Kofus\System\Controller\Autologout' => 'Frontend'
             
         )
     ),
@@ -107,22 +109,7 @@ return array(
         )
     ),
     
-    'console' => array(
-        'router' => array(
-            'routes' => array(
-                'cron' => array(
-                    'type' => 'simple',
-                    'options' => array(
-                        'route' => 'cron',
-                        'defaults' => array(
-                            'controller' => 'Kofus\System\Controller\Cron',
-                            'action' => 'trigger'
-                        )
-                    )
-                )
-            )
-        )
-    ),
+    
     
     'router' => array(
         'routes' => array(
@@ -141,7 +128,7 @@ return array(
             'kofus_system' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/:language/' . KOFUS_ROUTE_SEGMENT . '/system/:controller/:action[/:id[/:id2]]',
+                    'route' => '/:language/' . KOFUS_ROUTE_SEGMENT . '/system/:controller[/:action[/:id[/:id2]]]',
                     'constraints' => array(
                         'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
@@ -149,22 +136,13 @@ return array(
                     ),
                     'defaults' => array(
                         'language' => 'de',
+                        'action' => 'index',
                         '__NAMESPACE__' => 'Kofus\System\Controller'
                     )
                 ),
                 'may_terminate' => true
             ),
-            'cron' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '/cron[/:passphrase[/:id]]',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Kofus\System\Controller',
-                        'controller' => 'cron',
-                        'action' => 'trigger'
-                    )
-                )
-            )
+
         )
     ),
     'view_manager' => array(
