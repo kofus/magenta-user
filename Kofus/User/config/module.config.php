@@ -3,14 +3,20 @@ namespace Kofus\User;
 
 include_once __DIR__ . '/../../framework.config.php';
 
-use Zend\Permissions\Acl\Role\GenericRole as Role;
+
 
 return array(
     'controllers' => array(
         'invokables' => array(
             'Kofus\User\Controller\Auth' => 'Kofus\User\Controller\AuthController',
             'Kofus\User\Controller\Account' => 'Kofus\User\Controller\AccountController',
-            'Kofus\User\Controller\Acl' => 'Kofus\User\Controller\AclController'
+            'Kofus\User\Controller\Acl' => 'Kofus\User\Controller\AclController',
+            'Kofus\User\Controller\Autologout' => 'Kofus\User\Controller\AutologoutController',
+        )
+    ),
+    'user' => array(
+        'controller_mappings' => array(
+            'Kofus\User\Controller\Autologout' => 'Frontend'
         )
     ),
     
@@ -58,14 +64,13 @@ return array(
             'kofus_user' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/:language/' . KOFUS_ROUTE_SEGMENT . '/user/:controller/:action[/:id[/:id2]]',
+                    'route' => '/:language/' . KOFUS_ROUTE_SEGMENT . '/user/:controller[/:action[/:id[/:id2]]]',
                     'constraints' => array(
-                        // 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        // 'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'language' => '[a-z][a-z]'
                     ),
                     'defaults' => array(
                         'language' => 'de',
+                        'action' => 'index',
                         '__NAMESPACE__' => 'Kofus\User\Controller'
                     )
                 ),
@@ -98,35 +103,6 @@ return array(
         )
     ),
     
-    /*
-    'navigation' => array(
-        'admin' => array(
-            'user' => array(
-                'label' => 'Benutzer',
-                'resource' => 'U',
-                'uri' => '#',
-                'pages' => array(
-                    'account' => array(
-                        'label' => 'Benutzerkonten',
-                    	'resource' => 'U',
-                        'privilege' => 'administer',
-                        'route' => 'kofus_user',
-                        'controller' => 'account',
-                        'action' => 'list'
-                    ),
-                    'acl' => array(
-                        'label' => 'Privileges',
-                    	'resource' => 'U',
-                        'privilege' => 'administer',
-                        'route' => 'kofus_user',
-                        'controller' => 'acl',
-                        'action' => 'index'
-                    )
-                )
-                
-            )
-            
-        )
-    ), */
+    
     
 );

@@ -149,6 +149,80 @@ class UserService extends AbstractService implements EventManagerAwareInterface
 	    $nodes->deleteNode($entity);
 	     
 	}
+
+	
+	public function triggerAutologoutHeartbeat()
+	{
+	    $session = new \Zend\Session\Container('autologout');
+	    $session->heartbeat = time();
+	    return $session->heartbeat;
+	}
+	
+	public function getAutologoutParam($key=null)
+	{
+	    // Session with heartbeat
+	    $session = new \Zend\Session\Container('autologout');
+	    if (! isset($session->heartbeat))
+	        $session->heartbeat = time();
+	    $heartbeatDiff = time() - $session->heartbeat;
+	        
+	    // PHP / user settings
+	    $cookieLifetime = (int) ini_get('session.cookie_lifetime');
+	    $maxLifetime = (int) ini_get('session.gc_maxlifetime');
+	    $requestedLifetime = $this->config()->get('user.autologout', 24*60);
+	        
+	    // Cacl. min lifetime
+	    $min = null;
+	    if ($cookieLifetime && ($min === null || $cookieLifetime < $min))
+	        $min = $cookieLifetime;
+	    if ($maxLifetime && ($min === null || $maxLifetime < $min))
+	        $min = $maxLifetime;
+	    if ($min === null || $requestedLifetime < $min)
+	        $min = $requestedLifetime;
+	                    
+	    // User
+        $userId = null;
+        if ($this->getAccount())
+            $userId = $this->getAccount()->getNodeId();
+            
+        // Trigger logout?
+        $diff = max($min - $heartbeatDiff, 0);
+        $triggerLogout = $userId && $diff < 60;
+        
+        $params = array(
+            'cookie_lifetime'       => $cookieLifetime,
+            'gc_maxlifetime'        => $maxLifetime,
+            'requested_lifetime'    => $requestedLifetime,
+            'requested_lifetime_h'  => $this->renderPeriod($requestedLifetime),
+            'min_lifetime'          => $min,
+            'min_lifetime_h'        => $this->renderPeriod($min),
+            'heartbeat'             => $session->heartbeat,
+            'heartbeat_diff'        => $heartbeatDiff,
+            'heartbeat_diff_h'      => $this->renderPeriod($heartbeatDiff),
+            'diff'                  => $diff,
+            'diff_h'                => $this->renderPeriod($diff),
+            'trigger_logout'        => $triggerLogout,
+	    );  
+
+        if ($key) 
+            return $params[$key];
+        return $params;
+	}
+	
+	protected function renderPeriod($sec)
+	{
+	    $value = $sec / 60;
+	    
+	    $hour = floor($value / 60);
+	    $minutes = $value % 60;
+	    
+	    if (! $hour) {
+	        return $minutes . ' min.';
+	    } else {
+	        return $hour . ' St. ' . $minutes . ' min.';
+	    }
+	    
+	}
 	
 	protected $events;
 	

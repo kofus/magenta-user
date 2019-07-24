@@ -40,7 +40,7 @@ return array(
             'Kofus\System\Controller\Redirect' => 'Frontend',
             'Kofus\System\Controller\Console' => 'Console',
             'Kofus\System\Controller\Test' => 'System',
-            'Kofus\System\Controller\Autologout' => 'Frontend'
+
             
         )
     ),
