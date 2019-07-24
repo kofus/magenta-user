@@ -1,7 +1,5 @@
 <?php
-    $session = new \Zend\Session\Container('autologout');
-    $session->heartbeat = time();
-
+    $this->user()->enableAutologout();
     echo $this->doctype() 
 
 ?><html lang="<?php echo $this->locale()->getLanguage() ?>">
@@ -21,7 +19,7 @@
     				<?php echo $this->escapeHtml($_SERVER['HTTP_HOST']) ?>
     			</div>
     		<?php endif ?>
-    
+    	
     	<nav class="navbar navbar-inverse navbar-top hidden-xs" role="navigation">
         	<div class="container">
             	<?php
@@ -38,10 +36,11 @@
             	<ul class="nav navbar-nav navbar-right">
             		<li><a href="#">
             		     <?php echo $this->escapeHtml($this->user()->getAccount()->getName('display')) ?>
+            		     (<span class="autologout-diff-h"><?php echo $this->user()->getAutologoutParam('diff_h') ?></span>)
             		     </a>
             		</li>
             		<li>
-            		  <a id="logout-link" href="<?php echo $this->url('logout') ?>"><span class="glyphicon glyphicon-off"></span></a>
+            		  <a href="<?php echo $this->url('logout') ?>"><span class="glyphicon glyphicon-off"></span></a>
             		</li>    					    	
         		</ul>
             <?php endif ?>
