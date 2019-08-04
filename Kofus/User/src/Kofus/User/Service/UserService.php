@@ -84,6 +84,13 @@ class UserService extends AbstractService implements EventManagerAwareInterface
 	public function logout()
 	{
 	    $account = $this->getAccount();
+	    
+	    if ($account) {
+	       $namespace = 'Kofus_User_Session_' . $account->getNodeId();
+	       $session = new \Zend\Session\Container($namespace);
+	       $session->getManager()->getStorage()->clear($namespace);
+	    }
+	    
 	    $storage = new Storage();
 	    $storage->clear();
 	    $this->getEventManager()->trigger('logout', $this, array('account' => $account));
@@ -221,6 +228,26 @@ class UserService extends AbstractService implements EventManagerAwareInterface
 	    } else {
 	        return $hour . ' St. ' . $minutes . ' min.';
 	    }
+	    
+	}
+	
+	public function getSessionParam($key)
+	{
+	    $account = $this->getAccount();
+	    if (! $account) return;
+	    
+	    $session = new \Zend\Session\Container('Kofus_User_Session_' . $account->getNodeId());
+	    return $session->$key;
+	}
+	
+	public function setSessionParam($key, $value)
+	{
+	    $account = $this->getAccount();
+	    if (! $account) return $this;
+	    
+	    $session = new \Zend\Session\Container('Kofus_User_Session_' . $account->getNodeId());
+	    $session->$key = $value;
+	    return $this;
 	    
 	}
 	
