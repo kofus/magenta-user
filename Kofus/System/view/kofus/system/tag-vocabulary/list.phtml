@@ -1,40 +1,29 @@
 <?php echo $this->nodeNavigation('TV', 'list') ?>
-<div class="row">
-	<div class="col-md-9">
 		<?php if ($this->paginator->getTotalItemCount()) : ?>
-			<table class="table _table-hover">
-               <tbody class="_rowlink" data-link="_row">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Vokabular</th>
+						<th style="text-align: right">Tag-Einträge</th>
+					</tr>
+				</thead>
+                <tbody class="rowlink" data-link="row">
 					<?php foreach ($this->paginator as $entity) : ?>
 						<tr>
 							<td>
-								<a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'edit', 'id' => $entity->getNodeId())) ?>">
+								<a href="<?php echo $this->url('kofus_system', array('controller' => 'tag-vocabulary', 'action' => 'view', 'id' => $entity->getNodeId())) ?>">
 									<?php echo $this->escapeHtml($entity->getTitle()) ?>
 								</a>
 							</td>
-							<td>
+							<td style="text-align: right">
 								<?php $tags = $this->nodes()->getRepository('T')->findBy(array('vocabulary' => $entity)) ?>
-								<?php if (count($tags)) : ?>
-									<ul>
-        								<?php foreach ($tags as $tag) : ?>
-        									<li>
-        										<a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'edit', 'id' => $tag->getNodeId())) ?>">
-        											<?php echo $this->escapeHtml($tag->getTitle())  ?>
-        											<?php if ($tag->getParent()) : ?>
-        												(<?php echo $this->escapeHtml($tag->getParent()->getTitle()) ?>)
-        											<?php endif ?>
-        										</a>
-        									</li>
-        								<?php endforeach ?>
-    								</ul>
-								<?php endif ?>							
+								<?php print count($tags)?>						
 							</td>
 						</tr>
 					<?php endforeach ?>
 				</tbody>
 			</table>
-			
+			<?php echo $this->paginationControl() ?>
 		<?php else : ?>
 			<p>Keine Einträge.</p>
 		<?php endif ?>
-	</div>
-</div>

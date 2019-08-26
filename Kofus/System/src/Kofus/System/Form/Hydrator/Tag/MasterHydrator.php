@@ -12,6 +12,8 @@ class MasterHydrator implements HydratorInterface, ServiceLocatorAwareInterface
 	    $vocabularyId = null;
 	    if ($object->getVocabulary())
 	        $vocabularyId = $object->getVocabulary()->getNodeId();
+	    if (! $vocabularyId && isset($_GET['vocabulary']))
+	        $vocabularyId = $_GET['vocabulary'];
 	    
 	    
 		$data['title'] = $object->getTitle();

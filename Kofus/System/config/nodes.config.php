@@ -35,7 +35,7 @@ return array(
                             'action' => 'add',
                             'icon' => 'glyphicon glyphicon-plus',
                             'params' => array(
-                                'id' => 'T'
+                                'id' => 'T',
                             )
                         )
                     )
@@ -60,16 +60,7 @@ return array(
                 ),
                 'navigation' => array(
                     'list' => array(
-                        'tag' => array(
-                            'label' => 'Tag',
-                            'route' => 'kofus_system',
-                            'controller' => 'node',
-                            'action' => 'add',
-                            'icon' => 'glyphicon glyphicon-plus',
-                            'params' => array(
-                                'id' => 'T'
-                            )
-                        ),
+                        
                         'add' => array(
                             'label' => 'Tag Vocabulary',
                             'route' => 'kofus_system',
@@ -80,7 +71,29 @@ return array(
                                 'id' => 'TV'
                             )
                         ),
-                        
+                    ),
+                    'view' => array(
+                        'edit' => array(
+                            'label' => '',
+                            'icon' => 'glyphicon glyphicon-pencil',
+                            'route' => 'kofus_system',
+                            'controller' => 'node',
+                            'action' => 'edit',
+                            'params' => array(
+                                'id' => '{node_id}',
+                            )
+                        ),
+                        'add' => array(
+                            'label' => 'Tag',
+                            'route' => 'kofus_system',
+                            'controller' => 'node',
+                            'action' => 'add',
+                            'icon' => 'glyphicon glyphicon-plus',
+                            'params' => array(
+                                'id' => 'T',
+                            ),
+                            'query' => array('vocabulary' => '{node_id}')
+                        ),
                     )
                 )
             ),

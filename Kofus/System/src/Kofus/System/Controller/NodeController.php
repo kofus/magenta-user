@@ -151,7 +151,7 @@ class NodeController extends AbstractActionController
     	                	if ($msg) {
     	                		$fieldset->get($attribute)->setValue($msg->getValue());
     	                	} else {
-    	                		$fieldset->get($attribute)->setValue($entity->$method());
+    	                		//$fieldset->get($attribute)->setValue($entity->$method());
     	                	}
     	                }
     	            }

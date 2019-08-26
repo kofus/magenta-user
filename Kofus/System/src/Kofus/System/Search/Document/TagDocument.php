@@ -21,9 +21,12 @@ class TagDocument extends Document
 		}
 		
 		
+		$label = implode(' > ', $segments);
+		if ($entity->getVocabulary())
+		    $label .= ' [' . $entity->getVocabulary()->getTitle() . ']';
 		
 		$this->addField(
-				Field::text('label', implode(' > ', $segments) . ' [' . $entity->getVocabulary()->getTitle() . ']')
+				Field::text('label',  $label)
 		);
 		$this->addField(
 				Field::text('node_type', $entity->getNodeType())
