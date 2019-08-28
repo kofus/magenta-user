@@ -74,49 +74,37 @@ class LuceneService extends AbstractService
 		$settings->setSystemValue($key, $now->format('Y-m-d H:i:s'));
     }
     
-    public function updateNode(NodeInterface $node)
+    public function updateNode(NodeInterface $node, $locale=null)
     {
-    	// Get indexes
-    	$indexes = array();
-    	foreach ($this->config()->get('locales.enabled') as $locale)
-    		$indexes[$locale] = $this->getIndex($locale);
+        $index = $this->getIndex($locale);
+
 		
     	// Delete existing node
-    	foreach ($indexes as $locale => $index) {
-    		$hits = $index->find("node_id: '" . $node->getNodeId() . "'");
-    		foreach ($hits as $hit)
-    			$index->delete($hit);
-    	}
+		$hits = $index->find("node_id: '" . $node->getNodeId() . "'");
+		foreach ($hits as $hit)
+			$index->delete($hit);
         
         $classnames = $this->config()->get('nodes.available.'.$node->getNodeType().'.search_documents', array());
         foreach ($classnames as $classname) {
-        	foreach ($indexes as $locale => $index) {
-	    		$document = new $classname();
-	    		if ($document instanceof ServiceLocatorAwareInterface)
-	    			$document->setServiceLocator($this->getServiceLocator());
-	    		$document->populateNode($node, $locale);
-	    		$index->addDocument($document);
-        	}
+    		$document = new $classname();
+    		if ($document instanceof ServiceLocatorAwareInterface)
+    			$document->setServiceLocator($this->getServiceLocator());
+    		$document->populateNode($node, $locale);
+    		$index->addDocument($document);
         }
         
-        foreach ($indexes as $locale => $index) {
-        	$index->commit();
-        	$index->optimize();
-        }
+    	$index->commit();
+    	$index->optimize();
     }
     
-    public function deleteNode(NodeInterface $node)
+    public function deleteNode(NodeInterface $node, $locale=null)
     {
-        // Get indexes
-        $indexes = array();
-        foreach ($this->config()->get('locales.enabled') as $locale) {
-        	$index = $this->getIndex($locale);
-        	$hits = $index->find("node_id: '" . $node->getNodeId() . "'");
-        	foreach ($hits as $hit)
-        		$index->delete($hit);
-        	$index->commit();
-        	$index->optimize();
-        } 
+    	$index = $this->getIndex($locale);
+    	$hits = $index->find("node_id: '" . $node->getNodeId() . "'");
+    	foreach ($hits as $hit)
+    		$index->delete($hit);
+    	$index->commit();
+    	$index->optimize();
     }
     
     public function deleteNodeType($nodeType)
@@ -190,7 +178,7 @@ class LuceneService extends AbstractService
 	            				$document = new $classname();
 	            				if ($document instanceof ServiceLocatorAwareInterface)
 	            					$document->setServiceLocator($this->getServiceLocator());
-	            				$document->populateNode($node);
+	            				$document->populateNode($node, $locale);
 	            				$index->addDocument($document);
 	            			}
 	            		}

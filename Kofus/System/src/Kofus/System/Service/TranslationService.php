@@ -7,14 +7,14 @@ use Kofus\System\Node\NodeInterface;
 
 class TranslationService extends AbstractService
 {
-    public function translateNode($node, $method, $arguments=array())
+    public function translateNode($node, $method, $arguments=array(), $locale=null)
     {
         $value = null;
         if (is_a($node, 'Kofus\System\Node\TranslatableNodeInterface')) {
         	$methods = $node->getTranslatableMethods();
         	$msgId = 'KOFUS_NODE_' . $node->getNodeId() . ':' . $method;
         	if (isset($methods[$method]))
-        		$value = $this->getTranslator()->translate($msgId);
+        		$value = $this->getTranslator()->translate($msgId, 'default', $locale);
         	if ($value == $msgId) $value = null;
         }
         if (! $value)
