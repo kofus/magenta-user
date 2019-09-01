@@ -87,8 +87,12 @@ class NodeController extends AbstractActionController
         	->setEntity($entity)
         	->setContext($this->params('id2', 'edit'))
         	->setLabelSize('col-sm-3')->setFieldSize('sm-9');
-    	if (in_array('en_US', $locales))
-    	    $fb->addTranslationFieldset('en_US');
+    	foreach ($locales as $locale) {
+    	    if ($locale != $this->config()->get('locales.default', 'de_DE'))
+    	        $fb->addTranslationFieldset($locale);   	    
+    	}
+
+    	    
     	$form = $fb->buildForm()
         	->add(new \Zend\Form\Element\Submit('submit', array('label' => 'Save')));
 

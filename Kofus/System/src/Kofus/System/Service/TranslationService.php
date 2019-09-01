@@ -17,8 +17,11 @@ class TranslationService extends AbstractService
         		$value = $this->getTranslator()->translate($msgId, 'default', $locale);
         	if ($value == $msgId) $value = null;
         }
-        if (! $value)
-        	$value = $node->$method($arguments);
+        if (! $value) {
+            if (! $locale) $locale = $this->getServiceLocator()->get('KofusLocaleService')->getLocale(); 
+            if ($this->config()->get('locales.default') == $locale)
+                $value = $node->$method($arguments);
+        }
         return $value;
     }	
     

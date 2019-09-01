@@ -9,7 +9,7 @@
 	           <li role="presentation" <?php if ($isFirst) echo 'class="active"' ?>>
 	               <a href="<?php echo $this->escapeHtmlAttr('#'.$locale) ?>" role="tab" data-toggle="tab">
 	                   <?php echo $this->escapeHtml($this->locale()->getDisplayLanguage($locale)) ?>
-	                   <!--  (<?php echo $this->escapeHtml($this->locale()->getRegion($locale)) ?>)  -->
+	                   (<?php echo $this->escapeHtml($this->locale()->getRegion($locale)) ?>)
 	               </a>
 	           </li>
 	           <?php $isFirst = false ?>

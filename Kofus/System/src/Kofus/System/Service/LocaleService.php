@@ -71,9 +71,9 @@ class LocaleService extends AbstractService
     {
         $dateTime = new \DateTime();
         $formatter = new \IntlDateFormatter($this->getLocale(), $dateType, $timeType);
-        if ($this->getLocale() == 'en_US' && $dateType == \IntlDateFormatter::MEDIUM) {
+        /* if ($this->getLocale() == 'en_US' && $dateType == \IntlDateFormatter::MEDIUM) {
             $formatter->setPattern('MM/dd/yyyy');
-        }
+        } */
         return $formatter;
     }
     

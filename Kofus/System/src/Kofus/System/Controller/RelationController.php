@@ -127,14 +127,20 @@ class RelationController extends AbstractActionController
     	 
     	//$fieldsetRelation->setSpecification($this->config()->get('data_items.available.'. . ));
     	$serviceForm = $this->getServiceLocator()->get('KofusFormService');
-    	$form = $serviceForm
+    	$fb = $serviceForm
         	->setEntity($entity)
         	->setContext('edit')
         	->setLabelSize('col-sm-3')->setFieldSize('sm-9')
-        	->addTranslationFieldset('en_US')
-        	->addFieldset($fieldsetRelation)
-        	->buildForm()
-        	->add(new \Zend\Form\Element\Submit('submit', array('label' => 'Save')));
+
+        	->addFieldset($fieldsetRelation);
+  
+    	foreach ($this->config()->get('locales.available') as $locale) {
+    	    if ($locale != $this->config->get('locales.default', 'de_DE'))
+    	        $fb->addTranslationFieldset($locale);
+    	}
+    	    
+    	$form = $fb->buildForm();
+        $form->add(new \Zend\Form\Element\Submit('submit', array('label' => 'Save')));
     
     	$form->bind($entity);
     	 

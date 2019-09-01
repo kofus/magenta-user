@@ -58,6 +58,38 @@ class FormService extends AbstractService
             foreach ($this->form as $fieldset) {
                 if (! $fieldset instanceof \Zend\Form\FieldsetInterface)
                     continue;
+                
+                    
+                
+                // Explicit fieldset?
+                $found = false;
+                $service = $this->getServiceLocator()->get('KofusNodeService');
+                foreach (array($this->getContext(), 'default') as $context) {
+                    $config = $service->getConfig($this->getEntity()->getNodeType(), 'form.'.$context.'.translation_fieldsets.' . $locale . '.' . $fieldset->getName());
+                    if ($config) {
+                        $tFieldset = new $config['class']();
+                        $tFieldset->setName($locale . '_' . $fieldset->getName());
+                        $tFieldset->init();
+                        if ($tFieldset instanceof ServiceLocatorAwareInterface)
+                            $tFieldset->setServiceLocator($this->getServiceLocator());
+                        $tFieldset->setObject($this->getEntity());
+                        $tFieldset->init();
+  
+                        $tHydrator = new $config['hydrator']();
+                        if ($tHydrator instanceof ServiceLocatorAwareInterface)
+                            $tHydrator->setServiceLocator($this->getServiceLocator());
+                        $tFieldset->setHydrator($tHydrator);
+                        $tFieldset->populateValues($tFieldset->getHydrator()->extract($tFieldset->getObject()));
+                        $tFieldsets[] = $tFieldset;
+                        $found = true;
+                        
+                    }
+                }
+                if ($found) continue;
+                
+                    
+                    
+                // Automatic generation via translatable fields
                 $translatableFields = array();
                 foreach ($fieldset as $element) {
                     $camelCaseName = lcfirst($filterCamelCase->filter($element->getName()));
@@ -106,6 +138,7 @@ class FormService extends AbstractService
         		$fieldsets = $service->getConfig($this->getEntity()->getNodeType(), 'form.default.fieldsets');
         
         	foreach ($fieldsets as $id => $fieldsetConfig) {
+
         		$obj = new $fieldsetConfig['class']();
         		if ($obj instanceof ServiceLocatorAwareInterface)
         			$obj->setServiceLocator($this->getServiceLocator());

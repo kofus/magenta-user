@@ -36,7 +36,7 @@ class I18nListener extends AbstractListenerAggregate implements ListenerAggregat
     public function initLocale(MvcEvent $e)
     {
     	$config = $e->getApplication()->getServiceManager()->get('KofusConfig');
-    	$locales = $config->get('locales.enabled', array('de_DE', 'en_US'));
+    	$locales = $config->get('locales.enabled', array('de_DE'));
     	$locale = null;
     	
     	// Forced by config?
@@ -53,10 +53,11 @@ class I18nListener extends AbstractListenerAggregate implements ListenerAggregat
         // 2. Has language explicitly been specified in route, i.e. url? => set locale by language
         if (! $locale && $e->getRouteMatch()) {
             $language = $e->getRouteMatch()->getParam('language');
-            if ($language == 'de') {
-                $locale = 'de_DE';
-            } elseif ($language == 'en') {
-                $locale = 'en_US';
+            foreach ($locales as $_locale) {
+                if (strpos($_locale, $language) === 0) {
+                    $locale = $_locale; 
+                    break;
+                }
             }
         }
         
@@ -70,8 +71,9 @@ class I18nListener extends AbstractListenerAggregate implements ListenerAggregat
         if (! $locale && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 	        $locale = \Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 	        if (! in_array($locale, $locales))
-	        	$locale = 'en_US';
+	        	$locale = $config->get('locales.default', 'de_DE');
         }        
+
         
         // Validate and store locale
         if ($locale) {
