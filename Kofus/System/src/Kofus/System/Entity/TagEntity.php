@@ -46,8 +46,21 @@ class TagEntity implements Node\NodeInterface, Node\SortableNodeInterface, Node\
 		$this->title = $value; return $this;
 	}
 	
-	public function getTitle()
+	public function getTitle($recursive=false, $separator=' » ')
 	{
+	    if ($recursive) {
+	        $title = array($this->getTitle());
+	        
+	        $parent = $this->getParent();
+	        
+	        while($parent) {
+	            $title[] = $parent->getTitle();
+	            $parent = $parent->getParent();
+	        }
+	        
+	        return implode($separator, array_reverse($title));
+	    }
+	    
 		return $this->title;
 	}
 	
