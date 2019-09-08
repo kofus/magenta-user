@@ -12,9 +12,10 @@ class TranslateNodeHelper extends AbstractHelper implements ServiceLocatorAwareI
     protected $node;
     protected $translationService;
     
-    public function __invoke(\Kofus\System\Node\NodeInterface $node)
+    public function __invoke(\Kofus\System\Node\NodeInterface $node, $locale=null)
     {
         $this->node = $node;
+        $this->locale = $locale;
     	return $this;
     }
     
@@ -37,7 +38,7 @@ class TranslateNodeHelper extends AbstractHelper implements ServiceLocatorAwareI
     
     public function __call($name, $arguments)
     {
-        return $this->getTranslationService()->translateNode($this->node, $name, $arguments);
+        return $this->getTranslationService()->translateNode($this->node, $name, $arguments, $this->locale);
     }
     
     
