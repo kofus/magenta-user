@@ -138,8 +138,9 @@ class LuceneService extends AbstractService
         
 	        foreach ($nodeTypes as $nodeType) {
 	            
-	            $debug .= $nodeType . ' ' . $locale . PHP_EOL;
-	            $debug .= 'old entries: ' . count($index->find('node_type: ' . $nodeType)) . PHP_EOL;
+	            if (! $this->config()->get('nodes.available.' . $nodeType . '.search_documents')) continue;
+	            
+	            print 'old entries: ' . count($index->find('node_type: ' . $nodeType)) . PHP_EOL;
 	        
 	            // Delete existing entries
 	            $hits = $index->find("node_type: '" . $nodeType . "'");
@@ -173,6 +174,7 @@ class LuceneService extends AbstractService
 	            	default:
 	            		$classnames = $this->config()->get('nodes.available.'.$nodeType.'.search_documents', array());
 	            		foreach ($classnames as $classname) {
+	            		    print $classname . PHP_EOL;
 	            			$nodes = $this->nodes()->getRepository($nodeType)->findAll();
 	            			foreach ($nodes as $node) {
 	            				$document = new $classname();
@@ -185,9 +187,9 @@ class LuceneService extends AbstractService
 	            }
 	            
 	            $index->commit();
-	            $debug .= 'new entries: ' . count($index->find('node_type: ' . $nodeType)) . PHP_EOL;
-	            $debug .= 'total entries: ' . $index->numDocs() . PHP_EOL;
-	            $debug .= PHP_EOL;
+	            print 'new entries: ' . count($index->find('node_type: ' . $nodeType)) . PHP_EOL;
+	            print 'total entries: ' . $index->numDocs() . PHP_EOL;
+	            print PHP_EOL;
 	        }
 	        $index->optimize();
         }
