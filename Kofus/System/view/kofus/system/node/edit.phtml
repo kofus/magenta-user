@@ -3,18 +3,20 @@
         <h1><?php echo sprintf($this->translate('Edit %s') , $this->translate($this->nodeTypeConfig['label'])) ?> </h1>
     </div>
     <div class="col-md-9">
-	   <ul class="nav nav-tabs" role="tablist">
-	       <?php $isFirst = true ?>
-	       <?php foreach ($this->locales as $locale) : ?>
-	           <li role="presentation" <?php if ($isFirst) echo 'class="active"' ?>>
-	               <a href="<?php echo $this->escapeHtmlAttr('#'.$locale) ?>" role="tab" data-toggle="tab">
-	                   <?php echo $this->escapeHtml($this->locale()->getDisplayLanguage($locale)) ?>
-	                   (<?php echo $this->escapeHtml($this->locale()->getRegion($locale)) ?>)
-	               </a>
-	           </li>
-	           <?php $isFirst = false ?>
-	       <?php endforeach ?>
-	   </ul>
+        <?php if (count($this->locales) > 1) : ?>
+    	   <ul class="nav nav-tabs" role="tablist">
+    	       <?php $isFirst = true ?>
+    	       <?php foreach ($this->locales as $locale) : ?>
+    	           <li role="presentation" <?php if ($isFirst) echo 'class="active"' ?>>
+    	               <a href="<?php echo $this->escapeHtmlAttr('#'.$locale) ?>" role="tab" data-toggle="tab">
+    	                   <?php echo $this->escapeHtml($this->locale()->getDisplayLanguage($locale)) ?>
+    	                   (<?php echo $this->escapeHtml($this->locale()->getRegion($locale)) ?>)
+    	               </a>
+    	           </li>
+    	           <?php $isFirst = false ?>
+    	       <?php endforeach ?>
+    	   </ul>
+    	<?php endif ?>
 	       <?php echo $this->form()->openTag($this->form) ?>
 	   
 	   <div class="tab-content">
