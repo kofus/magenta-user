@@ -160,8 +160,7 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
         	mkdir(dirname($filename), 0777, true);
         
         // Compile
-        $scssc = new \scssc();
-        $scssc->setFormatter('scss_formatter_compressed');
+        $scssc = new \Leafo\ScssPhp\Compiler();
         $s = $scssc->compile($content);
         
         file_put_contents($filename, $s);
