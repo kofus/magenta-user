@@ -11,14 +11,6 @@
             "Kofus\\Log\\": "src/Kofus/Log/"
         },
         "classmap" : ["Kofus/Archive/Module.php", "Kofus/System/Module.php", "Kofus/User/Module.php", "Kofus/WebService/Module.php", "Kofus/Log/Module.php"]
-    },
-    "require": {
-        "php": ">=5.3.3",
-        "zendframework/zendframework": "2.4.*",
-        "doctrine/doctrine-orm-module": "0.*",
-	 	"neilime/zf2-twb-bundle": "2.*@stable",
-	 	"leafo/scssphp": "0.0.12",
-		"beberlei/DoctrineExtensions": "1.0.*"	 	
     }
 }
 
