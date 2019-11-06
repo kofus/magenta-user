@@ -19,6 +19,11 @@ class BodyTagHelper extends AbstractHelper
     	$this->css[] = $className; return $this;
     }
     
+    public function hasCss($className)
+    {
+        return in_array($className, $this->css);
+    }
+    
     public function appendHtml($html, $position='beforeClose')
     {
         $this->html[$position][] = $html;
