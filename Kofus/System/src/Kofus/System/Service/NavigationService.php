@@ -139,7 +139,7 @@ class NavigationService extends AbstractService
         $link = $this->nodes()->getLink($entity);
         $navPage = array(
         		'uri' => (string) $link, 
-        		'label' => $this->getTranslationService()->translateNode($entity, 'getNavLabel'),
+        		'label' => $entity->getNavLabel(),
         		'enabled' => $entity->isNavVisible(),
         		'node-id' => $entity->getNodeId(),
                 'order' => $entity->getPriority(),
