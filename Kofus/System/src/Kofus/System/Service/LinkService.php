@@ -69,7 +69,7 @@ class LinkService extends AbstractService
         
         $_node = $node;
         while ($_node) {
-        	$segments[] = $t->translateNode($_node, 'getUriSegment');
+        	$segments[] = $_node->getUriSegment();
         	$_node = $_node->getParent();
         }
         $segments = array_reverse($segments);
@@ -112,6 +112,10 @@ class LinkService extends AbstractService
                 }
                 
                 $this->deleteNodeLinks($node, array('locale' => $locale));
+                
+                $duplicate = $this->em()->getRepository('Kofus\System\Entity\LinkEntity')->findOneBy(array('uri' => $link));
+                if ($duplicate)
+                    $link .= $node->getId();
                 $linkEntity = new \Kofus\System\Entity\LinkEntity();
                 $linkEntity->setUri($link)
                     ->setLinkedNodeId($node->getNodeId())
@@ -122,6 +126,11 @@ class LinkService extends AbstractService
                 
             }
         }
+        
+        $children = $this->nodes()->getRepository($node->getNodeType())->findBy(array('parent' => $node));
+        foreach ($children as $child)
+            $this->rebuildLinks($child);
+        
         $this->em()->flush();
     }
     

@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="kofus_system_node_links")
+ * @ORM\Table(name="kofus_system_node_links", uniqueConstraints={@ORM\UniqueConstraint(name="uri", columns={"uri"})})
  *
  */
 class LinkEntity
