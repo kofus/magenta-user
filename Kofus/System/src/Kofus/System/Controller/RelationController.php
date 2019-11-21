@@ -135,7 +135,7 @@ class RelationController extends AbstractActionController
         	->addFieldset($fieldsetRelation);
   
     	foreach ($this->config()->get('locales.available') as $locale) {
-    	    if ($locale != $this->config->get('locales.default', 'de_DE'))
+    	    if ($locale != $this->config()->get('locales.default', 'de_DE'))
     	        $fb->addTranslationFieldset($locale);
     	}
     	    
