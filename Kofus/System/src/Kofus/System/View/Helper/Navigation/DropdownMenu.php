@@ -227,8 +227,10 @@ class DropdownMenu extends \Zend\View\Helper\Navigation\Menu
             }
             $liClass = empty($liClasses) ? '' : ' class="' . $escaper(implode(' ', $liClasses)) . '"';
 
-            $html .= $myIndent . '    <li' . $liClass . '>' . PHP_EOL
-                . $myIndent . '        ' . $this->htmlify($page, $escapeLabels, $addClassToListItem) . PHP_EOL;
+            $html .= $myIndent . '    <li' . $liClass . '>'  . PHP_EOL
+                . $myIndent . '        ';
+            if (! in_array('divider', $liClasses))
+                $html .= $this->htmlify($page, $escapeLabels, $addClassToListItem) . PHP_EOL;
 
             // store as previous depth for next iteration
             $prevDepth = $this->depth;
