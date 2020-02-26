@@ -11,10 +11,18 @@ use Kofus\System\Node;
  * @ORM\Table(name="kofus_system_contents")
  *
  */
-class ContentEntity implements Node\NodeInterface, Node\NodeModifiedInterface, Node\ParameterInterface
+class ContentEntity implements Node\NodeInterface, Node\TranslatableNodeInterface, Node\NodeModifiedInterface, Node\ParameterInterface
 {
     
-
+    public function getTranslatableMethods()
+    {
+        return array(
+        	'getTitle' => 'title', 
+            'getContent' => 'content',
+            'getNavLabel' => 'nav_label',
+            'getUriSegment' => 'uri_segment'
+        );
+    }
     
     /**
      * @ORM\Id
@@ -68,8 +76,6 @@ class ContentEntity implements Node\NodeInterface, Node\NodeModifiedInterface, N
 	{
 		return $this->content;
 	}
-	
-	
 	
 	/**
 	 * @ORM\Column(type="boolean")
