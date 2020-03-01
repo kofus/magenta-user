@@ -69,7 +69,7 @@ class LinkService extends AbstractService
         
         $_node = $node;
         while ($_node) {
-        	$segments[] = $_node->getUriSegment();
+            $segments[] = $t->translateNode($_node, 'getUriSegment', array(), $locale);
         	$_node = $_node->getParent();
         }
         $segments = array_reverse($segments);
