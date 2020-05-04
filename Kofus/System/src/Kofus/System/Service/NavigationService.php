@@ -127,7 +127,8 @@ class NavigationService extends AbstractService
     public function injectHelperClasses(\Zend\Navigation\Navigation &$nav)
     {
         if (! $nav->findOneBy('active', 1)) {
-            $pages = $nav->findAllBy('uri', $_SERVER['REQUEST_URI']);
+            $uri = $this->getServiceLocator()->get('Request')->getUri()->getPath();
+            $pages = $nav->findAllBy('uri', $uri);
             foreach ($pages as $page)
                 $page->setActive();
         }

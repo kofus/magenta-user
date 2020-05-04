@@ -2,12 +2,13 @@
     $params = $this->routeMatch->getParams();
     if (isset($params['__CONTROLLER__']))
         $params['controller'] = $params['__CONTROLLER__'];
+    $queryParams = array();
+    if (isset($_GET)) $queryParams = $_GET;
+    $queryParams['pagination'] = array('page' => $this->page, 'paginator_id' => $this->paginator_id);
 ?>
-
-
     <?php if (isset($this->page)) : ?>
         <li <?php if ($this->page == $this->current && $this->label) echo 'class="active"'?>>
-            <a href="<?php echo $this->url($this->routeMatch->getMatchedRouteName(), $params, array('query' => array('pagination' => array('page' => $this->page, 'paginator_id' => $this->paginator_id))), true) ?>">
+            <a href="<?php echo $this->url($this->routeMatch->getMatchedRouteName(), $params, array('query' => $queryParams)) ?>">
                 <?php if (isset($this->glyphicon)) : ?>
                     <span class="glyphicon glyphicon-<?php echo $this->glyphicon ?>"></span>
                 <?php endif ?>
