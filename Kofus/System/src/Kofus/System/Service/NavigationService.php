@@ -138,9 +138,12 @@ class NavigationService extends AbstractService
     public function createNavPage($entity)
     {
         $link = $this->nodes()->getLink($entity);
+        $label = $this->getTranslationService()->translateNode($entity, 'getNavLabel');
+        if (! $label) $label = $entity->getNavLabel();
+        
         $navPage = array(
         		'uri' => (string) $link, 
-            'label' => $this->getTranslationService()->translateNode($entity, 'getNavLabel'),
+                'label' => $label,
         		'enabled' => $entity->isNavVisible(),
         		'node-id' => $entity->getNodeId(),
                 'order' => $entity->getPriority(),
