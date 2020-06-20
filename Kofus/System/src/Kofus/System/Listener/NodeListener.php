@@ -29,12 +29,11 @@ class NodeListener extends AbstractListenerAggregate implements ListenerAggregat
     	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'preUpdate', array($this, 'addNodeRevision'));
     	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'preUpdate', array($this, 'setUserAccount'));
     	$this->listeners[] = $sharedEvents->attach('DOCTRINE', 'prePersist', array($this, 'setUserAccount'));
-    	
     }
     
     protected function getCurrentDateTime()
     {
-        return \DateTime::createFromFormat('U', REQUEST_TIME);
+        return \DateTime::createFromFormat('Y-m-d H:i:s', REQUEST_TIME);
     }
     
     /**

@@ -45,7 +45,8 @@ class Module implements AutoloaderProviderInterface
         
         \Zend\Navigation\Page\Mvc::setDefaultRouter($e->getRouter());
         
-        define('REQUEST_TIME', time());
+        $dt = new \DateTime();
+        define('REQUEST_TIME', $dt->format('Y-m-d H:i:s'));
         define('ROOT_DIR', realpath(__DIR__ . '/../../../../..'));
         
         $helper = $sm->get('ViewHelperManager')->get('formElement');
