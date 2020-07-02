@@ -298,7 +298,7 @@ class NodeService extends AbstractService
             $newValue = implode('; ', $newValue);
                 
         
-        $now = \DateTime::createFromFormat('U', REQUEST_TIME);
+        $now = \DateTime::createFromFormat('Y-m-d H:i:s', REQUEST_TIME);
         $userService = $this->getServiceLocator()->get('KofusUserService');
         $user = $userService->getAccount();
         $userId = null;
