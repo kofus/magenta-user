@@ -103,6 +103,7 @@ class FormService extends AbstractService
                     foreach ($translatableFields as $_element) {
                     	$tElement = new \Zend\Form\Element\Text($_element->getName());
                     	$tElement->setLabel($_element->getLabel());
+                    	$tElement->setOptions($_element->getOptions());
                     	$tElement->setAttributes($_element->getAttributes());
                     	$tFieldset->add($tElement);
                     }
