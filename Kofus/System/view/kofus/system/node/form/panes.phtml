@@ -39,7 +39,7 @@
                                 
                                 // Deepl?
                                 $deeplTranslated = false;
-                                if ($this->config()->get('deepl.enabled', false) && 'auto-translate' == $oElement->getOption('deepl')) {
+                                if ($this->config()->get('deepl.enabled', false) && 'auto-translate' == $oElement->getOption('deepl-type')) {
                                     $defaultLocale = $this->config()->get('locales.default');
                                     if ($defaultLocale != $fieldsetLocale && ! $oElement->getValue()) {
                                         if (preg_match('/\[(.+)\]/', $oElement->getName(), $matches)) {
@@ -49,7 +49,7 @@
                                             $deeplOptions = $oElement->getOption('deepl-options', array());
                                             $deeplOptions['source_lang'] = strtoupper(substr($defaultLocale, 0, 2));
                                             $deeplOptions['target_lang'] = strtoupper(substr($fieldsetLocale, 0, 2));
-                                            $t = $this->deepl()->translate($value, $deeplOptions);
+                                            $t = $this->deepl()->translateText($value, $deeplOptions);
                                             $oElement->setValue($t);
                                             $oElement->setOption('help-block', 'Dies ist ein Übersetzungsvorschlag von DeepL. Speichern Sie den Datensatz, um den Vorschlag zu übernehmen.');
                                             $deeplTranslated = true;
