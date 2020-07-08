@@ -87,8 +87,12 @@ return array(
         ],
         'remote_translation' => [
             [
-                'type' => 'nodes'
-            ]
+                'type' => 'nodes', 'text_domain' => 'node'
+            ],
+            [
+                'type' => 'nodes', 'text_domain' => 'default'
+            ],
+            
         ]
     ),
     

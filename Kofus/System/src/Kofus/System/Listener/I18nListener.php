@@ -4,15 +4,25 @@ use Zend\Mvc\MvcEvent;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class I18nListener extends AbstractListenerAggregate implements ListenerAggregateInterface
+class I18nListener extends AbstractListenerAggregate implements ListenerAggregateInterface, ServiceLocatorAwareInterface
 {
     public function attach(EventManagerInterface $events)
     {
         $sharedEvents = $events->getSharedManager();
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH, array($this, 'initLocale'), 1000);
         $this->listeners[] = $events->attach(MvcEvent::EVENT_BOOTSTRAP, array($this, 'initRedirects'));
-        
+        $this->listeners[] = $sharedEvents->attach('translator', 'missingTranslation', array($this, 'handleMissingTranslation'));
+    }
+    
+    public function handleMissingTranslation($e)
+    {
+        $params = $e->getParams();
+        $translationService = $this->getServiceLocator()->get('KofusTranslationService');
+        if ('node' != $params['text_domain'])
+            $translationService->addTranslation($params['message'], null, $params['locale'], $params['text_domain']);
     }
     
     public function initRedirects(MvcEvent $e)
@@ -29,9 +39,6 @@ class I18nListener extends AbstractListenerAggregate implements ListenerAggregat
             }
         }
     }
-    
-   
-
     
     public function initLocale(MvcEvent $e)
     {
@@ -86,6 +93,16 @@ class I18nListener extends AbstractListenerAggregate implements ListenerAggregat
         }
     }
     
-   
+    protected $sm;
+    
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->sm = $serviceLocator;
+    }
+    
+    public function getServiceLocator()
+    {
+        return $this->sm;
+    }
     
 }

@@ -12,9 +12,10 @@ class TranslationService extends AbstractService
         $value = null;
         if (is_a($node, 'Kofus\System\Node\TranslatableNodeInterface')) {
         	$methods = $node->getTranslatableMethods();
-        	$msgId = 'KOFUS_NODE_' . $node->getNodeId() . ':' . $method;
-        	if (isset($methods[$method]))
-        		$value = $this->getTranslator()->translate($msgId, 'default', $locale);
+        	$msgId = $node->getNodeId() . ':' . $method;
+        	if (isset($methods[$method])) {
+        		$value = $this->getTranslator()->translate($msgId, 'node', $locale);
+        	}
         	if ($value == $msgId) $value = null;
         }
         if (! $value) {
@@ -34,13 +35,34 @@ class TranslationService extends AbstractService
         return $this->translator;
     }
     
+    public function addTranslation($msgId, $value, $locale, $textDomain='default')
+    {
+        if (! $this->em()->isOpen()) return;
+        $msg = $this->em()->getRepository('Kofus\System\Entity\NodeTranslationEntity')->findOneBy(array(
+            'msgId' => $msgId, 
+            'locale' => $locale,
+            'textDomain' => $textDomain
+        ));
+        if (! $msg) {
+            $msg = new \Kofus\System\Entity\NodeTranslationEntity();
+            $msg->setMsgId($msgId)->setLocale($locale)->setTextDomain($textDomain);
+        }
+        if ($value) $msg->setValue($value);
+        $this->em()->persist($msg);
+        $this->em()->flush();
+    }
+    
     public function addNodeTranslation(NodeInterface $node, $method, $value, $locale)
     {
         $msgId = $node->getNodeId() . ':' . $method;
-        $msg = $this->em()->getRepository('Kofus\System\Entity\NodeTranslationEntity')->findOneBy(array('msgId' => $msgId, 'locale' => $locale));
+        $msg = $this->em()->getRepository('Kofus\System\Entity\NodeTranslationEntity')->findOneBy(array(
+            'msgId' => $msgId, 
+            'locale' => $locale,
+            'textDomain' => 'node'
+        ));
         if (! $msg) {
         	$msg = new \Kofus\System\Entity\NodeTranslationEntity();
-        	$msg->setMsgId($msgId)->setLocale($locale);
+        	$msg->setMsgId($msgId)->setLocale($locale)->setTextDomain('node');
         }
         $msg->setValue($value);
         $this->em()->persist($msg);

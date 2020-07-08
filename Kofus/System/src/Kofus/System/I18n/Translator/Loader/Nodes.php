@@ -20,14 +20,17 @@ class Nodes implements RemoteLoaderInterface
         $this->sm = $sm;
     }
     
-    public function load($locale, $filename)
+    public function load($locale, $textDomain)
     {
         $em = $this->sm->get('Doctrine\ORM\EntityManager');
-        $entities = $em->getRepository('Kofus\System\Entity\NodeTranslationEntity')->findBy(array('locale' => $locale));
+        $entities = $em->getRepository('Kofus\System\Entity\NodeTranslationEntity')->findBy(array(
+            'locale' => $locale, 
+            'textDomain' => $textDomain)
+        );
         
         $messages = array();
         foreach ($entities as $entity)
-            $messages['KOFUS_NODE_' . $entity->getMsgId()] = $entity->getValue();            
+            $messages[$entity->getMsgId()] = $entity->getValue();
         
         return new TextDomain($messages);
     }

@@ -6,13 +6,29 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="kofus_system_node_translations")
+ * @ORM\Table(name="kofus_system_node_translations", uniqueConstraints={@ORM\UniqueConstraint(name="u", columns={"msgId", "locale", "textDomain"})})
  *
  */
-class NodeTranslationEntity 
+class NodeTranslationEntity
 {
     /**
      * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="bigint")
+     */
+    protected $id;
+    
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+    public function setId($value)
+    {
+        $this->id = $value; return $this;
+    }
+    
+    /**
      * @ORM\Column()
      */
     protected $msgId;
@@ -28,7 +44,6 @@ class NodeTranslationEntity
     }
     
     /**
-     * @ORM\Id
      * @ORM\Column(length=5)
      */
     protected $locale;
@@ -44,7 +59,7 @@ class NodeTranslationEntity
     }
     
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $value;
     
@@ -58,8 +73,18 @@ class NodeTranslationEntity
     	$this->value = $value; return $this;
     }
     
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $textDomain;
     
+    public function getTextDomain()
+    {
+        return $this->textDomain;
+    }
     
-    
-	
+    public function setTextDomain($value)
+    {
+        $this->textDomain = $value; return $this;
+    }
 }

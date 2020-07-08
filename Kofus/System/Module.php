@@ -26,7 +26,6 @@ class Module implements AutoloaderProviderInterface
         $this->bootstrapDoctrineEvents($e);
         $this->bootstrapExceptionLogging($e);
         
-        
         // View helpers overwrite
         $pm = $sm->get('ViewHelperManager')
             ->get('Navigation')
@@ -148,7 +147,7 @@ class Module implements AutoloaderProviderInterface
             \Doctrine\ORM\Events::preUpdate
         ), $events);
     }
-
+    
     /**
      * Assembles console help texts as provided in console router config (param "help_text")
      * 
