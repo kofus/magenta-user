@@ -151,7 +151,7 @@ class NodeController extends AbstractActionController
     	                        
     	                    if (! $fieldset->has($attribute)) continue;
     	                	$msgId = $entity->getNodeId() . ':' . $method;
-    	                	$msg = $this->em()->getRepository('Kofus\System\Entity\NodeTranslationEntity')->findOneBy(array('msgId' => $msgId, 'locale' => $locale));
+    	                	$msg = $this->em()->getRepository('Kofus\System\Entity\TranslationEntity')->findOneBy(array('msgId' => $msgId, 'locale' => $locale, 'textDomain' => 'node'));
     	                	if ($msg) {
     	                		$fieldset->get($attribute)->setValue($msg->getValue());
     	                	} else {
