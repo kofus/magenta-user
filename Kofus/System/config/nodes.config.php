@@ -3,7 +3,8 @@ return array(
     'nodes' => array(
         'enabled' => array(
             'LANGUAGE',
-            'COUNTRY'
+            'COUNTRY',
+            'TL'
         ),
         'available' => array(
             'T' => array(
@@ -98,6 +99,21 @@ return array(
                 )
             ),
             
+            'TL' => array(
+                'label' => 'Translation',
+                'label_pl' => 'Translations',
+                'entity' => 'Kofus\System\Entity\TranslationEntity',
+                'form' => array(
+                    'default' => array(
+                        'fieldsets' => array(
+                            'master' => array(
+                                'class' => 'Kofus\System\Form\Fieldset\Translation\MasterFieldset',
+                                'hydrator' => 'Kofus\System\Form\Hydrator\Translation\MasterHydrator'
+                            )
+                        )
+                    )
+                )
+            ),
             'C' => array(
                 'label' => 'Content',
                 'entity' => 'Kofus\System\Entity\ContentEntity',

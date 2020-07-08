@@ -1,0 +1,46 @@
+<h1>Übersetzungen</h1>
+
+<?php if ($this->missingTranslations) : ?>
+	<?php if ($this->config()->get('deepl.enabled', false)) : ?>
+		<a href="<?php echo $this->url('kofus_system', array('controller' => 'translations', 'action' => 'deepl', 'id' => $this->activeLocale)) ?>" class="btn btn-default pull-right">
+			Offene Einträge (<?php echo $this->activeLocale ?>) mit DeepL übersetzen
+		</a>
+	<?php endif ?>
+	
+	<ul class="nav nav-tabs" role="tablist">
+		<?php foreach ($this->missingTranslations as $locale => $translations) : ?>
+			<li <?php if ($this->activeLocale == $locale) echo 'class="active"' ?>>
+				<a href="<?php echo $this->url('kofus_system', array('controller' => 'translations', 'action' => 'list', 'id' => $locale)) ?>" role="tab">
+					<?php echo $this->locale()->getDisplayLanguage($locale) ?>
+					(<?php echo $this->locale()->getRegion($locale) ?>)&nbsp;
+					<span class="badge"><?php echo count($translations) ?></span>
+				</a>
+			</li>
+		<?php endforeach ?>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" role="tabpanel">
+			<table class="table table-hover">
+		        <tbody data-link="row" class="rowlink">
+					<?php foreach ($this->missingTranslations[$this->activeLocale] as $translation) : ?>
+						<tr <?php if (! $translation->getValue()) echo 'class="danger"'?>>
+							<td>
+								<a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'edit', 'id' => $translation->getNodeId())) ?>">
+									<?php echo $this->escapeHtml($translation->getMsgId()) ?>
+								</a>
+							</td>
+							<td>
+								<?php echo $this->escapeHtml($translation->getValue()) ?>
+							</td>
+							<td>
+								<?php echo $this->escapeHtml($translation->getTextDomain()) ?>
+							</td>
+						</tr>
+					<?php endforeach ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+<?php endif ?>

@@ -2,14 +2,14 @@
 namespace Kofus\System\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+use Kofus\System\Node;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="kofus_system_node_translations", uniqueConstraints={@ORM\UniqueConstraint(name="u", columns={"msgId", "locale", "textDomain"})})
+ * @ORM\Table(name="kofus_system_translations", uniqueConstraints={@ORM\UniqueConstraint(name="u", columns={"msgId", "locale", "textDomain"})})
  *
  */
-class NodeTranslationEntity
+class TranslationEntity implements Node\NodeInterface
 {
     /**
      * @ORM\Id
@@ -27,6 +27,22 @@ class NodeTranslationEntity
     {
         $this->id = $value; return $this;
     }
+    
+    public function getNodeId()
+    {
+        return $this->getNodeType() . $this->getId();
+    }
+    
+    public function getNodeType()
+    {
+        return 'TL';
+    }
+    
+    public function __toString()
+    {
+        return $this->getTextDomain() . ':' . $this->getMsgId() . ' => ' . $this->getValue() . ' [' . $this->getLocale() . ']'; 
+    }
+    
     
     /**
      * @ORM\Column()

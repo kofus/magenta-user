@@ -20,6 +20,7 @@ return array(
             'Kofus\System\Controller\Tag' => 'Kofus\System\Controller\TagController',
             'Kofus\System\Controller\TagVocabulary' => 'Kofus\System\Controller\TagVocabularyController',
             'Kofus\System\Controller\Autologout' => 'Kofus\System\Controller\AutologoutController',
+            'Kofus\System\Controller\Translations' => 'Kofus\System\Controller\TranslationsController',
         )
     ),
     
@@ -40,8 +41,7 @@ return array(
             'Kofus\System\Controller\Redirect' => 'Frontend',
             'Kofus\System\Controller\Console' => 'Console',
             'Kofus\System\Controller\Test' => 'System',
-
-            
+            'Kofus\System\Controller\Translations' => 'System',
         )
     ),
     
@@ -68,7 +68,6 @@ return array(
     ),
     
     'translator' => array(
-        // 'locale' => 'de_DE',
         'translation_file_patterns' => array(
             array(
                 'type' => 'phpArray',
@@ -174,8 +173,7 @@ return array(
             'Kofus\System\Controller\Search' => 'kofus/layout/admin',
             'Kofus\System\Controller\TagVocabulary' => 'kofus/layout/admin',
             'Kofus\System\Controller\Tag' => 'kofus/layout/admin',
-            
-        
+            'Kofus\System\Controller\Translations' => 'kofus/layout/admin',
         )
     ),
     

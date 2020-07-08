@@ -23,7 +23,7 @@ class Nodes implements RemoteLoaderInterface
     public function load($locale, $textDomain)
     {
         $em = $this->sm->get('Doctrine\ORM\EntityManager');
-        $entities = $em->getRepository('Kofus\System\Entity\NodeTranslationEntity')->findBy(array(
+        $entities = $em->getRepository('Kofus\System\Entity\TranslationEntity')->findBy(array(
             'locale' => $locale, 
             'textDomain' => $textDomain)
         );

@@ -38,13 +38,13 @@ class TranslationService extends AbstractService
     public function addTranslation($msgId, $value, $locale, $textDomain='default')
     {
         if (! $this->em()->isOpen()) return;
-        $msg = $this->em()->getRepository('Kofus\System\Entity\NodeTranslationEntity')->findOneBy(array(
+        $msg = $this->em()->getRepository('Kofus\System\Entity\TranslationEntity')->findOneBy(array(
             'msgId' => $msgId, 
             'locale' => $locale,
             'textDomain' => $textDomain
         ));
         if (! $msg) {
-            $msg = new \Kofus\System\Entity\NodeTranslationEntity();
+            $msg = new \Kofus\System\Entity\TranslationEntity();
             $msg->setMsgId($msgId)->setLocale($locale)->setTextDomain($textDomain);
         }
         if ($value) $msg->setValue($value);
@@ -55,13 +55,13 @@ class TranslationService extends AbstractService
     public function addNodeTranslation(NodeInterface $node, $method, $value, $locale)
     {
         $msgId = $node->getNodeId() . ':' . $method;
-        $msg = $this->em()->getRepository('Kofus\System\Entity\NodeTranslationEntity')->findOneBy(array(
+        $msg = $this->em()->getRepository('Kofus\System\Entity\TranslationEntity')->findOneBy(array(
             'msgId' => $msgId, 
             'locale' => $locale,
             'textDomain' => 'node'
         ));
         if (! $msg) {
-        	$msg = new \Kofus\System\Entity\NodeTranslationEntity();
+        	$msg = new \Kofus\System\Entity\TranslationEntity();
         	$msg->setMsgId($msgId)->setLocale($locale)->setTextDomain('node');
         }
         $msg->setValue($value);
@@ -74,7 +74,7 @@ class TranslationService extends AbstractService
         if ($nodeId instanceof NodeInterface)
             $nodeId = $nodeId->getNodeId();
         $qb = $this->em()->createQueryBuilder()
-            ->delete('\Kofus\System\Entity\NodeTranslationEntity', 't')
+            ->delete('\Kofus\System\Entity\TranslationEntity', 't')
             ->where('t.msgId LIKE :msgId')
             ->setParameter('msgId' , $nodeId . ':%')
             ->getQuery()
