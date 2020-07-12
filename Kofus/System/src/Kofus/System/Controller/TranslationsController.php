@@ -45,7 +45,16 @@ class TranslationsController extends AbstractActionController
         ));
     }
     
-    public function deeplAction()
+    public function deleteAction()
+    {
+        $entity = $this->nodes()->getNode($this->params('id'), 'TL');
+        $this->em()->remove($entity);
+        $this->em()->flush();
+        return $this->redirect()->toRoute('kofus_system', array('controller' => 'translations', 'action' => 'list'));
+        
+    }
+    
+    public function deleteOrphansAction()
     {
         $locale = $this->params('id');
         $entities = $this->em()->createQueryBuilder()
@@ -56,12 +65,42 @@ class TranslationsController extends AbstractActionController
             ->andWhere("t.textDomain <> 'node'")
             ->andWhere('t.value IS NULL')
             ->getQuery()->getResult();
-        $deeplService = $this->getServiceLocator()->get('KofusDeeplService');
+        $count = count($entities);
         foreach ($entities as $entity) {
+            $this->em()->remove($entity);
+        }
+        $this->em()->flush();
+        
+        $this->flashMessenger()->addSuccessMessage($count . ' Einträge gelöscht');
+        return $this->redirect()->toRoute('kofus_system', array('controller' => 'translations', 'action' => 'list', 'id' => $locale));
+        
+    }
+    
+    public function deeplAction()
+    {
+        $locale = $this->params('id');
+        $deeplService = $this->getServiceLocator()->get('KofusDeeplService');
+        if (in_array($locale, $this->config()->get('locales.available'))) {
+            $entities = $this->em()->createQueryBuilder()
+                ->select('t')
+                ->from('Kofus\System\Entity\TranslationEntity', 't')
+                ->where('t.locale = :locale')
+                ->setParameter('locale', $locale)
+                ->andWhere("t.textDomain <> 'node'")
+                ->andWhere('t.value IS NULL')
+                ->getQuery()->getResult();
+            foreach ($entities as $entity) {
+                $deeplService->finishTranslation($entity);
+            }
+            $this->flashMessenger()->addSuccessMessage(count($entities) . ' Einträge übersetzt');
+        } elseif (preg_match('/TL[0-9]+/', $this->params('id'), $matches)) {
+            $entity = $this->nodes()->getNode($this->params('id'), 'TL');
             $deeplService->finishTranslation($entity);
+            
+        } else {
+            throw new \Exception('Could not delete ' . $this->params('id'));
         }
         
-        $this->flashMessenger()->addSuccessMessage(count($entities) . ' Einträge übersetzt');
         return $this->redirect()->toRoute('kofus_system', array('controller' => 'translations', 'action' => 'list', 'id' => $locale));
     }
     
