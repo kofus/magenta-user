@@ -20,11 +20,17 @@ class I18nListener extends AbstractListenerAggregate implements ListenerAggregat
     public function handleMissingTranslation($e)
     {
         $config = $this->getServiceLocator()->get('KofusConfigService');
+        
+        $routeMatch = $this->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch();
+        $routeName = $routeMatch->getMatchedRouteName();
+        if (in_array($routeName, $config->get('translator.event_manager_ignore_routes', array()))) return;
+        
         $params = $e->getParams();
         $translationService = $this->getServiceLocator()->get('KofusTranslationService');
         if ('node' == $params['text_domain']) return;
         if ($config->get('locales.default') == $params['locale']) return;
-        $translationService->addTranslation($params['message'], null, $params['locale'], $params['text_domain']);
+        
+        $translationService->addTranslation($params['message'], null, $params['locale'], $params['text_domain'], array('route' => $routeName));
     }
     
     public function initRedirects(MvcEvent $e)

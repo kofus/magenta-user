@@ -35,7 +35,7 @@ class TranslationService extends AbstractService
         return $this->translator;
     }
     
-    public function addTranslation($msgId, $value, $locale, $textDomain='default')
+    public function addTranslation($msgId, $value, $locale, $textDomain='default', $contextParams=array())
     {
         if (! $this->em()->isOpen()) return;
         $msg = $this->em()->getRepository('Kofus\System\Entity\TranslationEntity')->findOneBy(array(
@@ -46,6 +46,7 @@ class TranslationService extends AbstractService
         if (! $msg) {
             $msg = new \Kofus\System\Entity\TranslationEntity();
             $msg->setMsgId($msgId)->setLocale($locale)->setTextDomain($textDomain);
+            $msg->setContextParams($contextParams);
         }
         if ($value) $msg->setValue($value);
         $this->em()->persist($msg);

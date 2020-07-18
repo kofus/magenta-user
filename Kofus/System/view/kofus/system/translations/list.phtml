@@ -38,6 +38,18 @@
 	<div class="tab-content">
 		<div class="tab-pane active" role="tabpanel">
 			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>System-Sprache</th>
+						<th>
+        					<?php echo $this->locale()->getDisplayLanguage($this->activeLocale) ?>
+        					(<?php echo $this->locale()->getRegion($this->activeLocale) ?>)
+						</th>
+						<th>Text-Domain</th>
+						<th>Route</th>
+						<th></th>
+					</tr>
+				</thead>
 		        <tbody>
 					<?php foreach ($this->missingTranslations[$this->activeLocale] as $translation) : ?>
 						<tr <?php if (! $translation->getValue()) echo 'class="danger"'?>>
@@ -49,6 +61,9 @@
 							</td>
 							<td>
 								<?php echo $this->escapeHtml($translation->getTextDomain()) ?>
+							</td>
+							<td>
+								<?php echo $this->escapeHtml($translation->getContextParam('route')) ?>
 							</td>
 							<td>
                             	<div class="dropdown pull-right">

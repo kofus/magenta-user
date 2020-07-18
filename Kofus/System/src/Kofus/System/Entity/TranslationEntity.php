@@ -90,6 +90,28 @@ class TranslationEntity implements Node\NodeInterface
     }
     
     /**
+     * @ORM\Column(type="json_array")
+     */
+    protected $contextParams = array();
+    
+    public function setContextParam($key, $value)
+    {
+        $this->contextParams[$key] = $value; return $this;
+    }
+    
+    public function getContextParam($key)
+    {
+        if (isset($this->contextParams[$key]))
+            return $this->contextParams[$key];
+    }
+    
+    public function setContextParams(array $values)
+    {
+        $this->contextParams = $values; return $this;
+    }
+    
+    
+    /**
      * @ORM\Column(nullable=true)
      */
     protected $textDomain;
