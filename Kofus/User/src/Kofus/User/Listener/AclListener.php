@@ -29,11 +29,31 @@ class AclListener implements ListenerAggregateInterface
     protected function validate($resource, $action)
     {
         if (! $this->userService->isAllowed($resource, $action)) {
-            $this->triggerPermissionDenied($resource, $action);
+            if (! $this->userService->getAuth()) {
+                $this->triggerLogin();
+            } else {
+                $this->triggerPermissionDenied($resource, $action);
+                
+            }
             return false;
         }
         return true;
-        
+    }
+    
+    protected function triggerLogin()
+    {
+        // Error: Permission denied
+        $routeParams = array(
+            'controller' => 'Application\Controller\Auth',
+            'action' => 'login',
+        );
+        if ($this->r->getParam('language'))
+            $routeParams['language'] = $this->r->getParam('language');
+        if ($this->r->getParam('locale'))
+            $routeParams['locale'] = $this->r->getParam('locale');
+        $this->r = new RouteMatch($routeParams);
+        $this->r->setMatchedRouteName('login');
+        $this->e->setRouteMatch($this->r);
     }
     
     protected function triggerPermissionDenied($resource, $action)
