@@ -78,8 +78,7 @@ class NodeController extends AbstractActionController
         
     	// Entity
     	$entity = $this->nodes()->getNode($this->params('id'));
-    	if (! $entity instanceof TranslatableNodeInterface)
-    	    $locales = array('de_DE');
+    	if (! $entity instanceof TranslatableNodeInterface) $locales = array($this->config()->get('locales.default'));
     	$nodeTypeConfig = $this->nodes()->getConfig($entity->getNodeType());
     	 
     	// Form
@@ -88,7 +87,7 @@ class NodeController extends AbstractActionController
         	->setContext($this->params('id2', 'edit'))
         	->setLabelSize('col-sm-3')->setFieldSize('sm-9');
     	foreach ($locales as $locale) {
-    	    if ($locale != $this->config()->get('locales.default', 'de_DE'))
+    	    if ($locale != $this->config()->get('locales.default'))
     	        $fb->addTranslationFieldset($locale);   	    
     	}
 

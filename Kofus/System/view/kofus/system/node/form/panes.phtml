@@ -5,7 +5,7 @@
                 continue;
             $fieldsetLocale = substr($fieldset->getName(), 0, 5);
             if (! in_array($fieldsetLocale, $this->config()->get('locales.available')))
-                $fieldsetLocale = 'de_DE';
+                $fieldsetLocale = $this->config()->get('locales.default');
             if ($this->locale_filter != $fieldsetLocale)
                 continue;  
         ?> 
