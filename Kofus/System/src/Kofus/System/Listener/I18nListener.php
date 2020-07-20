@@ -84,11 +84,16 @@ class I18nListener extends AbstractListenerAggregate implements ListenerAggregat
         
         // 4. Browser?
         if (! $locale && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-	        $locale = \Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
-	        if (! in_array($locale, $locales))
-	        	$locale = $config->get('locales.default', 'de_DE');
-        }        
-
+	        $httpLocale = \Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+	        foreach ($locales as $_locale) {
+	            if (strpos($_locale, $httpLocale) === 0) {
+	                $locale = $_locale; break;
+	            }
+	        }
+        }
+        
+        // 5. Default
+        if (! in_array($locale, $locales)) $locale = $config->get('locales.default', 'de_DE');
         
         // Validate and store locale
         if ($locale) {
