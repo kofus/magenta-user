@@ -4,7 +4,7 @@
     </div>
 	<div class="col-md-9">
        <?php echo $this->form()->openTag($this->form) ?>
-	   <?php echo $this->partial($this->formTemplate, array('form' => $this->form, 'locale_filter' => 'de_DE')) ?>
+	   <?php echo $this->partial($this->formTemplate, array('form' => $this->form, 'locale_filter' => $this->config()->get('locales.default'))) ?>
 	   <?php echo $this->form()->closeTag() ?>
 	</div>
     <div class="col-md-3">
@@ -14,6 +14,4 @@
 		      </a>
 		  </div>
     </div>
-    
-    
 </div>
