@@ -196,7 +196,7 @@ class RelationController extends AbstractActionController
     					foreach ($entity->getTranslatableMethods() as $method => $attribute) {
     						if (! $fieldset->has($attribute)) continue;
     						$msgId = $entity->getNodeId() . ':' . $method;
-    						$msg = $this->em()->getRepository('Kofus\System\Entity\NodeTranslationEntity')->findOneBy(array('msgId' => $msgId, 'locale' => $locale));
+    						$msg = $this->em()->getRepository('Kofus\System\Entity\TranslationEntity')->findOneBy(array('msgId' => $msgId, 'textDomain' => 'node', 'locale' => $locale));
     						if ($msg) {
     							$fieldset->get($attribute)->setValue($msg->getValue());
     						} else {
