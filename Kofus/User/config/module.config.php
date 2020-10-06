@@ -12,6 +12,8 @@ return array(
             'Kofus\User\Controller\Account' => 'Kofus\User\Controller\AccountController',
             'Kofus\User\Controller\Acl' => 'Kofus\User\Controller\AclController',
             'Kofus\User\Controller\Autologout' => 'Kofus\User\Controller\AutologoutController',
+            'Kofus\User\Controller\Role' => 'Kofus\User\Controller\RoleController',
+            
         )
     ),
     'user' => array(

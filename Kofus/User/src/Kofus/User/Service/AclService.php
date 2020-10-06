@@ -26,6 +26,23 @@ class AclService extends AbstractService
         	}
         	$roles[$role] = $parents;
         }
+        
+        // Default role
+        $defaultRole = $this->config()->get('acl.default_role', 'Guest');
+        if (! isset($roles[$defaultRole])) $roles[$defaultRole] = array(); 
+        
+        
+        $entities = $this->nodes()->getRepository('UR')->findAll();
+        foreach ($entities as $entity) {
+            if ($entity->getParent()) {
+                $parentId = $entity->getParent()->getRoleId();
+            } else {
+                $parentId = $defaultRole;
+            }
+            
+            $roles[$entity->getRoleId()] = $parentId;
+        }
+        
         return $roles;
     }
     
@@ -90,6 +107,8 @@ class AclService extends AbstractService
 	{
 	    if (! $this->acl) {
 	        $this->acl = new Acl($this->getServiceLocator());
+	        
+	        $defaultRole = $this->config()->get('acl.default_role', 'Guest');
 
 	        foreach ($this->getRoles() as $role => $parents)
 	           $this->acl->addRole(new Role($role), $parents);
