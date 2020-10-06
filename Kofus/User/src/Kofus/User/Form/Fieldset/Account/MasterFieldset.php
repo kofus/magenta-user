@@ -32,7 +32,7 @@ class MasterFieldset extends Fieldset implements InputFilterProviderInterface, S
 	    $valueOptions = array();
 	    $roles = $this->nodes()->getRepository('UR')->findAll();
 	    foreach ($roles as $role) {
-	        $valueOptions[$role->getNodeId()] = (string) $role;
+	        $valueOptions[$role->getNodeId()] = $role->getName();
 	    }
 	    return $valueOptions;
 	}

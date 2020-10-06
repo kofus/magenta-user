@@ -81,7 +81,7 @@ return array(
             'AUTHLOGIN' => array(
                 'label' => 'Login Authentication',
                 'label_pl' => 'Login Authentications',
-                'entity' => 'Kofus\User\Entity\AuthEntity',
+                'entity' => 'Kofus\User\Entity\AuthLoginEntity',
                 'controllers' => array(
                     'Kofus\User\Controller\Auth'
                 ),
