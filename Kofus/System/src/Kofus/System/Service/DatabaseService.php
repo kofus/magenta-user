@@ -29,7 +29,7 @@ class DatabaseService extends AbstractService
         // Fetch dump via console
         switch ($type) {
         	case 'mysql':
-        		exec('mysqldump --skip-set-charset --default-character-set=latin1 -r '.escapeshellarg($filename).' --user='.escapeshellarg($dbParams['user']).' --password='.escapeshellarg($dbParams['password']).' --host='.escapeshellarg($dbParams['host']).' --port='. ((int) $dbParams['port']) . ' '. escapeshellarg($dbParams['dbname']));
+        		exec('mysqldump --skip-set-charset --skip-lock-tables --default-character-set=latin1 -r '.escapeshellarg($filename).' --user='.escapeshellarg($dbParams['user']).' --password='.escapeshellarg($dbParams['password']).' --host='.escapeshellarg($dbParams['host']).' --port='. ((int) $dbParams['port']) . ' '. escapeshellarg($dbParams['dbname']));
         		break;
         
         	case 'psql':
