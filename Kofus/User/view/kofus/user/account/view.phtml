@@ -1,36 +1,56 @@
 <div class="row">
     <div class="col-md-12">
         <h1><?php echo $this->escapeHtml($this->entity->getName()) ?></h1>
+        <p><?php echo $this->escapeHtml($this->entity->getRole()->getName()) ?></p>
     </div>
     <div class="col-md-9">
-        <h2>Authentifizierungsverfahren</h2>
-        <?php if ($this->auths) : ?>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Verfahren</th>
-                        <th><?php echo $this->translate('Identity') ?></th>
-                    </tr>
-                </thead>
-                <tbody class="rowlink" data-link="row">
-                    <?php foreach ($this->auths as $auth) : ?>
-                        <tr>
-                            <td>
-                                <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'edit', 'id' => $auth->getNodeId())) ?>">
-                                    <?php echo $this->escapeHtml($this->nodes()->getConfig($auth->getNodeType(), 'label')) ?>
+    	<div class="panel panel-default">
+    		<div class="panel-heading">
+    			<div class="dropdown pull-right" style="margin-top: -3px">
+    				<button class="btn btn-default" type="button" data-toggle="dropdown">
+    					<?php echo $this->translate('Add') ?>
+    					<span class="caret"></span>
+    				</button>
+    				<ul class="dropdown-menu">
+    					<?php foreach (array('AUTHLOGIN', 'AUTHPASS') as $method) : ?>
+                        	<?php if (! in_array($method, $this->config()->get('nodes.enabled', array()))) continue ?>
+    						<li>
+                                <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'add', 'id' => $method), array('query' => array('account' => $this->entity->getNodeId()))) ?>">
+                                    <?php echo $this->escapeHtml($method) ?>
                                 </a>
-                            </td>
-                            <td>
-                                <?php echo $this->escapeHtml($auth->getIdentity()) ?>
-                            </td>
-                            
+                            </li>
+    					<?php endforeach ?>
+    				</ul>
+    			</div>
+    			<h4 class="panel-title">Methods of Authentication</h4>
+    		</div>
+            <?php if ($this->auths) : ?>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Identity</th>
+                            <th>Method</th>
                         </tr>
-                    <?php endforeach ?>
-                </tbody>
-            </table>
-        <?php else : ?>
-            <p><?php echo $this->translate('No entries.') ?></p>
-        <?php endif ?>
+                    </thead>
+                    <tbody class="rowlink" data-link="row">
+                        <?php foreach ($this->auths as $auth) : ?>
+                            <tr>
+                                <td>
+                                    <?php echo $this->escapeHtml($auth->getIdentity()) ?>
+                                </td>
+                                <td>
+                                    <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'edit', 'id' => $auth->getNodeId())) ?>">
+                                        <?php echo $this->escapeHtml($this->nodes()->getConfig($auth->getNodeType(), 'label')) ?>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
+            <?php else : ?>
+                <div class="panel-body"><?php echo $this->translate('No entries.') ?></div>
+            <?php endif ?>
+    	</div>
     </div>
     <div class="col-md-3">
         <div class="list-group">
@@ -42,15 +62,6 @@
                 <i class="glyphicon glyphicon-pencil"></i>
                 <?php echo $this->translate('Edit') ?>
             </a>
-            <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'add', 'id' => 'AUTHLOGIN'), array('query' => array('account' => $this->entity->getNodeId()))) ?>" class="list-group-item">
-                <i class="glyphicon glyphicon-plus"></i>
-                Login
-            </a>
-            <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'add', 'id' => 'AUTHPASS'), array('query' => array('account' => $this->entity->getNodeId()))) ?>" class="list-group-item">
-                <i class="glyphicon glyphicon-plus"></i>
-                Passphrase
-            </a>
-            
         </div>
     </div>
 </div>

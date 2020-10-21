@@ -2,6 +2,38 @@
 return array(
     'nodes' => array(
         'available' => array(
+            'UR' => array(
+                'label' => 'Role',
+                'label_pl' => 'Roles',
+                'entity' => 'Kofus\User\Entity\RoleEntity',
+                'controllers' => array(
+                    'Kofus\User\Controller\Role'
+                ),
+                'form' => array(
+                    'default' => array(
+                        'fieldsets' => array(
+                            'master' => array(
+                                'class' => 'Kofus\User\Form\Fieldset\Role\MasterFieldset',
+                                'hydrator' => 'Kofus\User\Form\Hydrator\Role\MasterHydrator'
+                            )
+                        )
+                    )
+                ),
+                'navigation' => array(
+                    'list' => array(
+                        array(
+                            'label' => 'Add',
+                            'route' => 'kofus_system',
+                            'controller' => 'node',
+                            'action' => 'add',
+                            'icon' => 'glyphicon glyphicon-plus',
+                            'params' => array(
+                                'id' => 'UR'
+                            )
+                        )
+                    )
+                ),
+            ),
             'U' => array(
                 'label' => 'User Account',
                 'label_pl' => 'User Accounts',
@@ -49,7 +81,7 @@ return array(
             'AUTHLOGIN' => array(
                 'label' => 'Login Authentication',
                 'label_pl' => 'Login Authentications',
-                'entity' => 'Kofus\User\Entity\AuthEntity',
+                'entity' => 'Kofus\User\Entity\AuthLoginEntity',
                 'controllers' => array(
                     'Kofus\User\Controller\Auth'
                 ),

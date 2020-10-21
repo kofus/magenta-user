@@ -19,12 +19,29 @@ class MasterFieldset extends Fieldset implements InputFilterProviderInterface, S
 		$el->setValueOptions(\Kofus\User\Entity\AccountEntity::$STATUS);
 		$this->add($el);
 		
-		$roles = array_keys($this->getServiceLocator()->get('KofusConfigService')->get('user.acl.roles'));
-		$el = new Element\Select('role', array('label' => 'Role'));
-		$el->setValueOptions(array_combine($roles, $roles));
+		$el = new Element\Select('role', array(
+		    'label' => 'Role',
+		    'value_options' => $this->getRoleValueOptions()
+		));
 		$this->add($el);
 		
 	}
+	
+	protected function getRoleValueOptions()
+	{
+	    $valueOptions = array();
+	    $roles = $this->nodes()->getRepository('UR')->findAll();
+	    foreach ($roles as $role) {
+	        $valueOptions[$role->getNodeId()] = $role->getName();
+	    }
+	    return $valueOptions;
+	}
+	
+	protected function nodes()
+	{
+	    return $this->getServiceLocator()->get('KofusNodeService');
+	}
+	
 
 	public function getInputFilterSpecification()
 	{

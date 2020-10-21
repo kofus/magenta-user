@@ -100,13 +100,14 @@ class AccountEntity implements Node\NodeInterface, Node\NodeCreatedInterface
     }
     
     /**
-     * @ORM\Column()
+     * @ORM\ManyToOne(targetEntity="Kofus\User\Entity\RoleEntity", inversedBy="userAccounts")
+     * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
      */
-    protected $role = 'Member';
+    protected $role;
     
-    public function setRole($value)
+    public function setRole(RoleEntity $entity=null)
     {
-        $this->role = $value; return $this;
+        $this->role = $entity; return $this;
     }
     
     public function getRole()

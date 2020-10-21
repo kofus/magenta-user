@@ -1,37 +1,33 @@
 <?php
-namespace Kofus\User\Form\Hydrator\Account;
+namespace Kofus\User\Form\Hydrator\Role;
 
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-
 class MasterHydrator implements HydratorInterface, ServiceLocatorAwareInterface
 {
-
     public function extract($object)
     {
-        $roleId = null;
-        if ($object->getRole()) $roleId = $object->getRole()->getNodeId();
+        $parentId = null;
+        if ($object->getParent()) $parentId = $object->getParent()->getNodeId();
         
         return array(
             'name' => $object->getName(),
-            'status' => $object->getStatus(),
-            'role' => $roleId
+            'parent' => $parentId
         );
     }
 
     public function hydrate(array $data, $object)
     {
-        $role = null;
-        if ($data['role']) $role = $this->nodes()->getNode($data['role'], 'UR');
-        
         $object->setName($data['name']);
-        $object->setStatus($data['status']);
-        $object->setRole($role);
+        
+        $parent = null;
+        if ($data['parent']) $parent = $this->nodes()->getNode($data['parent'], 'UR');
+        $object->setParent($parent);
+        
         return $object;
     }
-    
     
     protected function nodes()
     {
@@ -49,5 +45,4 @@ class MasterHydrator implements HydratorInterface, ServiceLocatorAwareInterface
     {
         return $this->sm;
     }
-    
 }
