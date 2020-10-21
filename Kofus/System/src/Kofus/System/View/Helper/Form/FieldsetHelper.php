@@ -20,6 +20,9 @@ class FieldsetHelper extends AbstractHelper
     public function render()
     {
         $sFormContent = '<fieldset class="form-horizontal">';
+        if ($this->fieldset->getLabel()) {
+            $sFormContent .= '<legend>' . $this->getView()->escapeHtml($this->fieldset->getLabel()) . '</legend>';
+        }
         $bHasColumnSizes = false;
         $sFormLayout = 'horizontal';
         foreach($this->fieldset as $oElement){
