@@ -182,6 +182,20 @@ class ContentEntity implements Node\NodeInterface, Node\TranslatableNodeInterfac
 		$this->priority = (int) $value; return $this;
 	}
 	
+	/**
+	 * @ORM\Column(nullable=true)
+	 */
+	protected $template;
+	
+	public function getTemplate()
+	{
+	    return $this->template;
+	}
+	
+	public function setTemplate($value)
+	{
+	    $this->template = $value; return $this;
+	}
 	
 	public function __toString()
 	{

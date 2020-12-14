@@ -1,8 +1,26 @@
-<h1><?php echo $this->escapeHtml($this->translateNode($entity)->getTitle()) ?></h1>
+<ol class="breadcrumb">
+	<li>
+		<a href="<?php echo $this->url('kofus_system', array('controller' => 'page', 'action' => 'list')) ?>">
+			<?php echo $this->translate('Pages') ?>
+		</a>
+	</li>
+	<li>
+		<?php echo $this->translate('Page') ?> <?php echo $this->entity->getNodeId() ?>
+	</li>
+</ol>
+
+<h1><?php echo $this->entity->getNodeId() ?>: "<?php echo $this->escapeHtml($this->translateNode($entity)->getTitle()) ?>"</h1>
+<h2>Page Contents</h2>
 
 <div class="row">
 	<div class="col-md-9">
-        <?php echo $this->translateNode($entity)->getContent() ?>
+		<?php 
+            $template = $this->entity->getTemplate();
+            if (! $template) $template = 'default';
+            echo $this->partial('kofus/system/page/template/'.$template.'.phtml', array('entity' => $this->entity)); 
+		?>
+        
+        
         <?php if ($this->relations) : ?>
        		<?php echo $this->partial('kofus/system/relations.phtml', array('relations' => $this->relations)) ?>         	
         <?php endif ?>
@@ -21,7 +39,7 @@
             </a>
             <?php foreach ($relations as $_relation) : ?>
                 <?php $relation = explode('_', $_relation) ?>
-                <?php if ($relation[0] == 'PG') : ?>
+                <?php if ($relation[0] == 'PG' && $relation[1] != 'BX') : ?>
                     <?php $config = $this->config()->get('nodes.available.' . $relation[1]) ?>
                     <a href="<?php echo $this->url('kofus_system', array('controller' => 'relation', 'action' => 'add', 'id' => $this->entity->getNodeId()), true)  ?>?add=<?php echo $relation[1] ?>" class="list-group-item">
                         <span class="glyphicon glyphicon-plus"></span>

@@ -130,6 +130,7 @@ return array(
             ),
             'PG' => array(
                 'label' => 'Page',
+                'label_pl' => 'Pages',
                 'entity' => 'Kofus\System\Entity\PageEntity',
                 'controllers' => array(
                     'Kofus\System\Controller\Page'
@@ -149,6 +150,24 @@ return array(
                                 'hydrator' => 'Kofus\System\Form\Hydrator\Page\NavigationHydrator'
                             )
                         )
+                    )
+                ),
+                'navigation' => array(
+                    'view' => array(),
+                    'list' => array(
+                        'add' => array(
+                            'label' => 'Add',
+                            'icon' => 'glyphicon glyphicon-plus',
+                            
+                            'route' => 'kofus_system',
+                            'controller' => 'node',
+                            'action' => 'add',
+                            'params' => array(
+                                'id' => 'PG'
+                            )
+                        )
+                        
+                        
                     )
                 )
             ),

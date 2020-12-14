@@ -41,9 +41,10 @@ class RelationFieldset extends Fieldset implements InputFilterProviderInterface
 	    } else {
 	        $el = new Element\Hidden('label');
 	    }
+	    if (isset($_GET['label'])) {
+	        $el->setValue($_GET['label']);
+	    }
 		$this->add($el);
-		
-		
 		
 		$el = new Element\Number('weight', array('label' => 'Priority'));
 		$this->add($el);

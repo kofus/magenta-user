@@ -1,8 +1,7 @@
+<?php echo $this->nodeNavigation('PG', 'list') ?>
+
 <div class="row">
     <div class="col-md-12">
-        <h1><?php echo $this->translate('Pages') ?></h1>
-    </div>
-    <div class="col-md-9">
         <ul class="nav nav-tabs" role="tablist">
             <?php $isFirst = true ?>
             <?php foreach ($this->navbars as $id => $navConfig) : ?>
@@ -46,16 +45,6 @@
                 <?php $isFirst = false ?>
             <?php endforeach ?>
         </div>    
-    </div>
-    <div class="col-md-3">
-		  <div class="list-group">
-		      <?php if ($this->user()->isAllowed('PG', 'add')) : ?>
-    		      <a href="<?php echo $this->url('kofus_system', array('controller' => 'node', 'action' => 'add', 'id' => 'PG')) ?>" class="list-group-item">
-    		          <span class="glyphicon glyphicon-plus"></span>
-    		          <?php echo $this->translate('Add') ?>
-    		      </a>
-    		  <?php endif ?>
-		  </div>
     </div>
 </div>
 

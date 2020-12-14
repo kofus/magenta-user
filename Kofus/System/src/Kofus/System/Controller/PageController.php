@@ -31,7 +31,7 @@ class PageController extends AbstractActionController
         $relations = array();
         foreach ($this->config()->get('relations.enabled', array()) as $_relation) {
             $relation = explode('_', $_relation);
-            if ($relation[0] == 'PG') {
+            if ($relation[0] == 'PG' && $relation[1] != 'BX') {
                 $relations[$relation[1]] = $this->nodes()->getRelations($entity, $relation[1]);
             }
         }

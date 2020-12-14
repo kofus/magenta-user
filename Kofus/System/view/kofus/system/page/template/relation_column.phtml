@@ -1,0 +1,27 @@
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div class="dropdown pull-right">
+					<button class="btn" type="button" data-toggle="dropdown" style="background: transparent; margin-top: -8px">
+						<span class="glyphicon glyphicon-cog"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="<?php echo $this->url('kofus_system', array('controller' => 'relation', 'action' => 'add', 'id' => $this->entity->getNodeId()), array('query' => array('add' => 'BX', 'label' => $this->columnId))) ?>">
+								<span class="glyphicon glyphicon-plus"></span>
+								Add Page Segment
+							</a>
+						</li>
+					</ul>
+				</div>
+				<h4 class="panel-title">
+					<?php echo $this->escapeHtml($this->columnTitle) ?>
+				</h4>
+			</div>
+			<div class="panel-body">
+				<?php $relations = $this->nodes()->getRelations($this->entity, 'BX', $this->columnId) ?>
+				<?php foreach ($relations as $relation) : ?>
+					<?php echo $this->partial('kofus/system/page/template/relation_box.phtml', array('relation' => $relation)) ?>
+				<?php endforeach ?>
+				    
+			</div>
+		</div>
