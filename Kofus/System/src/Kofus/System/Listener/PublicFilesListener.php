@@ -16,6 +16,8 @@ class PublicFilesListener extends AbstractListenerAggregate implements ListenerA
     
     public function provideModulePublicFiles(MvcEvent $e)
     {
+        $publicDir = (defined('KOFUS_PUBLIC_DIR') ? KOFUS_PUBLIC_DIR : 'public');
+        
         $uri = $e->getRequest()->getUri();
         $requestPath = urldecode($uri->getPath()); 
         
@@ -35,7 +37,7 @@ class PublicFilesListener extends AbstractListenerAggregate implements ListenerA
                 $sourceFilename = realpath($filePath . '/' . str_replace('/cache/public/', '', $requestPath));
                 if (! $sourceFilename) continue;
                 
-                $targetFilename = 'public' . $requestPath;
+                $targetFilename = $publicDir . $requestPath;
 
                 if (! file_exists(dirname($targetFilename)))
                     mkdir(dirname($targetFilename), 0777, true);

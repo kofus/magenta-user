@@ -24,9 +24,11 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
     
     protected function getPublicFileContent($uri)
     {
+        $publicDir = (defined('KOFUS_PUBLIC_DIR') ? KOFUS_PUBLIC_DIR : 'public');
+        
         $filename = null;
-        if (file_exists('public/' . $uri)) 
-            $filename = 'public/' . $uri;
+        if (file_exists($publicDir . '/' . $uri)) 
+            $filename = $publicDir . '/' . $uri;
         
         // File in module public path?
         if (! $filename && strpos($uri, '/cache/public/') === 0) {
