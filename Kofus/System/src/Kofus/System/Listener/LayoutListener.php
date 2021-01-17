@@ -148,6 +148,8 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
     
     protected function createSass(array $uris)
     {
+        $publicDir = (defined('KOFUS_PUBLIC_DIR') ? KOFUS_PUBLIC_DIR : 'public');
+        
         $viewHelperManager = $this->e->getApplication()->getServiceManager()->get('viewHelperManager');
         $headLink = $viewHelperManager->get('headLink');
         
@@ -157,7 +159,7 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
         
         // Prepare output file
         $hash = md5(implode('|', $uris));
-        $filename = 'public/cache/sass/' . $hash . '.css';
+        $filename = $publicDir . '/cache/sass/' . $hash . '.css';
         if (! file_exists(dirname($filename)))
         	mkdir(dirname($filename), 0777, true);
         
@@ -166,7 +168,7 @@ class LayoutListener extends AbstractListenerAggregate implements ListenerAggreg
         $s = $scssc->compile($content);
         
         file_put_contents($filename, $s);
-        $headLink()->appendStylesheet('/cache/sass/' . $hash . '.css');        
+        $headLink()->appendStylesheet('/cache/sass/' . $hash . '.css'); 
     }
    
     
