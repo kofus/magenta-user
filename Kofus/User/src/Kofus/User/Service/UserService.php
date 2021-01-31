@@ -180,11 +180,12 @@ class UserService extends AbstractService implements EventManagerAwareInterface
 	        
 	    // Cacl. min lifetime
 	    $min = null;
+	    /*
 	    if ($cookieLifetime && ($min === null || $cookieLifetime < $min))
 	        $min = $cookieLifetime;
 	    if ($maxLifetime && ($min === null || $maxLifetime < $min))
 	        $min = $maxLifetime;
-	    if ($min === null || $requestedLifetime < $min)
+	    if ($min === null || $requestedLifetime < $min) */
 	        $min = $requestedLifetime;
 	                    
 	    // User
