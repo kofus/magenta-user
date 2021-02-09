@@ -7,18 +7,33 @@ use Zend\View\Helper\AbstractHelper;
 
 class TreeHelper extends AbstractHelper
 {
-	
 	protected $collapseLevel = 1;
 	protected $glyphiconCollapsed = 'glyphicon glyphicon-menu-down';
 	protected $glyphiconExpanded = 'glyphicon glyphicon-menu-right';
 	protected $glyphiconLeaf = 'glyphicon';
 	
+	public function setCollapseLevel($value)
+	{
+	    $this->collapseLevel = $value; return $this;
+	}
+	
+	public function getCollapseLevel()
+	{
+	    return $this->collapseLevel;
+	}
+	
     public function __invoke($container)
     {
-    	$html = '<div class="tree">';
-    	$html .= $this->renderPages($container->getPages());
-    	$html .= '</div>';
-    	return $html;
+        $this->container = $container;
+    	return $this;;
+    }
+    
+    public function __toString()
+    {
+        $html = '<div class="tree">';
+        $html .= $this->renderPages($this->container->getPages());
+        $html .= '</div>';
+        return $html;
     }
     
     protected function renderPages($pages, $level=0)
