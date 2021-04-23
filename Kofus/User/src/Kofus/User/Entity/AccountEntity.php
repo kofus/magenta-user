@@ -160,6 +160,20 @@ class AccountEntity implements Node\NodeInterface, Node\NodeCreatedInterface
     	return $this->timestampLogin;
     }    
     
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $timestampHeartbeat;
+    
+    public function setTimestampHeartbeat(\DateTime $datetime)
+    {
+        $this->timestampHeartbeat = $datetime; return $this;
+    }
+    
+    public function getTimestampHeartbeat()
+    {
+        return $this->timestampHeartbeat;
+    }
     
     
     
