@@ -175,6 +175,36 @@ class AccountEntity implements Node\NodeInterface, Node\NodeCreatedInterface
         return $this->timestampHeartbeat;
     }
     
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $timezone;
+    
+    public function setTimezone($value)
+    {
+        $this->timezone = $value; return $this;
+    }
+    
+    public function getTimezone()
+    {
+        return $this->timezone;
+    }
+    
+    
+    /**
+     * @ORM\Column(nullable=true, length=5)
+     */
+    protected $locale;
+    
+    public function setLocale($value)
+    {
+        $this->locale = $value; return $this;
+    }
+    
+    public function getLocale()
+    {
+        return $this->locale;
+    }
     
     
     /*
