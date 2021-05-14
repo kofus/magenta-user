@@ -69,23 +69,10 @@ class TreeHelper extends AbstractHelper
     		$html .= '</span> ';
     		
     		$resource = \Zend\Filter\StaticFilter::execute($page->get('node-id'), 'Alpha');
-    		
-    		if ($page->get('route')) {
-    			$params = array();
-    			if ($page->get('controller'))
-    				$params['controller'] = $page->get('controller');
-    			if ($page->get('action'))
-    				$params['action'] = $page->get('action');
-    			if ($page->get('node-id'))
-    				$params['id'] = $page->get('node-id');
-    			$href = $this->getView()->url($page->get('route'), $params, true);
-    			$html .= '<a href="'.$href.'">&nbsp;<i class="glyphicon glyphicon-arrow-right"></i></a>';
-    			 
-    		} elseif ($page->get('uri')) {
-    			$href = $page->get('uri');
-    			$html .= '<a href="'.$href.'">&nbsp;<i class="glyphicon glyphicon-arrow-right"></i></a>';
-    			     			
-    		}
+    		$html .= '<a href="'.$page->getHref().'" ';
+    		if ($page->getTarget()) $html .= 'target="'.$page->getTarget().'" '; 
+    		if ($page->getClass()) $html .= 'class="'.$page->getClass().'" ';
+    		$html .= '>&nbsp;<i class="glyphicon glyphicon-arrow-right"></i></a>';
     		
     		if ($hasChildren)
     			$html .= $this->renderPages($children, $level + 1);
