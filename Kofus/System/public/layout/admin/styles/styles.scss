@@ -5,6 +5,10 @@ label.required:after {
 	color: #a94442;
 }
 
+.radio label.required:after {
+	content: none;
+}
+
 .form-horizontal .control-label {
 	text-align: left;
 }
