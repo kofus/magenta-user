@@ -101,7 +101,7 @@ class Module implements AutoloaderProviderInterface
             $config['listeners'][] = 'KofusPublicFilesListener';
             $config['listeners'][] = 'KofusNodeListener';
             $config['listeners'][] = 'KofusLayoutListener';
-            $config['listeners'][] = 'KofusI18nListener';
+            //$config['listeners'][] = 'KofusI18nListener';
         } else {
             $config['listeners'][] = 'KofusNodeListener';
         }
