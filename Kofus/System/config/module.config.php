@@ -67,6 +67,7 @@ return array(
         __DIR__ . '/../public'
     ),
     
+    /*
     'translator' => array(
         'translation_file_patterns' => array(
             array(
@@ -93,7 +94,7 @@ return array(
             ],
             
         ]
-    ),
+    ), */
     
     'doctrine' => array(
         'driver' => array(
