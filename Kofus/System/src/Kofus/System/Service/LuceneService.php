@@ -16,7 +16,7 @@ class LuceneService extends AbstractService
      * Build a new index if it does not exist yet.
      * @return \ZendSearch\Lucene\SearchIndexInterface
      */
-    public function getIndex($locale=null)
+    public function getIndex($locale='default')
     {
     	if (! $locale) $locale = \Locale::getDefault();
         if (! isset($this->indexes[$locale])) {
@@ -36,7 +36,7 @@ class LuceneService extends AbstractService
         return $this->indexes[$locale];
     }
     
-    public function updateModifiedNodes($nodeType, $locale)
+    public function updateModifiedNodes($nodeType, $locale='default')
     {
    		$index = $this->getIndex($locale);
     	$settings = $this->getServiceLocator()->get('KofusSettings');
@@ -74,7 +74,7 @@ class LuceneService extends AbstractService
 		$settings->setSystemValue($key, $now->format('Y-m-d H:i:s'));
     }
     
-    public function updateNode(NodeInterface $node, $locale=null)
+    public function updateNode(NodeInterface $node, $locale='default')
     {
         $index = $this->getIndex($locale);
 
@@ -97,7 +97,7 @@ class LuceneService extends AbstractService
     	$index->optimize();
     }
     
-    public function deleteNode(NodeInterface $node, $locale=null)
+    public function deleteNode(NodeInterface $node, $locale='default')
     {
     	$index = $this->getIndex($locale);
     	$hits = $index->find("node_id: '" . $node->getNodeId() . "'");
@@ -109,17 +109,15 @@ class LuceneService extends AbstractService
     
     public function deleteNodeType($nodeType)
     {
-    	foreach ($this->config()->get('locales.enabled') as $locale) {
-	    	$index = $this->getIndex($locale);
-	    	$hits = $index->find("node_type: '" . $nodeType . "'");
-	    	foreach ($hits as $hit)
-	    		$index->delete($hit);
-	    	$index->commit();
-	    	$index->optimize();    	
-    	}
+    	$index = $this->getIndex();
+    	$hits = $index->find("node_type: '" . $nodeType . "'");
+    	foreach ($hits as $hit)
+    		$index->delete($hit);
+    	$index->commit();
+    	$index->optimize();    	
     }
     
-    public function reindex($nodeTypes=null, $locales=null)
+    public function reindex($nodeTypes=null, $locales=array('default'))
     {
         $debug = '';
         ini_set('max_execution_time', 0);
