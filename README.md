@@ -1,2 +1,2 @@
-# magenta2
+# magenta-system
 PHP Framework
