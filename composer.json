@@ -1,5 +1,5 @@
 {
-    "name": "kofus/magenta2",
+    "name": "kofus/magenta-system",
     "type": "library",
     
     "autoload": {
