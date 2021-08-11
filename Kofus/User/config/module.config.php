@@ -1,9 +1,6 @@
 <?php
 namespace Kofus\User;
 
-include_once __DIR__ . '/../../framework.config.php';
-
-
 
 return array(
     'controllers' => array(
