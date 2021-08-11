@@ -1,16 +1,12 @@
 {
-    "name": "kofus/magenta-system",
+    "name": "kofus/magenta-user",
     "type": "library",
     
     "autoload": {
         "psr-0": {
-            "Kofus\\Archive\\": "src/Kofus/Archive/",
-            "Kofus\\System\\": "src/Kofus/System/",
-            "Kofus\\User\\": "src/Kofus/User/",
-            "Kofus\\WebService\\": "src/Kofus/WebService/",
-            "Kofus\\Log\\": "src/Kofus/Log/"
+            "Kofus\\User\\": "src/Kofus/User/"
         },
-        "classmap" : ["Kofus/Archive/Module.php", "Kofus/System/Module.php", "Kofus/User/Module.php", "Kofus/WebService/Module.php", "Kofus/Log/Module.php"]
+        "classmap" : ["Kofus/User/Module.php"]
     }
 }
 
